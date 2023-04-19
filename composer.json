@@ -1,0 +1,16 @@
+{
+  "name": "eoumg/calendar",
+  "authors": [
+    {
+      "name": "Elias",
+      "email": "eoumghar@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Calendar\\": "src/Calendar",
+      "App\\": "src/App"
+    }
+  },
+  "require": {}
+}
