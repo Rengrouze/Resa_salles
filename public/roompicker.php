@@ -4,10 +4,10 @@ require '../src/bootstrap.php';
 
 
 //changer href by looking at the option in the url
-$option = $_GET['option'] ?? 'info';
+$option = $_GET['option'] ?? 'room-info';
 
 
-if ($option === 'info') {
+if ($option === 'room-info') {
     $textOption = 'Voir les informations';
 } else {
     $textOption = 'Vérifier les disponibilités';
@@ -33,7 +33,7 @@ render('header', ['title' => 'Accueil', 'script' => 'index.js']);
           <p class="card-text  ">Salle 1</p>
         </div>
         <div class="card-overlay text-white">
-    <a class="text-decoration-none card-title text-white h3 mr-3" href="../public/<?=$option ?>.php?room=1"><?= $textOption ?> </a>
+    <a class="text-decoration-none card-title text-white h3 mr-3" href="../public/<?=$option ?>.php?room=room1"><?= $textOption ?> </a>
    
         </div>
 
@@ -47,7 +47,7 @@ render('header', ['title' => 'Accueil', 'script' => 'index.js']);
           <p class="card-text  ">Salle 2</p>
         </div>
         <div class="card-overlay text-white ">
-        <a class="text-decoration-none card-title text-white h3" href="../public/<?=$option ?>.php?room=2"><?= $textOption ?></a>
+        <a class="text-decoration-none card-title text-white h3" href="../public/<?=$option ?>.php?room=room2"><?= $textOption ?></a>
          
         </div>
       </div>
@@ -60,7 +60,7 @@ render('header', ['title' => 'Accueil', 'script' => 'index.js']);
           <p class="card-text  ">Salle 3</p>
         </div>
         <div class="card-overlay text-white">
-    <a class="text-decoration-none card-title text-white h3 mr-3" href="../public/<?=$option ?>.php?room=3"><?= $textOption ?></a>
+    <a class="text-decoration-none card-title text-white h3 mr-3" href="../public/<?=$option ?>.php?room=room3"><?= $textOption ?></a>
    
         </div>
 

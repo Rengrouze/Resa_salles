@@ -107,4 +107,12 @@ class Month{
         }
         return new Month($month, $year);
     }
+
+
+   public function getMonthName(\DateTimeInterface $date): string
+   {
+       return $this->months[intval($date->format('m')) - 1];
+   }
+   
+    
 }

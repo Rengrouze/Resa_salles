@@ -16,6 +16,10 @@ render('header', ['title' => 'Accueil', 'script' => 'index.js']);
           <input type="email" class="form-control" id="email" name="email" required>
         </div>
         <div class="form-group">
+          <label for="nom">Nom de l'entreprise :</label>
+          <input type="text" class="form-control" id="nom" name="nom" required>
+        </div>
+        <div class="form-group">
           <label for="tel">Numéro de téléphone de l'entreprise :</label>
           <input type="tel" class="form-control" id="tel" name="tel" required>
         </div>

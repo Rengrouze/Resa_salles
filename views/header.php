@@ -27,6 +27,8 @@
 
 </head>
 <body>
+  <?php require '../src/session.php'; ?>
+  <header>
     <!-- first navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-light">
 	<div class="container-fluid">
@@ -36,7 +38,16 @@
 			
 		</div>
 		<div class="navbar-text">
-			<a href="#"><i class="fas fa-user"></i> Mon compte</a>
+      <?php
+      // if the user is connected get his username from the cookies and display it
+      if(isset($_SESSION['user'])){
+        echo '<p class="d-inline-block m-0 mr-3">Bonjour '.$_SESSION['user']['username'].'</p>';
+        echo '<a href="../src/logout.php" class="btn btn-danger">Déconnexion</a>';
+      }else{
+        echo '<a href="../public/login.php"><i class="fas fa-user"></i> Se connecter</a>';
+      }
+      ?>
+			
 		</div>
 	</div>
 </nav>
@@ -46,8 +57,11 @@
 
 <nav class="navbar navbar-expand-md navbar-light bg-light" style="height: 80px;">
   <div class="container-fluid d-flex align-items-center justify-content-between">
-    <a class="navbar-brand" href="#">
-      <img src="chemin/vers/logo.png" alt="Logo de l'entreprise" style="height: 50px;">
+    <a class="navbar-brand" href="../public/index.php">
+      <div class="d-flex flex-row align-items-center justify-content-between">
+      <img src="../public/images/logo/logo.jpg" alt="Logo de l'entreprise" style="height: 50px;">
+      <h1 class="pl-4 h5">Cdo formation - Location</h1>
+      </div>
     </a>
     <div class="d-flex align-items-center">
       <ul class="navbar-nav mr-3">
@@ -80,3 +94,5 @@
   </div>
 </nav>
 <!-- END OF second navbar -->
+  </header>
+<main>

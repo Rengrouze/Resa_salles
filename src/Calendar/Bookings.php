@@ -43,6 +43,29 @@ class Bookings
         return $results;
     }
 
+    public function getNextAvailableDays() {
+        $availableDays = [];
+    
+        $tomorrow = new \DateTime('tomorrow');
+    
+        while (count($availableDays) < 7) {
+            $sql = "SELECT * FROM bookings WHERE day = '{$tomorrow->format('Y-m-d')}'";
+            $statement = $this->pdo->query($sql);
+            $result = $statement->fetch();
+    
+            if (!$result) {
+                $availableDays[] = $tomorrow->format('Y-m-d');
+            }
+    
+            $tomorrow = $tomorrow->modify('+1 day');
+        }
+    
+        return $availableDays;
+    }
+    
+    
+    
+
 
 
 
