@@ -5,9 +5,17 @@
       <div class="col-sm-3">
         <h5>Espace client</h5>
         <ul class="list-unstyled">
-          <li><a href="#">Mon compte</a></li>
-          <li><a href="#">Mes réservations</a></li>
-          <li><a href="#">Me déconnecter</a></li>
+          <?php 
+          if (isset($_SESSION['auth'])) {
+            echo '<li><a href="#">Mon compte</a></li>
+            <li><a href="#">Mes réservations</a></li>
+            <li><a href="../src/logout.php">Me déconnecter</a></li>';
+          } else {
+            echo '<li><a href="../public/login.php">Se connecter</a></li>
+            <li><a href="../public/signup.php">S\'inscrire</a></li>';
+          }
+          ?>
+          
         </ul>
       </div>
       <div class="col-sm-3">
@@ -60,6 +68,8 @@
 
 
 
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 
 </body>

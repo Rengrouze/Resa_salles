@@ -1,49 +1,6 @@
 <?php
 // is session started? if no redirect to login page
-require '../src/bootstrap.php';
-
-use Calendar\{
-    Month,
-    Bookings
-};
-
-$pdo = get_pdo();
-$roomOption= $_GET['room'] ?? null;
-$bookings = new Bookings($pdo);
-// get all busy days of the month with getBookingsBetweenByDay
-$month = new Month($_GET['month'] ?? null, $_GET['year'] ?? null);
-$start = $month->getStartingDay();
-$start = $start->format('N') === '1' ? $start : $month->getStartingDay()->modify('last monday');
-$weeks = $month->getWeeks();
-
-$end = $start->modify('+' . (6 + 7 * ($weeks - 1)) . ' days');
-
-//create an array with the name of the day using days in the month class
-$days = $month->days;
-
-$daysBooked = $bookings->getBookingsBetween($start, $end);
-
-// create an array wich contains all the busy days where temporary = 0
-$busyDays = [];
-$busyDaysTemp = [];
-foreach ($daysBooked as $day) {
-
-    if ($day->getTemporary() == 0) {
-        $busyDays[] = $day->getDay()->format('Y-m-d');
-    }
-}
-//create another array wich contains all the busy days where temporary = 1
-foreach ($daysBooked as $day) {
-    if ($day->getTemporary() == 1) {
-        $busyDaysTemp[] = $day->getDay()->format('Y-m-d');
-    }
-}
-
-
-/*
-foreach ($daysBooked as $day) {
-$busyDays[] = $day->getDay()->format('Y-m-d');
-}*/
+require('../src/calendar.php');
 
 
 
@@ -52,17 +9,13 @@ render('header', ['title' => 'Salle 1', 'script' => 'index.js', 'style' => 'cale
 
 ?>
 
-<section class="section bg-light" id="next">
 
 
+<div class="container-fluid d-flex flex-row mx-auto mt-5 mb-4 ">
     <div class="container calendar-container">
-        <div class="row flex-col justify-content-center">
-            <div class="col-lg-8 flex-row">
-
-
-                <div>
+        
+           
                     <div class="calendar" id="calendar">
-
                         <div class="d-flex flex-row align-items-center justify-content-between mx-sm-3">
                             <h1 class="verdana">
                                 <?= $month->toString(); ?>
@@ -73,17 +26,13 @@ render('header', ['title' => 'Salle 1', 'script' => 'index.js', 'style' => 'cale
                                             L'événement a bien été ajouté
                                         </div>
                                         <?php endif; ?>-->
-                            <div><a href="calendar.php?month=<?= $month->previousMonth()->month; ?>&year=<?= $month->previousMonth()->year; ?>"
+                            <div>
+                                <a href="calendar.php?month=<?= $month->previousMonth()->month; ?>&year=<?= $month->previousMonth()->year; ?>&room=<?= $roomOption; ?>"
                                     class="btn btn-primary previous-month ">&lt;</a>
                                 <a href="calendar.php?month=<?= $month->nextMonth()->month; ?>&year=<?= $month->nextMonth()->year; ?>"
                                     class="btn btn-primary next-month ">&gt;</a>
                             </div>
-
                         </div>
-
-
-
-
                         <table class="calendar__table calendar__table--<?= $weeks; ?>weeks">
                             <tr>
                                 <?php foreach ($days as $k => $day):
@@ -93,8 +42,7 @@ render('header', ['title' => 'Salle 1', 'script' => 'index.js', 'style' => 'cale
                                     $isTopRight = $k === 6 && $weeks === 5;
 
                                     ?>
-                                    <td
-                                        class="no-click <?= $isTopLeft ? 'corner-top-left' : ''; ?> <?= $isTopRight ? 'corner-top-right' : ''; ?>">
+                                    <td class="no-click <?= $isTopLeft ? 'corner-top-left' : ''; ?> <?= $isTopRight ? 'corner-top-right' : ''; ?>">
                                         <div class="d-none d-lg-inline font-weight-bold">
                                             <?= $day; ?>
                                         </div>
@@ -105,10 +53,8 @@ render('header', ['title' => 'Salle 1', 'script' => 'index.js', 'style' => 'cale
                                 <?php endforeach; ?>
 
                             </tr>
-                            <?php for ($i = 0; $i < $weeks; $i++): ?>
-                                <tr>
-
-
+                                <?php for ($i = 0; $i < $weeks; $i++): ?>
+                            <tr>
                                     <?php foreach ($month->days as $k => $day):
                                         $date = $start->modify("+" . ($k + $i * 7) . "days");
 
@@ -123,9 +69,8 @@ render('header', ['title' => 'Salle 1', 'script' => 'index.js', 'style' => 'cale
                                         $isBottomLeft = $k === 0 && $i === $weeks - 1;
                                         // check if the cell is at the bottom right corner
                                         $isBottomRight = $k === 6 && $i === $weeks - 1;
-                                        ?>
-                                        <td
-                                            class="<?= $date->format('Y-m-d'); ?> <?= $isaPastDayFromToday ? 'past-day' : '' ?> <?= $month->withinMonth($date) ? '' : 'calendar__overmonth'; ?> <?= $isToday ? 'is-today' : ''; ?> <?= $isBusy ? 'is-busy' : ''; ?> <?= $isBusyTemp ? 'is-busy-temp' : ''; ?><?= $isBottomLeft ? 'corner-bottom-left' : ''; ?> <?= $isBottomRight ? 'corner-bottom-right' : ''; ?>">
+                                     ?>
+                                        <td class="<?= $date->format('Y-m-d'); ?> <?= $isaPastDayFromToday ? 'past-day' : '' ?> <?= $month->withinMonth($date) ? '' : 'calendar__overmonth'; ?> <?= $isToday ? 'is-today' : ''; ?> <?= $isBusy ? 'is-busy' : ''; ?> <?= $isBusyTemp ? 'is-busy-temp' : ''; ?><?= $isBottomLeft ? 'corner-bottom-left' : ''; ?> <?= $isBottomRight ? 'corner-bottom-right' : ''; ?> calendar-date">
                                             <div
                                                 class="<?= $date->format('Y-m-d'); ?> circle <?= $isBusy ? 'is-busy' : ''; ?> <?= $isBusyTemp ? 'is-busy-temp' : ''; ?> ">
                                                 <a class="<?= $date->format('Y-m-d'); ?> calendar__day prevent-default"
@@ -137,25 +82,67 @@ render('header', ['title' => 'Salle 1', 'script' => 'index.js', 'style' => 'cale
                                         </td>
                                     <?php endforeach; ?>
 
-                                </tr>
+                            </tr>
                             <?php endfor; ?>
                         </table>
-
-
                     </div>
-                </div>
-                <div class="text-center mt-3">
-                    <button id="validate" class="btn btn-primary ">Valider</button>
-                </div>
-
-            </div>
-
-
-        </div>
+                    <div class="mt-3">
+                    <button id="validate" class="btn btn-primary d-md-none">Valider</button>
+                    </div>
+                
+                
+           
     </div>
+
+    <!-- second section -->
+    <div class="container mt-4 d-none d-md-block">
+  <div class="card">
+    <div class="card-header">
+      Dates sélectionnées pour la salle <?= $roomOption; ?>
     </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table mb-0">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <div class="date-list" style="max-height:50vh; overflow-y:auto;">
+        <table class="table mb-0">
+          <tbody id="date-list">
+        <!--    <tr>
+              <td>25/04/2023</td>
+              <td><button class="btn btn-sm btn-danger">Supprimer</button></td>
+            </tr> -->
+            
+           
+            <!-- plus de lignes ici -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card-footer">
+      <button id="validate" class="btn btn-primary">Valider</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+</div>
     <script src="../src/App/navigate_calendar.js"></script>
 
 
-</section>
+<?php
+render('footer');
 

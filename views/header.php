@@ -29,62 +29,63 @@
 <body>
   <?php require '../src/session.php'; ?>
   <header>
-    <!-- first navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-light">
-	<div class="container-fluid">
-		<div class="navbar-text mr-auto">
-			<p class="d-inline-block m-0 mr-3"><i class="fas fa-phone"></i> 01 23 45 67 89</p>
-			<p class="d-inline-block m-0 mr-3"><i class="fas fa-envelope"></i> contact@example.com</p>
-			
-		</div>
-		<div class="navbar-text">
-      <?php
-      // if the user is connected get his username from the cookies and display it
-      if(isset($_SESSION['user'])){
-        echo '<p class="d-inline-block m-0 mr-3">Bonjour '.$_SESSION['user']['username'].'</p>';
-        echo '<a href="../src/logout.php" class="btn btn-danger">Déconnexion</a>';
-      }else{
-        echo '<a href="../public/login.php"><i class="fas fa-user"></i> Se connecter</a>';
-      }
-      ?>
-			
-		</div>
-	</div>
-</nav>
-<!-- END OF first navbar -->
-
-<!-- second navbar -->
-
-<nav class="navbar navbar-expand-md navbar-light bg-light" style="height: 80px;">
-  <div class="container-fluid d-flex align-items-center justify-content-between">
-    <a class="navbar-brand" href="../public/index.php">
-      <div class="d-flex flex-row align-items-center justify-content-between">
-      <img src="../public/images/logo/logo.jpg" alt="Logo de l'entreprise" style="height: 50px;">
-      <h1 class="pl-4 h5">Cdo formation - Location</h1>
+  <!-- first navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-light">
+    <div class="container-fluid">
+      <div class="navbar-text mr-auto">
+        <p class="d-inline-block m-0 mr-lg-3"><i class="fas fa-phone"></i> 01 23 45 67 89</p>
+        <p class="d-inline-block m-0 mr-lg-3"><i class="fas fa-envelope"></i> contact@example.com</p>
       </div>
-    </a>
-    <div class="d-flex align-items-center">
-      <ul class="navbar-nav mr-3">
-        <li class="nav-item">
-          <a class="nav-link" href="../public/index.php">Accueil</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Nos salles
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="../public/room-info.php?room=room1">Salle 1</a>
-            <a class="dropdown-item" href="../public/room-info.php?room=room2">Salle 2</a>
-            <a class="dropdown-item" href="../public/room-info.php?room=room3">Salle 3</a>
-          </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="../public/info.php">Infos pratiques</a>
-        </li>
-      </ul>
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="../public/contact.php">Contactez-nous</a>
+      <div class="navbar-text">
+        <?php
+        // if the user is connected get his username from the cookies and display it
+        if(isset($_SESSION['auth'])){
+          echo '<p class="d-inline-block m-0 mr-lg-3">Bonjour '. $username;'</p>';
+          echo '<a href="../src/logout.php" class="btn btn-danger">Déconnexion</a>';
+        }else{
+          echo '<a href="../public/login.php"><i class="fas fa-user"></i> Se connecter</a>';
+        }
+        ?>
+      </div>
+    </div>
+  </nav>
+  <!-- END OF first navbar -->
+
+  <!-- second navbar -->
+  <nav class="navbar navbar-expand-md navbar-light bg-light" style="height: 80px;">
+    <div class="container-fluid  d-flex flex-row">
+      <a class="navbar-brand" href="../public/index.php">
+        <div class="d-flex flex-row align-items-center justify-content-between">
+          <img src="../public/images/logo/logo.jpg" alt="Logo de l'entreprise" style="height: 50px;">
+          <h1 class="pl-4 h5">Cdo formation - Location</h1>
+        </div>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="../public/index.php">Accueil</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Nos salles
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="../public/room-info.php?room=room1">Salle 1</a>
+              <a class="dropdown-item" href="../public/room-info.php?room=room2">Salle 2</a>
+              <a class="dropdown-item" href="../public/room-info.php?room=room3">Salle 3</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../public/info.php">Infos pratiques</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="../public/contact.php">
+Contactez-nous</a>
         </li>
         <li class="nav-item">
           <a class="btn btn-primary" href="../public/roompicker.php?option=calendar">Vérifier la disponibilité d'une salle</a>

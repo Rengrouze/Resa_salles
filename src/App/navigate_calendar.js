@@ -16,6 +16,7 @@ bindListenersToTdElements();
 bindNavButton();
 preventDefaultBehaviourOfLinks();
 addSelectedClassToAlreadySelectedDays();
+displaySelectedDays();
 
 // Fonction pour naviguer dans le calendrier via AJAX
 function navigateCalendar(url) {
@@ -61,7 +62,9 @@ function navigateCalendar(url) {
 // create a function to bind listeners to the td elements so when they are clicked, they became selected or unselected with a class
 function bindListenersToTdElements() {
   // select all the td elements
-  const tdElements = document.querySelectorAll("td");
+ // const tdElements = document.querySelectorAll("td");
+ // select all the td eleemtsn with calenday-day class
+  const tdElements = document.querySelectorAll(".calendar-date");
 
   // loop through the td elements
   tdElements.forEach((td) => {
@@ -129,16 +132,102 @@ function removeSelectedDayFromArray(event) {
   // decrement the number of days clicked
   numberOfDaysClicked--;
   // call the function to display the selected days
+ 
   displaySelectedDays();
 }
 
-// on change of number of days clicked, display the selected days and the number of days clicked in the <p> element class arraydate and numberofdayselected
-function displaySelectedDays() {
-  const arrayDate = document.querySelector(".arraydate");
-  const numberOfDaysSelected = document.querySelector(".numberofdayselected");
-  arrayDate.innerText = days;
-  numberOfDaysSelected.innerText = numberOfDaysClicked;
+// on change of number of days clicked, display the selected days in the date-list table
+function removeSelectedDay(dayToDelete) {
+  const index = days.findIndex((day) => {
+    const date = new Date(day);
+    const dayNumber = date.getDate();
+    var monthNumber = date.getMonth() + 1;
+    // add a 0 before the month number if it's less than 10
+    if (monthNumber < 10) {
+      monthNumber = `0${monthNumber}`;
+    }
+    const year = date.getFullYear();
+    const formattedDay = `${year}-${monthNumber}-${dayNumber}`;
+    console.log(formattedDay);
+    return  dayToDelete = formattedDay;
+  });
+  console.log(index);
+  console.log(days);
+  console.log(dayToDelete);
+
+  // remove the day from the days array
+  days.splice(index, 1);
+  numberOfDaysClicked--;
+
+
+
+  // select all the td elements with the class "calendar-date" and "selected"
+  const tdElements = document.querySelectorAll(".calendar-date.selected");
+
+  
+  // loop through the td elements
+  tdElements.forEach((td) => {
+    // if the td element has the same date as the one to delete, remove the class "selected"
+    if (td.classList.contains(dayToDelete)) {
+      td.classList.remove("selected");
+      // remove selected class from div with the class "circle" inside the td element
+      td.querySelector(".circle").classList.remove("selected");
+    }
+  });
+
+  displaySelectedDays();
 }
+
+
+//set an on click listener on delete buttons
+function bindDeleteButtons() {
+  const deleteButtons = document.querySelectorAll(".delete-day");
+  deleteButtons.forEach((button) => {
+    button.addEventListener("click", function (event) {
+      // prevent the default behaviour of the link
+      event.preventDefault();
+      const dayToDelete = event.target.getAttribute("data-day");
+      removeSelectedDay(dayToDelete);
+    });
+  });
+}
+
+function displaySelectedDays() {
+  const dateListTable = document.querySelector("#date-list");
+  // if there are no days selected, display a message
+  if (numberOfDaysClicked == 0 ) {
+    dateListTable.innerHTML = "<p class='ml-2 mr-2'>Aucun jour sélectionné, cliquez sur une date pour l'ajouter au tableau</p>";
+  }
+  else {
+    days.sort((a, b) => new Date(a) - new Date(b));
+    // change the format of the date to dd/mm/yyyy by creating a new array only for display
+    const daysForDisplay = days.map((day) => {
+      const date = new Date(day);
+      const dayNumber = date.getDate().toString().padStart(2, '0');
+      const monthNumber = (date.getMonth() + 1).toString().padStart(2, '0');
+      const year = date.getFullYear();
+      const dayForDisplay = `${dayNumber}/${monthNumber}/${year}`;
+      return dayForDisplay;
+    });
+
+    // create a td element for each day in day selected
+    let dateListTableContent = "";
+    // loop through the days array
+    daysForDisplay.forEach((day) => {
+      // create a td element with the date and a button to remove the date
+      dateListTableContent += `<tr>
+      <td>${day}</td>
+      <td><a class="btn btn-sm btn-danger delete-day" data-day="${day}">Supprimer</a></td>
+    </tr>`;
+    });
+    
+    // add the td elements to the date-list table
+    dateListTable.innerHTML = dateListTableContent;
+    bindDeleteButtons();
+  }
+}
+
+
 function addSelectedClassToAlreadySelectedDays() {
   // select all the td elements
   const tdElements = document.querySelectorAll("td");

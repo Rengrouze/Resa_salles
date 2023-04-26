@@ -34,7 +34,7 @@ render('carousel',
 <!-- card section -->
 <div class="container-fluid bg-dark pt-4 pb-4">
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 mb-3">
       <div class="card border-0 bg-transparent text-white">
         <img src="https://via.placeholder.com/350x150" class="card-img-top" alt="...">
         <div class="card-img-overlay bg-primary">
@@ -49,7 +49,7 @@ render('carousel',
 
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 mb-3">
       <div class="card border-0 bg-transparent text-white">
         <img src="https://via.placeholder.com/350x150" class="card-img-top" alt="...">
         <div class="card-img-overlay bg-primary">
@@ -62,7 +62,7 @@ render('carousel',
         </div>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 mb-3">
       <div class="card border-0 bg-transparent text-white">
         <img src="https://via.placeholder.com/350x150" class="card-img-top" alt="...">
         <div class="card-img-overlay bg-primary">
