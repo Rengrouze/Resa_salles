@@ -52,40 +52,35 @@
   <!-- END OF first navbar -->
 
   <!-- second navbar -->
-  <nav class="navbar navbar-expand-md navbar-light bg-light" style="height: 80px;">
-    <div class="container-fluid  d-flex flex-row">
-      <a class="navbar-brand" href="../public/index.php">
-        <div class="d-flex flex-row align-items-center justify-content-between">
-          <img src="../public/images/logo/logo.jpg" alt="Logo de l'entreprise" style="height: 50px;">
-          <h1 class="pl-4 h5">Cdo formation - Location</h1>
-        </div>
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarContent">
-        <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" href="../public/index.php">Accueil</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Nos salles
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="../public/room-info.php?room=room1">Salle 1</a>
-              <a class="dropdown-item" href="../public/room-info.php?room=room2">Salle 2</a>
-              <a class="dropdown-item" href="../public/room-info.php?room=room3">Salle 3</a>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="../public/info.php">Infos pratiques</a>
-          </li>
-        </ul>
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="../public/contact.php">
-Contactez-nous</a>
+  <nav class="navbar navbar-expand-md navbar-light bg-light">
+  <div class="navbar-container container-fluid d-flex justify-content-between align-items-center">
+    <a class="navbar-brand" href="../public/index.php">
+      <img src="../public/images/logo/logo.jpg" alt="Logo de l'entreprise" style="height: 50px;">
+      Cdo formation - Location
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav align-items-stretch">
+        <li class="nav-item">
+          <a class="nav-link" href="../public/index.php">Accueil</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Nos salles
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="../public/room-info.php?room=room1">Salle 1</a>
+            <a class="dropdown-item" href="../public/room-info.php?room=room2">Salle 2</a>
+            <a class="dropdown-item" href="../public/room-info.php?room=room3">Salle 3</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../public/info.php">Infos pratiques</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../public/contact.php">Contactez-nous</a>
         </li>
         <li class="nav-item">
           <a class="btn btn-primary" href="../public/roompicker.php?option=calendar">Vérifier la disponibilité d'une salle</a>
@@ -94,6 +89,11 @@ Contactez-nous</a>
     </div>
   </div>
 </nav>
+
+
+
+
+
 <!-- END OF second navbar -->
   </header>
 <main>
