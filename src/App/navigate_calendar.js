@@ -76,12 +76,14 @@ function bindListenersToTdElements() {
         // remove selected class from div with the class "circle" inside the td element
         td.querySelector("div").classList.remove("selected");
         removeSelectedDayFromArray(event);
+        displayMobileSectionValidate();
         // if the td element does not have the class "selected" add it
       } else {
         td.classList.add("selected");
         // add selected class to the child <div> element
         td.querySelector("div").classList.add("selected");
         addSelectedDayToArray(event);
+        displayMobileSectionValidate();
       }
     });
   });
@@ -148,12 +150,10 @@ function removeSelectedDay(dayToDelete) {
     }
     const year = date.getFullYear();
     const formattedDay = `${year}-${monthNumber}-${dayNumber}`;
-    console.log(formattedDay);
+    
     return  dayToDelete = formattedDay;
   });
-  console.log(index);
-  console.log(days);
-  console.log(dayToDelete);
+  
 
   // remove the day from the days array
   days.splice(index, 1);
@@ -196,7 +196,7 @@ function displaySelectedDays() {
   const dateListTable = document.querySelector("#date-list");
   // if there are no days selected, display a message
   if (numberOfDaysClicked == 0 ) {
-    dateListTable.innerHTML = "<p class='ml-2 mr-2'>Aucun jour sélectionné, cliquez sur une date pour l'ajouter au tableau</p>";
+    dateListTable.innerHTML = "<p class='ml-2 mr-2' style='margin-left : 10 px'>Aucun jour sélectionné, cliquez sur une date pour l'ajouter au tableau</p>";
   }
   else {
     days.sort((a, b) => new Date(a) - new Date(b));
@@ -235,7 +235,7 @@ function addSelectedClassToAlreadySelectedDays() {
   // loop through the td elements
   tdElements.forEach((td) => {
     const dateLink = td;
-    console.log(dateLink); // Ajout de la ligne pour afficher le lien dans la console
+     
     const date = dateLink.className.split(" ")[0];
 
     // check if the date is in the days array
@@ -263,10 +263,35 @@ function bindNavButton() {
 }
 
 // add a listener on the validate button id validate
-const validateBtn = document.getElementById("validate");
-validateBtn.addEventListener("click", function (event) {
-  validate(numberOfDaysClicked, days);
+
+const validateBtn = document.querySelectorAll(".validate-btn");
+
+// add a listener for each validate button
+validateBtn.forEach((button) => {
+  button.addEventListener("click", function (event) {
+    event.preventDefault();
+    validate(numberOfDaysClicked, days);
+  });
 });
+
+
+const noUserBtn = document.querySelectorAll(".no-user-btn");
+
+noUserBtn.forEach((button) => {
+  button.addEventListener("click", function (event) {
+    event.preventDefault();
+    noUser();
+  });
+});
+
+function noUser() {
+  login = confirm("Vous devez être connecté pour réserver une date");
+  if (login == true) {
+    window.location.href = "login.php";
+  }
+}
+
+
 
 function validate(numberOfDaysClicked, days) {
   // chech is number of days clicked is 0
@@ -287,12 +312,17 @@ function validate(numberOfDaysClicked, days) {
   }
 }
 
-const logoutBtn = document.getElementById("logout");
-logoutBtn.addEventListener("click", function (event) {
-  window.location.href = "logout.php";
-});
 
-const myBookingsBtn = document.getElementById("mybookings");
-myBookingsBtn.addEventListener("click", function (event) {
-  window.location.href = "mybookings.php";
-});
+function displayMobileSectionValidate() {
+  const mobileSectionValidate = document.querySelector("#mobile-section-validate");
+  if (numberOfDaysClicked == 0 ) {
+    // hide the section
+    mobileSectionValidate.classList.add("d-none");
+
+  }
+  else {
+    // show the section
+    mobileSectionValidate.classList.remove("d-none");
+  }
+
+}

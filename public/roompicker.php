@@ -25,7 +25,7 @@ render('header', ['title' => 'Accueil', 'script' => 'index.js']);
 
 <div class="container-fluid bg-light pt-4 pb-4">
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 mt-3">
       <div class="card border-0 bg-transparent text-white">
         <img src="https://via.placeholder.com/350x150" class="card-img-top" alt="...">
         <div class="card-img-overlay bg-primary">
@@ -39,7 +39,7 @@ render('header', ['title' => 'Accueil', 'script' => 'index.js']);
 
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 mt-3">
       <div class="card border-0 bg-transparent text-white">
         <img src="https://via.placeholder.com/350x150" class="card-img-top" alt="...">
         <div class="card-img-overlay bg-primary">
@@ -52,7 +52,7 @@ render('header', ['title' => 'Accueil', 'script' => 'index.js']);
         </div>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 mt-3">
       <div class="card border-0 bg-transparent text-white">
         <img src="https://via.placeholder.com/350x150" class="card-img-top" alt="...">
         <div class="card-img-overlay bg-primary">

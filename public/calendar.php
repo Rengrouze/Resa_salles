@@ -1,5 +1,6 @@
 <?php
 // is session started? if no redirect to login page
+
 require('../src/calendar.php');
 
 
@@ -11,8 +12,9 @@ render('header', ['title' => 'Salle 1', 'script' => 'index.js', 'style' => 'cale
 
 
 
-<div class="container-fluid d-flex flex-row mx-auto mt-5 mb-4 ">
+<div class="container-fluid d-flex flex-row mx-auto mt-2 mb-4 ">
     <div class="container calendar-container">
+      <div class="m-4">
         
            
                     <div class="calendar" id="calendar">
@@ -86,16 +88,15 @@ render('header', ['title' => 'Salle 1', 'script' => 'index.js', 'style' => 'cale
                             <?php endfor; ?>
                         </table>
                     </div>
-                    <div class="mt-3">
-                    <button id="validate" class="btn btn-primary d-md-none">Valider</button>
-                    </div>
+          
+      </div>
                 
                 
            
     </div>
 
     <!-- second section -->
-    <div class="container mt-4 d-none d-md-block">
+    <div class="container mt-4 d-none d-md-block pt-5">
   <div class="card">
     <div class="card-header">
       Dates sélectionnées pour la salle <?= $roomOption; ?>
@@ -126,11 +127,50 @@ render('header', ['title' => 'Salle 1', 'script' => 'index.js', 'style' => 'cale
       </div>
     </div>
     <div class="card-footer">
-      <button id="validate" class="btn btn-primary">Valider</button>
+      <?php 
+      // if the user is logged in
+      if (isset($_SESSION['auth']) ){
+        echo "<button  class='btn btn-primary validate-btn'>Suivant</button>";
+      }else{
+        echo "<button  class='btn btn-secondary no-user-btn' >Suivant</button>";
+      }
+      ?>
+    
+    </div>
+  </div>
+</div>
+<!-- mobile section -->
+<div id="mobile-section-validate" class="d-md-none bg-dark fixed-bottom animate__animated animate__fadeIn animate_animated-fadeOut d-none" style="height : 35vh">
+  <div class="bg-dark text-white">
+    <div class="container py-3">
+      <div class="row">
+        <div class="col-8">
+          <p class="m-0">test</p>
+        </div>
+        <div class="col-4 text-right">
+        <?php 
+      // if the user is logged in
+      if (isset($_SESSION['auth']) ){
+        echo "<button  class='btn btn-primary validate-btn'>Suivant</button>";
+      }else{
+        echo "<button  class='btn btn-secondary no-user-btn' >Suivant</button>";
+      }
+      ?>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+
+<!-- end of mobile section -->
 
 
 

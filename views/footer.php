@@ -54,6 +54,9 @@
 <style>
   footer {
     border-top: 2px solid #ccc;
+    position:relative;
+    bottom:0;
+    width:100%;
   }
   ul.list-unstyled li a {
     text-decoration: none;

@@ -37,15 +37,17 @@
         <p class="d-inline-block m-0 mr-lg-3"><i class="fas fa-envelope"></i> contact@example.com</p>
       </div>
       <div class="navbar-text">
-        <?php
-        // if the user is connected get his username from the cookies and display it
-        if(isset($_SESSION['auth'])){
-          echo '<p class="d-inline-block m-0 mr-lg-3">Bonjour '. $username;'</p>';
-          echo '<a href="../src/logout.php" class="btn btn-danger">Déconnexion</a>';
-        }else{
-          echo '<a href="../public/login.php"><i class="fas fa-user"></i> Se connecter</a>';
-        }
-        ?>
+      <?php
+// if the user is connected get his username from the cookies and display it
+if(isset($_SESSION['auth'])){
+  echo '<p class="d-inline-block m-0 mr-lg-3">Bonjour '. $username;'</p>';
+  echo '<a href="../public/profile.php" class="btn btn-primary mx-2">Mon compte</a>';
+  echo '<a href="../src/logout.php" class="btn btn-danger mx-2">Déconnexion</a>';
+}else{
+  echo '<a href="../public/login.php" class="btn btn-primary mx-2"><i class="fas fa-user"></i> Se connecter</a>';
+}
+?>
+
       </div>
     </div>
   </nav>
@@ -61,7 +63,7 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarContent">
+    <div class="collapse navbar-collapse  flex-row-reverse" id="navbarContent">
       <ul class="navbar-nav align-items-stretch">
         <li class="nav-item">
           <a class="nav-link" href="../public/index.php">Accueil</a>

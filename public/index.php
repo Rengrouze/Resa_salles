@@ -42,9 +42,9 @@ render('carousel',
           <p class="card-text  ">Description de nos salles.</p>
         </div>
         <div class="card-overlay text-white">
-    <a class="text-decoration-none card-title text-white h3 mr-3" href="../public/room-info.php?room=1">Salle 1</a>
-    <a class="text-decoration-none card-title text-white h3 mr-3" href="../public/room-info.php?room=2">Salle 2</a>
-    <a class="text-decoration-none card-title text-white h3" href="../public/room-info.php?room=3">Salle 3</a>
+    <a class="text-decoration-none card-title text-white h3 mr-3" href="../public/room-info.php?room=room1">Salle 1</a>
+    <a class="text-decoration-none card-title text-white h3 mr-3" href="../public/room-info.php?room=room2">Salle 2</a>
+    <a class="text-decoration-none card-title text-white h3" href="../public/room-info.php?room=room3">Salle 3</a>
 </div>
 
       </div>
