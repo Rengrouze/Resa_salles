@@ -17,8 +17,9 @@ body {
 @media (max-width:767.98px){
 .navbar-collapse {
   position: absolute;
-  top: 80px; /* hauteur du header */
+  top: 76px; /* hauteur du header */
   left: 0;
+  width: 100vh;
   right: 0;
   background-color: #f8f9fa; /* couleur de fond du menu */
   padding: 15px;
