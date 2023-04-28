@@ -31,6 +31,24 @@ class Bookings
     }
 
     /**
+     * Récupérer les reservations commencant entre deux dates par salle
+     * @param \DateTime $start
+     * @param \DateTime $end
+     * @param string $room
+     * @return array
+     */
+
+    public function getBookingsBetweenByRoom(\DateTimeInterface $start, \DateTimeInterface $end, string $room)
+    {
+        $sql = "SELECT * FROM bookings WHERE room = '{$room}' AND day BETWEEN '{$start->format('Y-m-d 00:00:00')}' AND '{$end->format('Y-m-d 23:59:59')}'";
+        $statement = $this->pdo->query($sql);
+        $statement->setFetchMode(\PDO::FETCH_CLASS, Booking::class);
+        $results = $statement->fetchAll();
+        return $results;
+    }
+     
+
+    /**
      * Vérifie si les jours sont déjà réservés
      * @param array $days
      * @return array
@@ -42,6 +60,21 @@ class Bookings
         $results = $statement->fetchAll(\PDO::FETCH_COLUMN);
         return $results;
     }
+
+    /**
+     * vérifie si les jours sont déja réservés en fonction de la salle
+     * @param array $days
+     * @param string $room
+     * @return array
+     */
+    public function getBookedDaysByRoom(array $days, string $room)
+    {
+        $sql = "SELECT day FROM bookings WHERE day IN ('" . implode("', '", $days) . "') AND room = '{$room}'";
+        $statement = $this->pdo->query($sql);
+        $results = $statement->fetchAll(\PDO::FETCH_COLUMN);
+        return $results;
+    }
+     
 
     public function getNextAvailableDays() {
         $availableDays = [];
@@ -82,6 +115,7 @@ class Bookings
         $event->setReason($data['reason']);
         $event->setTotalPrice($data['totalPrice']);
         $event->setTemporary($data['temporary']);
+        $event->setRoom($data['room']);
 
         return $event;
 
@@ -89,14 +123,15 @@ class Bookings
 
     public function createEvent(Event $event)
     {
-        $statement = $this->pdo->prepare("INSERT INTO events (id_client, number_of_days, days, reason, total_price, temporary) VALUES (?, ?, ?, ?, ?, ?)");
+        $statement = $this->pdo->prepare("INSERT INTO events (id_client, number_of_days, days, reason, total_price, temporary, room) VALUES (?, ?, ?, ?, ?, ?,?)");
         $statement->execute([
             $event->getIdClient(),
             $event->getNumberOfDays(),
             $event->getDays(),
             $event->getReason(),
             $event->getTotalPrice(),
-            $event->getTemporary()
+            $event->getTemporary(),
+            $event->getRoom()
         ]);
         return $this->pdo->lastInsertId();
     }
@@ -124,6 +159,7 @@ class Bookings
         $booking->setDay(new \DateTime($data['day']));
         $booking->setTemporary($data['temporary']);
         $booking->setIdBookings($data['idBookings']);
+        $booking->setRoom($data['room']);
 
         return $booking;
     }
@@ -140,11 +176,12 @@ class Bookings
 
 
         // for each number of days, create a booking
-        $statement = $this->pdo->prepare("INSERT INTO bookings (day,  temporary, id_bookings) VALUES (?,  ?, ?)");
+        $statement = $this->pdo->prepare("INSERT INTO bookings (day,  temporary, id_bookings, room) VALUES (?,  ?, ?,?)");
         $statement->execute([
             $booking->getDay()->format('Y-m-d'),
             $booking->getTemporary(),
-            $booking->getIdBookings()
+            $booking->getIdBookings(),
+            $booking->getRoom()
         ]);
         // return the ids of the created bookings
         return $this->pdo->lastInsertId();

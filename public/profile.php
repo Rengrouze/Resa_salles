@@ -78,6 +78,7 @@ $allEvents = $events->getAllEventsByClient($id);
         <table class="table table-striped mt-4">
             <thead>
                 <tr>
+                    <th>Salle</th>
                     <th>Jours</th>
                     <th>Motif</th>
                     <th>Nombre de Jours</th>
@@ -88,6 +89,9 @@ $allEvents = $events->getAllEventsByClient($id);
             <tbody>
                 <?php foreach ($allEvents as $event): ?>
                     <tr>
+                        <td>
+                            <?= $event->getRoom() ?>
+                        </td>
                         <td>
                             <?php
                             $days = explode(',', $event->getDays());

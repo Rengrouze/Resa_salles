@@ -31,7 +31,7 @@ render('header', ['title' => 'Salle 1', 'script' => 'index.js', 'style' => 'cale
                             <div>
                                 <a href="calendar.php?month=<?= $month->previousMonth()->month; ?>&year=<?= $month->previousMonth()->year; ?>&room=<?= $roomOption; ?>"
                                     class="btn btn-primary previous-month ">&lt;</a>
-                                <a href="calendar.php?month=<?= $month->nextMonth()->month; ?>&year=<?= $month->nextMonth()->year; ?>"
+                                <a href="calendar.php?month=<?= $month->nextMonth()->month; ?>&year=<?= $month->nextMonth()->year; ?>&room=<?= $roomOption; ?>"
                                     class="btn btn-primary next-month ">&gt;</a>
                             </div>
                         </div>

@@ -6,12 +6,13 @@ class Event
 
     private $id;
     private $id_client;
+    
     private $number_of_days;
     private $days;
     private $reason;
     private $total_price;
     private $temporary;
-
+    private $room;
 
 
 
@@ -50,6 +51,11 @@ class Event
         return $this->temporary;
     }
 
+    public function getRoom(): string
+    {
+        return $this->room;
+    }
+
 
 
     // setters
@@ -82,6 +88,11 @@ class Event
     public function setTemporary(bool $temporary)
     {
         $this->temporary = $temporary;
+    }
+
+    public function setRoom(string $room)
+    {
+        $this->room = $room;
     }
 
 

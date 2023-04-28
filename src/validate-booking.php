@@ -4,6 +4,11 @@ if (!$days) {
     e404();
 }
 
+//get the room option
+$room = $_GET['room'] ?? null;
+if (!$room) {
+    e404();
+}
 
 // destructure the string into an array
 $days = explode(',', $days);
@@ -52,6 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     $data = $_POST;
+    
 
 
     $validator = new Calendar\EventValidator();
@@ -83,7 +89,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         unset($data['days']);
 
         //change the order of the data, day first, then temporary, then idBookings
-        $data = array_merge(['day' => $data['day']], ['temporary' => $data['temporary']], ['idBookings' => $data['idBookings']]);
+        $data = array_merge(['day' => $data['day']], ['temporary' => $data['temporary']], ['idBookings' => $data['idBookings']], ['room' => $room]);
+      
 
 
         // loop through the days

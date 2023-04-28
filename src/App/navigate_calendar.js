@@ -1,5 +1,9 @@
 var numberOfDaysClicked = 0;
 var days = [];
+// get room id from the url
+const urlParams = new URLSearchParams(window.location.search);
+const room = urlParams.get("room");
+console.log(room);
 // Sélectionnez la balise <div> contenant le calendrier
 
 const calendar = document.getElementById("calendar");
@@ -266,11 +270,13 @@ function bindNavButton() {
 
 const validateBtn = document.querySelectorAll(".validate-btn");
 
+
+
 // add a listener for each validate button
 validateBtn.forEach((button) => {
   button.addEventListener("click", function (event) {
     event.preventDefault();
-    validate(numberOfDaysClicked, days);
+    validate(numberOfDaysClicked, days, room);
   });
 });
 
@@ -293,7 +299,7 @@ function noUser() {
 
 
 
-function validate(numberOfDaysClicked, days) {
+function validate(numberOfDaysClicked, days, room) {
   // chech is number of days clicked is 0
   if (numberOfDaysClicked === 0) {
     alert("Veuillez sélectionner au moins un jour");
@@ -301,13 +307,11 @@ function validate(numberOfDaysClicked, days) {
     //check is number of days clicked is equal to days.length
     if (numberOfDaysClicked == days.length) {
       // if yes, send the array to the server
-      window.location.href = "validation.php?days=" + days;
+      window.location.href = "validate-booking.php?days=" + days+"&room=" + room;
     } else {
-      numberOfDaysClicked = days.length;
-      //send in local storage the number of days clicked and the days array
-
+      numberOfDaysClicked = days.length; 
       // redirect to the validation page
-      window.location.href = "validation.php?days=" + days;
+      window.location.href = "validate-booking.php?days=" + days +"&room=" + room;
     }
   }
 }

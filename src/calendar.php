@@ -22,7 +22,9 @@ $end = $start->modify('+' . (6 + 7 * ($weeks - 1)) . ' days');
 //create an array with the name of the day using days in the month class
 $days = $month->days;
 
-$daysBooked = $bookings->getBookingsBetween($start, $end);
+// $daysBooked = $bookings->getBookingsBetween($start, $end);
+
+$daysBooked = $bookings->getBookingsBetweenByRoom($start, $end, $roomOption);
 
 // create an array wich contains all the busy days where temporary = 0
 $busyDays = [];

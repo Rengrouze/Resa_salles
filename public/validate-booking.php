@@ -47,6 +47,8 @@ require '../src/validate-booking.php';
             <!-- Convertir la div en un formulaire -->
             <div >
                 <h2>Informations de réservation</h2>
+                <h3 class="mt-3">Salle :
+                    <?= $room; ?></h3>
                 <ul class="list-group">
                     <?php foreach ($daysForDisplay as $index => $day): ?>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -71,6 +73,7 @@ require '../src/validate-booking.php';
                 <div class="row">
                     <input type="hidden" name="idClient" value="<?= $client->getId() ?>">
                 </div>
+                <input type="hidden" name="room" value="<?= $room ?>" readonly>
                 <input type="hidden" name="numberOfDays" value="<?= $daysCount ?>" readonly>
                 <input type="hidden" name="days" value="<?= implode(',', $days) ?>" readonly>
                 <input type="hidden" name="totalPrice" value="<?= $price * $daysCount ?>" readonly>
