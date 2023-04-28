@@ -76,13 +76,14 @@ class Bookings
     }
      
 
-    public function getNextAvailableDays() {
+    public function getNextAvailableDays(string $room) {
         $availableDays = [];
     
         $tomorrow = new \DateTime('tomorrow');
     
         while (count($availableDays) < 7) {
-            $sql = "SELECT * FROM bookings WHERE day = '{$tomorrow->format('Y-m-d')}'";
+          //  $sql = "SELECT * FROM bookings WHERE day = '{$tomorrow->format('Y-m-d')}'";
+            $sql = "SELECT * FROM bookings WHERE day = '{$tomorrow->format('Y-m-d')}' AND room = '{$room}'";
             $statement = $this->pdo->query($sql);
             $result = $statement->fetch();
     

@@ -10,7 +10,9 @@ $month = new Month();
 $bookings = new Bookings($pdo);
 
 //get all free days of the month from tommorow to the Seven next days with getNextAvailableDays()
-$freeDays = $bookings->getNextAvailableDays();
+$freeDaysRoom1 = $bookings->getNextAvailableDays("room1");
+$freeDaysRoom2 = $bookings->getNextAvailableDays("room2");
+$freeDaysRoom3 = $bookings->getNextAvailableDays("room3");
 
 
 
@@ -44,11 +46,12 @@ $freeDays = $bookings->getNextAvailableDays();
         </tr>
     </thead>
     <tbody>
-    <?php foreach ($freeDays as $day): ?>
+    <?php foreach ($freeDaysRoom1 as $day): ?>
     <?php $date = new DateTime($day); ?>
     <tr>
         <td><?= $date->format('d ') . $month->getMonthName($date) . $date->format(' Y') ?></td>
-        <td><button class="btn btn-primary">Réserver</button></td>
+        <td><a class="btn btn-primary" href="../public/validate-booking.php?days=<?= $day?>&room=room1">Réserver</a></td>
+        
     </tr>
 <?php endforeach; ?>
     </tbody>
@@ -64,34 +67,14 @@ $freeDays = $bookings->getNextAvailableDays();
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>24 avril 2023</td>
-            <td><button class="btn btn-primary">Réserver</button></li></td>
-          </tr>
-          <tr>
-            <td>26 avril 2023</td>
-            <td><button class="btn btn-primary">Réserver</button></li></td>
-          </tr>
-          <tr>
-            <td>28 avril 2023</td>
-            <td><button class="btn btn-primary">Réserver</button></li></td>
-          </tr>
-          <tr>
-            <td>30 avril 2023</td>
-            <td><button class="btn btn-primary">Réserver</button></li></td>
-          </tr>
-          <tr>
-            <td>2 mai 2023</td>
-            <td><button class="btn btn-primary">Réserver</button></li></td>
-          </tr>
-          <tr>
-            <td>4 mai 2023</td>
-            <td><button class="btn btn-primary">Réserver</button></li></td>
-          </tr>
-          <tr>
-            <td>6 mai 2023</td>
-            <td><button class="btn btn-primary">Réserver</button></li></td>
-          </tr>
+        <?php foreach ($freeDaysRoom2 as $day): ?>
+    <?php $date = new DateTime($day); ?>
+    <tr>
+        <td><?= $date->format('d ') . $month->getMonthName($date) . $date->format(' Y') ?></td>
+        <td><a class="btn btn-primary" href="../public/validate-booking.php?days=<?= $day?>&room=room2">Réserver</a></td>
+    </tr>
+<?php endforeach; ?>
+         
         </tbody>
       </table>
     </div>
@@ -104,34 +87,13 @@ $freeDays = $bookings->getNextAvailableDays();
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>23 avril 2023</td>
-            <td><button class="btn btn-primary">Réserver</button></li></td>
-          </tr>
-          <tr>
-            <td>25 avril 2023</td>
-            <td><button class="btn btn-primary">Réserver</button></li></td>
-          </tr>
-          <tr>
-            <td>27 avril 2023</td>
-            <td><button class="btn btn-primary">Réserver</button></li></td>
-          </tr>
-          <tr>
-            <td>28 avril 2023</td>
-            <td><button class="btn btn-primary">Réserver</button></li></td>
-          </tr>
-          <tr>
-            <td>29 avril 2023</td>
-            <td><button class="btn btn-primary">Réserver</button></li></td>
-          </tr>
-          <tr>
-            <td>30 avril 2023</td>
-            <td><button class="btn btn-primary">Réserver</button></li></td>
-          </tr>
-          <tr>
-            <td>1 mai 2023</td>
-            <td><button class="btn btn-primary">Réserver</button></li></td>
-          </tr>
+        <?php foreach ($freeDaysRoom3 as $day): ?>
+    <?php $date = new DateTime($day); ?>
+    <tr>
+        <td><?= $date->format('d ') . $month->getMonthName($date) . $date->format(' Y') ?></td>
+        <td><a class="btn btn-primary" href="../public/validate-booking.php?days=<?= $day?>&room=room3">Réserver</a></td>
+    </tr>
+<?php endforeach; ?>
         </tbody>
       </table>
     </div>

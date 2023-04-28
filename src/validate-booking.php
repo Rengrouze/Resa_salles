@@ -24,7 +24,7 @@ array_walk($daysForDisplay, function (&$day) {
 
 //ask the db if theses days are already booked
 $bookings = new \Calendar\Bookings(get_pdo());
-$bookedDays = $bookings->getBookedDays($days);
+$bookedDays = $bookings->getBookedDaysByRoom($days,$room);
 // if there are booked days
 if (!empty($bookedDays)) {
     // convert the booked days to a string
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     //ask the db again if theses days are already booked
     $bookings = new \Calendar\Bookings(get_pdo());
-    $bookedDays = $bookings->getBookedDays($days);
+    $bookedDays = $bookings->getBookedDaysByRoom($days, $room);
     // if there are booked days
     if (!empty($bookedDays)) {
         // convert the booked days to a string
