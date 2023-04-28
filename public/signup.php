@@ -1,6 +1,7 @@
 <?php
 
 require '../src/bootstrap.php';
+require '../src/form/signup.php';
 
 render('Header', ['title' => 'Créer un compte', 'script' => 'index.js']);
 
@@ -124,16 +125,6 @@ render('Header', ['title' => 'Créer un compte', 'script' => 'index.js']);
                             <?php endif; ?>
                         </div>
                         <div class="form-group row">
-                            <div class="col-sm-8">
-                                <label for="city">Ville</label>
-                                <input type="text" class="form-control" id="city"
-                                    value="<?= isset($data['city']) ? h($data['city']) : '' ?>" name="city" required>
-                                <?php if (isset($errors['city'])): ?>
-                                <small class="form-text text-muted">
-                                    <?= $errors['city']; ?>
-                                </small>
-                                <?php endif; ?>
-                            </div>
                             <div class="col-sm-4">
                                 <label for="postal_code">Code postal</label>
                                 <input type="text" class="form-control" id="postal_code"
@@ -142,6 +133,16 @@ render('Header', ['title' => 'Créer un compte', 'script' => 'index.js']);
                                 <?php if (isset($errors['postal_code'])): ?>
                                 <small class="form-text text-muted">
                                     <?= $errors['postal_code']; ?>
+                                </small>
+                                <?php endif; ?>
+                            </div>
+                            <div class="col-sm-8">
+                                <label for="city">Ville</label>
+                                <input type="text" class="form-control" id="city"
+                                    value="<?= isset($data['city']) ? h($data['city']) : '' ?>" name="city" required>
+                                <?php if (isset($errors['city'])): ?>
+                                <small class="form-text text-muted">
+                                    <?= $errors['city']; ?>
                                 </small>
                                 <?php endif; ?>
                             </div>

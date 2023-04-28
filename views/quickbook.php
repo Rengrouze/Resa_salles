@@ -23,7 +23,8 @@ $freeDaysRoom3 = $bookings->getNextAvailableDays("room3");
 
 
 <div class="col-md-5">
-  <h2 class="mt-4 mb-4">Disponibilités</h2>
+  <h2 class="mt-4 mb-4">Réservation rapide</h2>
+  <p class="text-muted">Réserver une salle pour une journée</p>
   <hr class="bg-dark">
   <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
     <li class="nav-item">

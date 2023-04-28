@@ -13,12 +13,12 @@ render('header', ['title' => 'Accueil', 'script' => 'index.js']);
 render('carousel', 
 [
   'imagePath' => 'index', 
-  'firstSlideTitle' => 'Salle 1',
-  'firstSlideParagraph' => "blablabla Salle 1",
-  'secondSlideTitle' => 'Salle 2',
-  'secondSlideParagraph' => "blablabla Salle 2",
-  'thirdSlideTitle' => 'Salle 3',
-  'thirdSlideParagraph' => "blablabla Salle 3"
+  'firstSlideTitle' => 'Reservez votre salle de réunion en ligne !',
+  'firstSlideParagraph' => "Nous vous proposons 3 salles de réunion à la location.",
+  'secondSlideTitle' => 'Deux salles sur Paris et une sur Orléans',
+  'secondSlideParagraph' => "Idéale pour vos réunions, formations, séminaires, etc.",
+  'thirdSlideTitle' => 'Tarifs abordables',
+  'thirdSlideParagraph' => "à partir de 200€ la journée."
 ]);
 ?>
 
@@ -31,7 +31,7 @@ render('carousel',
 
 
 
-<!-- card section -->
+<!-- card section 
 <div class="container-fluid bg-dark pt-4 pb-4">
   <div class="row">
     <div class="col-md-4 mb-3">
@@ -78,7 +78,7 @@ render('carousel',
   </div>
 </div>
 
-<!-- END OF card section -->
+ END OF card section -->
 
 <!-- Split section -->
     
