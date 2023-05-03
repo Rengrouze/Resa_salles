@@ -5,11 +5,15 @@ require '../src/bootstrap.php';
 
 use Calendar\{
     Month,
-    Bookings
+    Bookings,
+    Rooms
 };
 
 $pdo = get_pdo();
-$roomOption= $_GET['room'] ?? null;
+$roomId= $_GET['room'] ?? null;
+$rooms = new Rooms($pdo);
+$room = $rooms->getRoom($roomId);
+
 $bookings = new Bookings($pdo);
 // get all busy days of the month with getBookingsBetweenByDay
 $month = new Month($_GET['month'] ?? null, $_GET['year'] ?? null);
@@ -24,7 +28,7 @@ $days = $month->days;
 
 // $daysBooked = $bookings->getBookingsBetween($start, $end);
 
-$daysBooked = $bookings->getBookingsBetweenByRoom($start, $end, $roomOption);
+$daysBooked = $bookings->getBookingsBetweenByRoom($start, $end, $roomId);
 
 // create an array wich contains all the busy days where temporary = 0
 $busyDays = [];

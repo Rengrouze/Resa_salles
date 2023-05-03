@@ -29,9 +29,9 @@ render('header', ['title' => 'Salle 1', 'script' => 'index.js', 'style' => 'cale
                                         </div>
                                         <?php endif; ?>-->
                             <div>
-                                <a href="calendar.php?month=<?= $month->previousMonth()->month; ?>&year=<?= $month->previousMonth()->year; ?>&room=<?= $roomOption; ?>"
+                                <a href="calendar.php?month=<?= $month->previousMonth()->month; ?>&year=<?= $month->previousMonth()->year; ?>&room=<?= $room->getId(); ?>"
                                     class="btn btn-primary previous-month ">&lt;</a>
-                                <a href="calendar.php?month=<?= $month->nextMonth()->month; ?>&year=<?= $month->nextMonth()->year; ?>&room=<?= $roomOption; ?>"
+                                <a href="calendar.php?month=<?= $month->nextMonth()->month; ?>&year=<?= $month->nextMonth()->year; ?>&room=<?= $room->getId(); ?>"
                                     class="btn btn-primary next-month ">&gt;</a>
                             </div>
                         </div>
@@ -99,7 +99,7 @@ render('header', ['title' => 'Salle 1', 'script' => 'index.js', 'style' => 'cale
     <div class="container mt-4 d-none d-md-block pt-5">
   <div class="card">
     <div class="card-header">
-      Dates sélectionnées pour la salle <?= $roomOption; ?>
+      Dates sélectionnées pour la salle : <?= $room->getName(); ?>
     </div>
     <div class="card-body p-0">
       <div class="table-responsive">

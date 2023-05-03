@@ -34,13 +34,13 @@ class Bookings
      * Récupérer les reservations commencant entre deux dates par salle
      * @param \DateTime $start
      * @param \DateTime $end
-     * @param string $room
+     * @param int $room
      * @return array
      */
 
-    public function getBookingsBetweenByRoom(\DateTimeInterface $start, \DateTimeInterface $end, string $room)
+    public function getBookingsBetweenByRoom(\DateTimeInterface $start, \DateTimeInterface $end, int $roomId)
     {
-        $sql = "SELECT * FROM bookings WHERE room = '{$room}' AND day BETWEEN '{$start->format('Y-m-d 00:00:00')}' AND '{$end->format('Y-m-d 23:59:59')}'";
+        $sql = "SELECT * FROM bookings WHERE id_room = '{$roomId}' AND day BETWEEN '{$start->format('Y-m-d 00:00:00')}' AND '{$end->format('Y-m-d 23:59:59')}'";
         $statement = $this->pdo->query($sql);
         $statement->setFetchMode(\PDO::FETCH_CLASS, Booking::class);
         $results = $statement->fetchAll();
@@ -64,26 +64,26 @@ class Bookings
     /**
      * vérifie si les jours sont déja réservés en fonction de la salle
      * @param array $days
-     * @param string $room
+     * @param int $room
      * @return array
      */
-    public function getBookedDaysByRoom(array $days, string $room)
+    public function getBookedDaysByRoom(array $days, int $roomId)
     {
-        $sql = "SELECT day FROM bookings WHERE day IN ('" . implode("', '", $days) . "') AND room = '{$room}'";
+        $sql = "SELECT day FROM bookings WHERE day IN ('" . implode("', '", $days) . "') AND id_room = '{$roomId}'";
         $statement = $this->pdo->query($sql);
         $results = $statement->fetchAll(\PDO::FETCH_COLUMN);
         return $results;
     }
      
 
-    public function getNextAvailableDays(string $room) {
+    public function getNextAvailableDays(int $roomId) {
         $availableDays = [];
     
         $tomorrow = new \DateTime('tomorrow');
     
         while (count($availableDays) < 7) {
           //  $sql = "SELECT * FROM bookings WHERE day = '{$tomorrow->format('Y-m-d')}'";
-            $sql = "SELECT * FROM bookings WHERE day = '{$tomorrow->format('Y-m-d')}' AND room = '{$room}'";
+            $sql = "SELECT * FROM bookings WHERE day = '{$tomorrow->format('Y-m-d')}' AND id_room = '{$roomId}'";
             $statement = $this->pdo->query($sql);
             $result = $statement->fetch();
     
@@ -124,7 +124,7 @@ class Bookings
 
     public function createEvent(Event $event)
     {
-        $statement = $this->pdo->prepare("INSERT INTO events (id_client, number_of_days, days, reason, total_price, temporary, room) VALUES (?, ?, ?, ?, ?, ?,?)");
+        $statement = $this->pdo->prepare("INSERT INTO events (id_client, number_of_days, days, reason, total_price, temporary, id_room) VALUES (?, ?, ?, ?, ?, ?,?)");
         $statement->execute([
             $event->getIdClient(),
             $event->getNumberOfDays(),
@@ -177,7 +177,7 @@ class Bookings
 
 
         // for each number of days, create a booking
-        $statement = $this->pdo->prepare("INSERT INTO bookings (day,  temporary, id_bookings, room) VALUES (?,  ?, ?,?)");
+        $statement = $this->pdo->prepare("INSERT INTO bookings (day,  temporary, id_bookings, id_room) VALUES (?,  ?, ?,?)");
         $statement->execute([
             $booking->getDay()->format('Y-m-d'),
             $booking->getTemporary(),

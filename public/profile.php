@@ -14,12 +14,13 @@ if (!isset($_SESSION['auth'])) {
 
 use Calendar\{
     Clients,
-    Bookings
+    Bookings,
+    Rooms
 };
 
 $events = new Bookings(get_pdo());
 $clients = new Clients(get_pdo());
-
+$rooms = new Rooms(get_pdo());
 // 
 
 $client = $_SESSION['auth'];
@@ -88,9 +89,14 @@ $allEvents = $events->getAllEventsByClient($id);
             </thead>
             <tbody>
                 <?php foreach ($allEvents as $event): ?>
+
+                    
                     <tr>
                         <td>
-                            <?= $event->getRoom() ?>
+                            <?php $roomId = $event->getRoomId();?>
+                            
+                            
+                            <?= $rooms->getRoomNameById($roomId); ?>
                         </td>
                         <td>
                             <?php

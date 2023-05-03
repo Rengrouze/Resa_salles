@@ -12,7 +12,7 @@ class Event
     private $reason;
     private $total_price;
     private $temporary;
-    private $room;
+    private $id_room;
 
 
 
@@ -51,9 +51,9 @@ class Event
         return $this->temporary;
     }
 
-    public function getRoom(): string
+    public function getRoomId(): int
     {
-        return $this->room;
+        return $this->id_room;
     }
 
 
@@ -90,9 +90,9 @@ class Event
         $this->temporary = $temporary;
     }
 
-    public function setRoom(string $room)
+    public function setRoomId(int $id_room)
     {
-        $this->room = $room;
+        $this->id_room = $id_room;
     }
 
 

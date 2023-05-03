@@ -1,18 +1,27 @@
 <?php
 use Calendar\{
     Month,
-    Bookings
+    Bookings,
+    Rooms
 };
 
 $pdo = get_pdo();
 
 $month = new Month();
 $bookings = new Bookings($pdo);
+$rooms = new Rooms($pdo);
+
+//get all room
+
+$allRooms = $rooms->getRooms();
+// for each room use getNextAvailableDays() to get the next 7 days available by room
+foreach ($allRooms as $room) {
+    $freeDays[$room->getId()] = $bookings->getNextAvailableDays($room->getId());
+}
 
 //get all free days of the month from tommorow to the Seven next days with getNextAvailableDays()
-$freeDaysRoom1 = $bookings->getNextAvailableDays("room1");
-$freeDaysRoom2 = $bookings->getNextAvailableDays("room2");
-$freeDaysRoom3 = $bookings->getNextAvailableDays("room3");
+
+
 
 
 
@@ -26,75 +35,44 @@ $freeDaysRoom3 = $bookings->getNextAvailableDays("room3");
   <h2 class="mt-4 mb-4">Réservation rapide</h2>
   <p class="text-muted">Réserver une salle pour une journée</p>
   <hr class="bg-dark">
-  <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
-    <li class="nav-item">
-      <a class="nav-link active" id="salle1-tab" data-toggle="tab" href="#salle1" role="tab" aria-controls="salle1" aria-selected="true">Salle 1</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" id="salle2-tab" data-toggle="tab" href="#salle2" role="tab" aria-controls="salle2" aria-selected="false">Salle 2</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" id="salle3-tab" data-toggle="tab" href="#salle3" role="tab" aria-controls="salle3" aria-selected="false">Salle 3</a>
-    </li>
-  </ul>
-  <div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade show active" id="salle1" role="tabpanel" aria-labelledby="salle1-tab">
-    <table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>Reservation rapide</th>
-        </tr>
-    </thead>
-    <tbody>
-    <?php foreach ($freeDaysRoom1 as $day): ?>
-    <?php $date = new DateTime($day); ?>
-    <tr>
-        <td><?= $date->format('d ') . $month->getMonthName($date) . $date->format(' Y') ?></td>
-        <td><a class="btn btn-primary" href="../public/validate-booking.php?days=<?= $day?>&room=room1">Réserver</a></td>
-        
-    </tr>
-<?php endforeach; ?>
-    </tbody>
-</table>
 
-    </div>
-    <div class="tab-pane fade" id="salle2" role="tabpanel" aria-labelledby="salle2-tab">
+  
+
+  <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+  <?php //for each room generate a tab
+  foreach ($allRooms as $room): ?>
+    <li class="nav-item">
+      <a class="nav-link" id="salle<?=$room->getId()?>-tab" data-toggle="tab" href="#salle<?=$room->getId()?>" role="tab" aria-controls="salle<?=$room->getId()?>" aria-selected="true"><?= $room->getName()?></a>
+    </li>
+  <?php endforeach; ?>
+    
+  </ul>
+
+  <div class="tab-content" id="myTabContent">
+  <?php //for each room generate a tab
+  foreach ($allRooms as $room): ?>
+
+    <div class="tab-pane fade<?php if ($room === reset($allRooms)) echo ' show active'; ?>" id="salle<?=$room->getId()?>" role="tabpanel" aria-labelledby="salle<?=$room->getId()?>-tab">
       <table class="table table-striped">
         <thead>
           <tr>
             <th>Date</th>
-            <th>Reservation rapide</th>
+            <th>Réservation rapide</th>
           </tr>
         </thead>
         <tbody>
-        <?php foreach ($freeDaysRoom2 as $day): ?>
-    <?php $date = new DateTime($day); ?>
-    <tr>
-        <td><?= $date->format('d ') . $month->getMonthName($date) . $date->format(' Y') ?></td>
-        <td><a class="btn btn-primary" href="../public/validate-booking.php?days=<?= $day?>&room=room2">Réserver</a></td>
-    </tr>
-<?php endforeach; ?>
-         
-        </tbody>
-      </table>
-    </div>
-    <div class="tab-pane fade" id="salle3" role="tabpanel" aria-labelledby="salle3-tab">
-      <table class="table table-striped">
-        <thead>
+
+          <!-- for each room generate a table with the next 7 days available -->
+          <?php foreach ($freeDays[$room->getId()] as $day): ?>
+          <?php $date = new DateTime($day); ?>
           <tr>
-            <th>Date</th>
-            <th>Reservation rapide</th>
+            <td><?= $date->format('d ') . $month->getMonthName($date) . $date->format(' Y') ?></td>
+            <td><a class="btn btn-primary" href="../public/validate-booking.php?days=<?= $day?>&room=<?= $room->getId() ?>">Réserver</a></td>
           </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($freeDaysRoom3 as $day): ?>
-    <?php $date = new DateTime($day); ?>
-    <tr>
-        <td><?= $date->format('d ') . $month->getMonthName($date) . $date->format(' Y') ?></td>
-        <td><a class="btn btn-primary" href="../public/validate-booking.php?days=<?= $day?>&room=room3">Réserver</a></td>
-    </tr>
-<?php endforeach; ?>
+          <?php endforeach; ?>
+
         </tbody>
       </table>
     </div>
+  <?php endforeach; ?>
+</div>
