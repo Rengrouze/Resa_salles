@@ -202,6 +202,9 @@ function displaySelectedDays() {
   // if there are no days selected, display a message
   if (numberOfDaysClicked == 0 ) {
     dateListTable.innerHTML = "<p class='ml-2 mr-2' style='margin-left : 10 px'>Aucun jour sélectionné, cliquez sur une date pour l'ajouter au tableau</p>";
+    const totalPriceElement = document.querySelector("#totalPrice");
+    totalPriceElement.innerHTML = 0;
+    
   }
   else {
     days.sort((a, b) => new Date(a) - new Date(b));
@@ -235,16 +238,17 @@ function displaySelectedDays() {
     dateListTable.innerHTML = dateListTableContent;
     bindDeleteButtons();
     console.log(numberOfDaysClicked);
-    //display the total price
-   
-  }
-  let totalPrice = pricePerDay * numberOfDaysClicked;
+    let totalPrice = pricePerDay * numberOfDaysClicked;
   if (numberOfDaysClicked == 0) {
     totalPrice = 0;
   }
   console.log(numberOfDaysClicked);
   const totalPriceElement = document.querySelector("#totalPrice");
   totalPriceElement.innerHTML = totalPrice;
+    //display the total price
+   
+  }
+  
 }
 
 
