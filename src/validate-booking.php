@@ -5,8 +5,8 @@ if (!$days) {
 }
 
 //get the room option
-$room = $_GET['room'] ?? null;
-if (!$room) {
+$id_room = $_GET['room'] ?? null;
+if (!$id_room) {
     e404();
 }
 
@@ -24,7 +24,9 @@ array_walk($daysForDisplay, function (&$day) {
 
 //ask the db if theses days are already booked
 $bookings = new \Calendar\Bookings(get_pdo());
-$bookedDays = $bookings->getBookedDaysByRoom($days,$room);
+$rooms= new \Calendar\Rooms(get_pdo());
+$room = $rooms->getRoom($id_room);
+$bookedDays = $bookings->getBookedDaysByRoom($days,$id_room);
 // if there are booked days
 if (!empty($bookedDays)) {
     // convert the booked days to a string
@@ -48,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     //ask the db again if theses days are already booked
     $bookings = new \Calendar\Bookings(get_pdo());
-    $bookedDays = $bookings->getBookedDaysByRoom($days, $room);
+    $bookedDays = $bookings->getBookedDaysByRoom($days, $id_room);
     // if there are booked days
     if (!empty($bookedDays)) {
         // convert the booked days to a string
@@ -89,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         unset($data['days']);
 
         //change the order of the data, day first, then temporary, then idBookings
-        $data = array_merge(['day' => $data['day']], ['temporary' => $data['temporary']], ['idBookings' => $data['idBookings']], ['room' => $room]);
+        $data = array_merge(['day' => $data['day']], ['temporary' => $data['temporary']], ['idBookings' => $data['idBookings']], ['idRoom' => $id_room]);
       
 
 

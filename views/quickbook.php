@@ -57,6 +57,7 @@ foreach ($allRooms as $room) {
         <thead>
           <tr>
             <th>Date</th>
+            <th>Prix</th>
             <th>Réservation rapide</th>
           </tr>
         </thead>
@@ -67,7 +68,14 @@ foreach ($allRooms as $room) {
           <?php $date = new DateTime($day); ?>
           <tr>
             <td><?= $date->format('d ') . $month->getMonthName($date) . $date->format(' Y') ?></td>
+            <td><?= $room->getPrice()?>€</td>
+            <!-- if the user is not logged in, desactivate the button -->
+            <?php if (isset($_SESSION['auth']) ): ?>
             <td><a class="btn btn-primary" href="../public/validate-booking.php?days=<?= $day?>&room=<?= $room->getId() ?>">Réserver</a></td>
+            <?php else: ?>
+            <td><a class="btn btn-secondary" href="../public/login.php">Connectez-vous pour reserver</a></td>
+            <?php endif; ?>
+
           </tr>
           <?php endforeach; ?>
 

@@ -1,6 +1,6 @@
 <?php
 switch ($room) {
-    case 'room1':
+    case '1':
         $firstSlideTitle = 'Idéale pour formations';
         $firstSlideParagraph = '70m², vidéoprojecteur, paperboard, wifi, 30 personnes';
         $secondSlideTitle = 'Équipée pour présentations';
@@ -8,7 +8,7 @@ switch ($room) {
         $thirdSlideTitle = 'Fonctionnelle pour réunions';
         $thirdSlideParagraph = 'Paperboard, wifi, prises électriques, 30 personnes';
         break;
-    case 'room2':
+    case '2':
         $firstSlideTitle = 'Lumineuse pour formations';
         $firstSlideParagraph = '50m², grandes fenêtres, vidéoprojecteur, paperboard, wifi, 20 personnes';
         $secondSlideTitle = 'Modulable pour réunions';
@@ -16,7 +16,7 @@ switch ($room) {
         $thirdSlideTitle = 'Confortable pour formations';
         $thirdSlideParagraph = 'Sièges confortables, wifi, paperboard, 20 personnes';
         break;
-    case 'room3':
+    case '3':
         $firstSlideTitle = 'Équipée pour événements';
         $firstSlideParagraph = 'Grand écran de projection, système audio, micro, wifi, 50 personnes';
         $secondSlideTitle = 'Spacieuse pour réunions';

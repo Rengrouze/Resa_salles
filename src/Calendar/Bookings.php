@@ -116,7 +116,7 @@ class Bookings
         $event->setReason($data['reason']);
         $event->setTotalPrice($data['totalPrice']);
         $event->setTemporary($data['temporary']);
-        $event->setRoom($data['room']);
+        $event->setRoomId($data['idRoom']);
 
         return $event;
 
@@ -132,7 +132,7 @@ class Bookings
             $event->getReason(),
             $event->getTotalPrice(),
             $event->getTemporary(),
-            $event->getRoom()
+            $event->getRoomId()
         ]);
         return $this->pdo->lastInsertId();
     }
@@ -160,7 +160,7 @@ class Bookings
         $booking->setDay(new \DateTime($data['day']));
         $booking->setTemporary($data['temporary']);
         $booking->setIdBookings($data['idBookings']);
-        $booking->setRoom($data['room']);
+        $booking->setRoomId($data['idRoom']);
 
         return $booking;
     }
@@ -182,7 +182,7 @@ class Bookings
             $booking->getDay()->format('Y-m-d'),
             $booking->getTemporary(),
             $booking->getIdBookings(),
-            $booking->getRoom()
+            $booking->getRoomId()
         ]);
         // return the ids of the created bookings
         return $this->pdo->lastInsertId();

@@ -12,7 +12,32 @@ $rooms = new Rooms($pdo);
 $rooms = $rooms->getRooms();
 
 
-
+$translation = array(
+  'projector' => 'projecteur',
+  'wifi' => 'Réseau wifi',
+  'coffee' => 'machine à café',
+  'water' => 'eau',
+  'paperboard' => 'paperboard',
+  'tv' => 'télévision',
+  'toilets' => 'toilettes',
+  'parking' => 'parking',
+  'disabledAccess' => 'accès aux personnes à mobilité réduite',
+  'airConditioning' => 'climatisation'
+  
+);
+$icons = [
+  'projector' => 'video',
+  'wifi' => 'wifi',
+  'coffee' => 'coffee',
+  'water' => 'tint',
+  'paperboard' => 'chalkboard',
+  'tv' => 'tv',
+  'toilets' => 'toilet-paper',
+  'parking' => 'parking',
+  'disabledAccess' => 'wheelchair',
+  'airConditioning' => 'snowflake'
+  // ajoutez les autres options ici
+];
 
 
 
@@ -53,15 +78,15 @@ $rooms = $rooms->getRooms();
                 ?>
                 <?php foreach ($visibleOptions as $optionName => $optionValue): ?>
                   <?php if ($optionValue == 1): ?>
-                    <p class="card-text"><i class="fas fa-<?= $optionName ?>"></i> <?= ucfirst($optionName) ?></p>
+                    <p class="card-text"><i class="fas fa-<?= $icons[$optionName] ?>"></i> <?= ucfirst($translation[$optionName]) ?></p>
                   <?php endif; ?>
                 <?php endforeach; ?>
                 <?php if (count($options) > 4): ?>
-                  <a class="btn btn-link" href="../public/room-info.php?<?=$room->getId()?>">Voir plus</a>
+                  <a class="btn btn-link" href="../public/room-info.php?room=<?=$room->getId()?>">Voir plus</a>
                   <div class="additional-options d-none">
                     <?php foreach (array_slice($options, 4) as $optionName => $optionValue): ?>
                       <?php if ($optionValue == 1): ?>
-                        <p class="card-text"><i class="fas fa-<?= $optionName ?>"></i> <?= ucfirst($optionName) ?></p>
+                        <p class="card-text"><i class="fas fa-<?= $icons[$optionName] ?>"></i> <?= ucfirst($translation[$optionName]) ?></p>
                       <?php endif; ?>
                     <?php endforeach; ?>
                   </div>
@@ -71,7 +96,7 @@ $rooms = $rooms->getRooms();
           </div>
           <div class="d-flex justify-content-between align-items-center">
             <h6 class="mb-0"><span class=""><?=$room->getPrice()?>€/jour</span></h6>
-            <a href="../public/calendar.php?room=<?=$room->getId()?>" class="btn btn-primary">Vérifier les disponibilités</a>
+            <a href="../public/room-info.php?room=<?=$room->getId()?>" class="btn btn-primary">Vérifier les disponibilités</a>
           </div>
         </div>
       </div>

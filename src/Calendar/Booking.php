@@ -9,7 +9,7 @@ class Booking
     private $temporary;
     private $idBookings;
 
-    private $room;
+    private $idRoom;
 
 
 
@@ -68,15 +68,15 @@ class Booking
     /**
      * Get the value of room
      */
-    public function getRoom() : string
+    public function getRoomId() : int
     {
-        return $this->room;
+        return $this->idRoom;
     }
 
 
-    public function setRoom($room) : self
+    public function setRoomId($idRoom) : self
     {
-        $this->room = $room;
+        $this->idRoom = $idRoom;
 
         return $this;
     }

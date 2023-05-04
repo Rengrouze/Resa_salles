@@ -1,13 +1,5 @@
 <?php
-// is session started? if no redirect to login page
-
-require '../src/bootstrap.php';
 require('../src/calendar.php');
-
-
-
-
-render('header', ['title' => 'Salle 1', 'script' => 'index.js', 'style' => 'calendar.css']);
 
 ?>
 
@@ -109,6 +101,10 @@ render('header', ['title' => 'Salle 1', 'script' => 'index.js', 'style' => 'cale
             <tr>
               <th>Date</th>
               <th>Action</th>
+              <th>Prix</th>
+              
+                <th id="pricePerDay" class="d-none"><?= $room->getPrice();?></th>
+             
             </tr>
           </thead>
         </table>
@@ -136,6 +132,9 @@ render('header', ['title' => 'Salle 1', 'script' => 'index.js', 'style' => 'cale
         echo "<button  class='btn btn-secondary no-user-btn' >Suivant</button>";
       }
       ?>
+
+      <!-- add the total price here -->
+      <span class="float-right">Total : <span id="totalPrice">0</span> €</span>
     
     </div>
   </div>
@@ -182,8 +181,3 @@ render('header', ['title' => 'Salle 1', 'script' => 'index.js', 'style' => 'cale
 
 </div>
     <script src="../src/App/navigate_calendar.js"></script>
-
-
-<?php
-render('footer');
-

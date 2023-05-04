@@ -1,5 +1,6 @@
 var numberOfDaysClicked = 0;
 var days = [];
+
 // get room id from the url
 const urlParams = new URLSearchParams(window.location.search);
 const room = urlParams.get("room");
@@ -216,19 +217,34 @@ function displaySelectedDays() {
 
     // create a td element for each day in day selected
     let dateListTableContent = "";
+    let pricePerDay = document.getElementById("pricePerDay").innerHTML;
+   
+    
     // loop through the days array
     daysForDisplay.forEach((day) => {
       // create a td element with the date and a button to remove the date
       dateListTableContent += `<tr>
       <td>${day}</td>
+      
       <td><a class="btn btn-sm btn-danger delete-day" data-day="${day}">Supprimer</a></td>
+      <td>${pricePerDay} €</td>
     </tr>`;
     });
     
     // add the td elements to the date-list table
     dateListTable.innerHTML = dateListTableContent;
     bindDeleteButtons();
+    console.log(numberOfDaysClicked);
+    //display the total price
+   
   }
+  let totalPrice = pricePerDay * numberOfDaysClicked;
+  if (numberOfDaysClicked == 0) {
+    totalPrice = 0;
+  }
+  console.log(numberOfDaysClicked);
+  const totalPriceElement = document.querySelector("#totalPrice");
+  totalPriceElement.innerHTML = totalPrice;
 }
 
 

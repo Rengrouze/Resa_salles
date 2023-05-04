@@ -27,7 +27,9 @@
 
 </head>
 <body>
+  
   <?php require '../src/session.php'; ?>
+  <?php require '../src/header.php'; ?>
   <header>
   <!-- first navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-light">
@@ -41,6 +43,10 @@
 // if the user is connected get his username from the cookies and display it
 if(isset($_SESSION['auth'])){
   echo '<p class="d-inline-block m-0 mr-lg-3">Bonjour '. $username;'</p>';
+  echo '<a href="../public/profile.php" class="btn btn-primary mx-2">Mon compte</a>';
+  echo '<a href="../src/logout.php" class="btn btn-danger mx-2">Déconnexion</a>';
+}else if(isset($_SESSION['auth-admin'])){
+  echo '<p class="d-inline-block m-0 mr-lg-3">Bonjour Admin'. $username;'</p>';
   echo '<a href="../public/profile.php" class="btn btn-primary mx-2">Mon compte</a>';
   echo '<a href="../src/logout.php" class="btn btn-danger mx-2">Déconnexion</a>';
 }else{
@@ -73,9 +79,10 @@ if(isset($_SESSION['auth'])){
             Nos salles
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="../public/room-info.php?room=room1">Salle 1</a>
-            <a class="dropdown-item" href="../public/room-info.php?room=room2">Salle 2</a>
-            <a class="dropdown-item" href="../public/room-info.php?room=room3">Salle 3</a>
+            <?php foreach ($allRooms as $room): ?>
+            <a class="dropdown-item" href="../public/room-info.php?room=<?= $room->getId()?>"><?= $room->getName();?></a>
+            <?php endforeach; ?>
+            
           </div>
         </li>
         <li class="nav-item">
