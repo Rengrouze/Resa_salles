@@ -21,7 +21,7 @@
       <div class="col-sm-3">
         <h5>Navigation du site</h5>
         <ul class="list-unstyled">
-          <li><a href="../public/roompicker.php?option=room-info">Description de nos salles</a></li>
+          <li><a href="../public/roompicker.php?option=room-info">Descriptions de nos salles</a></li>
           <li><a href="../public/info.php">Info pratique</a></li>
           <li><a href="../public/roompicker.php?option=calendar">Calendrier de réservation</a></li>
         </ul>
