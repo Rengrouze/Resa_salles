@@ -23,11 +23,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = $validator->validates($_POST);
     if (empty($errors)) {
         // ask the database if the user exists with the email and password
-        $clients = new \Calendar\Clients(get_pdo());
+        $clients = new Clients(get_pdo());
 
         try {
             $client = $clients->find($_POST['email'], $_POST['password']);
             if (isset($client)) {
+
+                // check first if client has activated his account
+                if ($client->getActivated() == 0) {
+                    $errors['login'] = "Votre compte n'est pas encore activé, vous avez normalement reçu un mail de confirmation, si vous n'avez pas recu le mail : </br> <a href='/public/waiting-validation.php?email=" . $client->getEmail() . "'> Cliquez ici pour le recevoir à nouveau </a>";
+                    return;
+                }
 
 
                 // if the user exists, log him in

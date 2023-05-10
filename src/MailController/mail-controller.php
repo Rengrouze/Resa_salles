@@ -4,9 +4,9 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 // path du dossier PHPMailer % fichier d'envoi du mail
-require '../vendor/composer/phpmailer/phpmailer/src/Exception.php';
-require '../vendor/composer/phpmailer/phpmailer/src/PHPMailer.php';
-require '../vendor/composer/phpmailer/phpmailer/src/SMTP.php';
+require '../vendor/phpmailer/phpmailer/src/Exception.php';
+require '../vendor/phpmailer/phpmailer/src/PHPMailer.php';
+require '../vendor/phpmailer/phpmailer/src/SMTP.php';
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 //										ENVOI DU MAIL
@@ -26,7 +26,7 @@ function sendmail($objet, $contenu, $destinataire)
         $mail->Host = 'smtp.orange.fr'; //'ssl0.ovh.net';                            // serveur SMTP
         $mail->SMTPAuth = true; // le serveur SMTP nécessite une authentification ("false" sinon)
         $mail->Username = 'a.oumghar@orange.fr'; // login SMTP
-        $mail->Password = '1DieuEstGrand2'; // Mot de passe SMTP
+        $mail->Password = 'Forma41@CDO12'; // Mot de passe SMTP
         $mail->SMTPSecure = 'ssl'; // encodage des données TLS (ou juste 'tls') > "Aucun chiffrement des données"; sinon PHPMailer::ENCRYPTION_SMTPS (ou juste 'ssl')
         $mail->Port = 465;
         $mail->CharSet = "UTF-8"; // port TCP (ou 25, ou 465...)
@@ -52,7 +52,7 @@ function sendmail($objet, $contenu, $destinataire)
         $mail->AltBody = 'Contenu au format texte pour les clients e-mails qui ne le supportent pas'; // ajout facultatif de texte sans balises HTML (format texte)
 
         $mail->send();
-        echo 'Message envoyé.';
+
     }
     // si le try ne marche pas > exception ici
     catch (Exception $e) {

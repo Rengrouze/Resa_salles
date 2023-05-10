@@ -23,6 +23,7 @@ if (isset($_SESSION['auth'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $data = $_POST;
+    var_dump($data);
     $validator = new Calendar\ForgotValidator();
     $errors = $validator->validates($_POST);
     if (empty($errors)) {
@@ -30,8 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $clients = new Clients(get_pdo());
 
         try {
-            $client = $clients->findClientByMail($_POST['email']);
-            if ($client) {
+            $clientExist = $clients->findClientByMail($_POST['email']);
+            var_dump($clientExist);
+            if ($clientExist === true) {
                 $selector = bin2hex(random_bytes(8));
                 $token = random_bytes(32);
 
@@ -43,14 +45,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 $hashedToken = password_hash($token, PASSWORD_DEFAULT);
                 // create a data array to hydrate the pwdReset object
-                $data = [
+                $data2 = [
                     'email' => $_POST['email'],
                     'selector' => $selector,
                     'token' => $hashedToken,
                     'expires' => $expires
                 ];
+                var_dump($data);
+                die();
+                $pwdReset = $pwdResets->hydrate(new \App\PwdReset(), $data2);
+                $pwdResets->create($pwdReset);
 
-                $pwdReset = $pwdResets->hydrate(new \App\PwdReset(), $data);
 
 
             }
@@ -60,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
         } catch (\Exception $e) {
-            $errors['login'] = "Identifiant ou mot de passe incorrect";
+            $errors['login'] = "Aucun compte n'est associé à cet email" . $e->getMessage();
         }
 
     }
