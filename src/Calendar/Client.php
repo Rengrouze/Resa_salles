@@ -17,6 +17,8 @@ class Client
     private $city;
     private $postal_code;
 
+    private $activated;
+
 
 
     public function setId(int $id)
@@ -78,6 +80,11 @@ class Client
         return $this->city;
     }
 
+    public function getActivated(): bool
+    {
+        return $this->activated;
+    }
+
     // setters
 
     public function setName(string $name)
@@ -130,6 +137,11 @@ class Client
         $this->siret = $siret;
 
         return $this;
+    }
+
+    public function setActivated(bool $activated)
+    {
+        $this->activated = $activated;
     }
 
 

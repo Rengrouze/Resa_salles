@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 require '../src/bootstrap.php';
 require '../src/form/login.php';
@@ -10,9 +10,9 @@ render('Header', ['title' => 'Se connecter', 'script' => 'index.js']);
     <div class="row justify-content-center">
         <div class="col-md-6">
             <?php if (isset($errors['login'])): ?>
-            <div class="alert alert-danger">
-                <?= $errors['login']; ?>
-            </div>
+                <div class="alert alert-danger">
+                    <?= $errors['login']; ?>
+                </div>
             <?php endif; ?>
 
             <div class="card">
@@ -24,9 +24,9 @@ render('Header', ['title' => 'Se connecter', 'script' => 'index.js']);
                             <input type="email" class="form-control" id="email" name="email"
                                 value="<?= isset($data['email']) ? h($data['email']) : '' ?>" required>
                             <?php if (isset($errors['email'])): ?>
-                            <small class="form-text text-muted">
-                                <?= $errors['name']; ?>
-                            </small>
+                                <small class="form-text text-muted">
+                                    <?= $errors['name']; ?>
+                                </small>
                             <?php endif; ?>
                         </div>
                         <div class="form-group">
@@ -35,15 +35,15 @@ render('Header', ['title' => 'Se connecter', 'script' => 'index.js']);
                                 value="<?= isset($data['password']) ? h($data['password']) : '' ?>" name="password"
                                 required>
                             <?php if (isset($errors['password'])): ?>
-                            <small class="form-text text-muted">
-                                <?= $errors['password']; ?>
-                            </small>
+                                <small class="form-text text-muted">
+                                    <?= $errors['password']; ?>
+                                </small>
                             <?php endif; ?>
                         </div>
                         <div class="form-group mt-3">
                             <input type="hidden" name="mode" value="connect">
                             <button type="submit" class="btn btn-primary">Se connecter</button>
-                            <a href="/public/forgot_password.php" class="btn btn-link">Mot de passe oublié ?</a>
+                            <a href="/public/forgot-password.php" class="btn btn-link">Mot de passe oublié ?</a>
                         </div>
                     </form>
                 </div>
@@ -62,17 +62,17 @@ render('Header', ['title' => 'Se connecter', 'script' => 'index.js']);
 </div>
 
 <script>
-$(document).ready(function() {
-    // Cacher le formulaire d'inscription au chargement de la page
+    $(document).ready(function () {
+        // Cacher le formulaire d'inscription au chargement de la page
 
-    // Basculer vers le formulaire d'inscription
-    $('#btn-switch-to-register').click(function() {
-        //go to signup.php
-        window.location.href = "signup.php";
+        // Basculer vers le formulaire d'inscription
+        $('#btn-switch-to-register').click(function () {
+            //go to signup.php
+            window.location.href = "signup.php";
+
+        });
+
 
     });
-
-
-});
 </script>
 <?php render('Footer'); ?>

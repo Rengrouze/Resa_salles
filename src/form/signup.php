@@ -37,13 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 
-            session_start();
-            $_SESSION['auth'] = $client;
-            $username = $client->getName() . ' ' . $client->getFirstname();
-
-            setcookie('username', $username, time() + 365 * 24 * 3600, null, null, false, true);
-            header('Location: /public/index.php?success=1');
-            exit();
+            header('Location: /public/waiting-validation.php?email=' . $_POST['email']);
 
         } catch (\Exception $e) {
             // if the user does not exist, show an error
@@ -52,4 +46,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 }
-

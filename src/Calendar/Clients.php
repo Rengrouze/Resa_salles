@@ -100,4 +100,18 @@ class Clients
         return true;
     }
 
+    public function activateClient(string $email)
+    {
+        $statement = $this->pdo->prepare("UPDATE clients SET activated = 1 WHERE email = :email");
+        $statement->execute(['email' => $email]);
+        $statement->setFetchMode(\PDO::FETCH_CLASS, Client::class);
+        $result = $statement->fetch();
+        if ($result === false) {
+            // return an error message for the user
+            throw new \Exception("Aucun compte ne correspond à cette adresse mail");
+        }
+        // if the client exists, return a boolean
+        return true;
+    }
+
 }
