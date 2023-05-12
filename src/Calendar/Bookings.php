@@ -46,7 +46,7 @@ class Bookings
         $results = $statement->fetchAll();
         return $results;
     }
-     
+
 
     /**
      * Vérifie si les jours sont déjà réservés
@@ -74,31 +74,32 @@ class Bookings
         $results = $statement->fetchAll(\PDO::FETCH_COLUMN);
         return $results;
     }
-     
 
-    public function getNextAvailableDays(int $roomId) {
+
+    public function getNextAvailableDays(int $roomId)
+    {
         $availableDays = [];
-    
+
         $tomorrow = new \DateTime('tomorrow');
-    
+
         while (count($availableDays) < 7) {
-          //  $sql = "SELECT * FROM bookings WHERE day = '{$tomorrow->format('Y-m-d')}'";
+            //  $sql = "SELECT * FROM bookings WHERE day = '{$tomorrow->format('Y-m-d')}'";
             $sql = "SELECT * FROM bookings WHERE day = '{$tomorrow->format('Y-m-d')}' AND id_room = '{$roomId}'";
             $statement = $this->pdo->query($sql);
             $result = $statement->fetch();
-    
+
             if (!$result) {
                 $availableDays[] = $tomorrow->format('Y-m-d');
             }
-    
+
             $tomorrow = $tomorrow->modify('+1 day');
         }
-    
+
         return $availableDays;
     }
-    
-    
-    
+
+
+
 
 
 
@@ -191,6 +192,24 @@ class Bookings
     public function getAllEventsByClient($idClient)
     {
         $statement = $this->pdo->prepare("SELECT * FROM events WHERE id_client = ?");
+        $statement->execute([$idClient]);
+        $statement->setFetchMode(\PDO::FETCH_CLASS, Event::class);
+        $results = $statement->fetchAll();
+        return $results;
+    }
+
+    public function getAllValidatedEventsByClient($idClient)
+    {
+        $statement = $this->pdo->prepare("SELECT * FROM events WHERE id_client = ? AND temporary = 0");
+        $statement->execute([$idClient]);
+        $statement->setFetchMode(\PDO::FETCH_CLASS, Event::class);
+        $results = $statement->fetchAll();
+        return $results;
+    }
+
+    public function getAllUnValidatedEventsByClient($idClient)
+    {
+        $statement = $this->pdo->prepare("SELECT * FROM events WHERE id_client = ? AND temporary = 1");
         $statement->execute([$idClient]);
         $statement->setFetchMode(\PDO::FETCH_CLASS, Event::class);
         $results = $statement->fetchAll();

@@ -14,6 +14,7 @@ if (isset($_SESSION['auth'])) {
     header('Location: /public/index.php');
     exit();
 }
+// if there is newpwd in the url, create a variable to display the message
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

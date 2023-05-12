@@ -1,4 +1,5 @@
 <?php
+
 use Calendar\{
     Clients,
 };
@@ -8,6 +9,12 @@ use App\{
 };
 
 $validator = new \App\Validator();
+
+$pwdResets = new PwdResets(get_pdo());
+
+require '../src/MailController/mail-controller.php';
+
+
 
 
 $errors = [];
@@ -20,10 +27,14 @@ if (isset($_SESSION['auth'])) {
 }
 
 
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $data = $_POST;
-    var_dump($data);
+    $email = $_POST['email'];
+
+
+
+
     $validator = new Calendar\ForgotValidator();
     $errors = $validator->validates($_POST);
     if (empty($errors)) {
@@ -31,31 +42,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $clients = new Clients(get_pdo());
 
         try {
+
+
             $clientExist = $clients->findClientByMail($_POST['email']);
-            var_dump($clientExist);
-            if ($clientExist === true) {
+
+
+            if ($clientExist == true) {
+                $pwdResets->delete($email);
                 $selector = bin2hex(random_bytes(8));
                 $token = random_bytes(32);
-
-                $url = "http://localhost:8000/public/new-password.php?selector=" . $selector . "&validator=" . bin2hex($token);
+                $url = "http://resasite/public/new-password.php?selector=" . $selector . "&validator=" . bin2hex($token);
 
                 $expires = date("U") + 1800;
-                $pwdResets = new PwdResets(get_pdo());
-                $pwdResets->delete($_POST['email']);
+
+
+
+
+
 
                 $hashedToken = password_hash($token, PASSWORD_DEFAULT);
                 // create a data array to hydrate the pwdReset object
-                $data2 = [
-                    'email' => $_POST['email'],
+                $data = [
+                    'email' => $email,
                     'selector' => $selector,
                     'token' => $hashedToken,
                     'expires' => $expires
                 ];
-                var_dump($data);
-                die();
-                $pwdReset = $pwdResets->hydrate(new \App\PwdReset(), $data2);
+
+                $pwdReset = $pwdResets->hydrate(new \App\PwdReset(), $data);
+
+
                 $pwdResets->create($pwdReset);
 
+
+                $destinataire = $email;
+                $objet = "Réinitialisation de votre mot de passe";
+                $contenu = '<p> Bonjour nous avons reçu une demande de réinitialisation de votre mot de passe, si vous n\'êtes pas à l\'origine de cette demande, vous pouvez ignorer ce mail </p> <br> <p> Pour réinitialiser votre mot de passe, veuillez cliquer sur le lien suivant : <a href="' . $url . '">' . $url . '</a> </p> <br> <p> Ce lien est valable 30 minutes </p> <br> <p> Cordialement, </p> <br> <p> L\'équipe de RésaSite </p>';
+                sendmail($objet, $contenu, $destinataire);
+                $success['sent'] = "Un mail de réinitialisation de mot de passe vous a été envoyé. Si au bout de 30 minutes vous n'avez toujours rien reçu, vérifiez vos spams ou cliquez une nouvelle fois sur le bouton.";
 
 
             }

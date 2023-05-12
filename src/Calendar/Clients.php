@@ -110,4 +110,20 @@ class Clients
 
     }
 
+    public function updatePassword(string $email, string $password)
+    {
+
+
+        $statement = $this->pdo->prepare("UPDATE clients SET password = :password WHERE email = :email");
+        $statement->execute(['email' => $email, 'password' => $password]);
+
+        // if change has a problem, return an error message for the user
+        if ($statement === false) {
+            throw new \Exception("Impossible de mettre à jour le mot de passe");
+        }
+        // if the password is updated, return a boolean
+        return true;
+    }
+
+
 }

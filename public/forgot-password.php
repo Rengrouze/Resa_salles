@@ -14,6 +14,11 @@ render('Header', ['title' => 'Se connecter', 'script' => 'index.js']);
                 <?= $errors['login']; ?>
             </div>
             <?php endif; ?>
+            <?php if (isset($success['sent'])): ?>
+            <div class="alert alert-success">
+                <?= $success['sent']; ?>
+            </div>
+            <?php endif; ?>
 
 
             <div class="card">
@@ -26,7 +31,7 @@ render('Header', ['title' => 'Se connecter', 'script' => 'index.js']);
                                 value="<?= isset($data['email']) ? h($data['email']) : '' ?>" required>
                             <?php if (isset($errors['email'])): ?>
                             <small class="form-text text-muted">
-                                <?= $errors['name']; ?>
+                                <?= $errors['email']; ?>
                             </small>
                             <?php endif; ?>
                         </div>
