@@ -40,9 +40,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors = $formValidator->validates($_POST);
         if (empty($errors)) {
             $currentDate = date('U');
-            var_dump($currentDate);
+
             $pwdReset = $pwdResets->validateToken($selector, $currentDate);
-            var_dump($pwdReset);
+
 
             if ($pwdReset == false) {
                 $error = "Token non valide. Vous devez soumettre une nouvelle demande de réinitialisation de mot de passe.";
