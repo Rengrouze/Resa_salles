@@ -6,13 +6,15 @@ class Event
 
     private $id;
     private $id_client;
-    
+
     private $number_of_days;
     private $days;
     private $reason;
     private $total_price;
     private $temporary;
     private $id_room;
+
+    private $admin_locked;
 
 
 
@@ -56,6 +58,10 @@ class Event
         return $this->id_room;
     }
 
+    public function getAdminLocked(): bool
+    {
+        return $this->admin_locked;
+    }
 
 
     // setters
@@ -93,6 +99,11 @@ class Event
     public function setRoomId(int $id_room)
     {
         $this->id_room = $id_room;
+    }
+
+    public function setAdminLocked(bool $admin_locked)
+    {
+        $this->admin_locked = $admin_locked;
     }
 
 

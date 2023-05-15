@@ -33,3 +33,8 @@ function render(string $view, $parameters = [])
     extract($parameters);
     include '../views/' . $view . '.php';
 }
+function render_admin(string $view, $parameters = [])
+{
+    extract($parameters);
+    include '../views/admin/' . $view . '.php';
+}

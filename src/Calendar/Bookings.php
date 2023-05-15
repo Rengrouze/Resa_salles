@@ -118,6 +118,7 @@ class Bookings
         $event->setTotalPrice($data['totalPrice']);
         $event->setTemporary($data['temporary']);
         $event->setRoomId($data['idRoom']);
+        $event->setAdminLocked($data['adminLocked']);
 
         return $event;
 
@@ -125,7 +126,7 @@ class Bookings
 
     public function createEvent(Event $event)
     {
-        $statement = $this->pdo->prepare("INSERT INTO events (id_client, number_of_days, days, reason, total_price, temporary, id_room) VALUES (?, ?, ?, ?, ?, ?,?)");
+        $statement = $this->pdo->prepare("INSERT INTO events (id_client, number_of_days, days, reason, total_price, temporary, id_room, admin_locked) VALUES (?, ?, ?, ?, ?, ?,?, ?)");
         $statement->execute([
             $event->getIdClient(),
             $event->getNumberOfDays(),
@@ -133,10 +134,17 @@ class Bookings
             $event->getReason(),
             $event->getTotalPrice(),
             $event->getTemporary(),
-            $event->getRoomId()
+            $event->getRoomId(),
+            $event->getAdminLocked()
         ]);
         return $this->pdo->lastInsertId();
     }
+
+
+
+    //admin command lock event
+
+
 
 
     public function getEventById($idEvent)
@@ -162,6 +170,7 @@ class Bookings
         $booking->setTemporary($data['temporary']);
         $booking->setIdBookings($data['idBookings']);
         $booking->setRoomId($data['idRoom']);
+        $booking->setAdminLocked($data['adminLocked']);
 
         return $booking;
     }
@@ -178,12 +187,13 @@ class Bookings
 
 
         // for each number of days, create a booking
-        $statement = $this->pdo->prepare("INSERT INTO bookings (day,  temporary, id_bookings, id_room) VALUES (?,  ?, ?,?)");
+        $statement = $this->pdo->prepare("INSERT INTO bookings (day,  temporary, id_bookings, id_room, admin_locked) VALUES (?,  ?, ?,?, ?)");
         $statement->execute([
             $booking->getDay()->format('Y-m-d'),
             $booking->getTemporary(),
             $booking->getIdBookings(),
-            $booking->getRoomId()
+            $booking->getRoomId(),
+            $booking->getAdminLocked()
         ]);
         // return the ids of the created bookings
         return $this->pdo->lastInsertId();
@@ -233,6 +243,86 @@ class Bookings
         // return a boolean to confirm the update
         return $statement->rowCount() > 0;
     }
+
+    public function getAllAdminLockedEvents()
+    {
+        $statement = $this->pdo->prepare("SELECT * FROM events WHERE admin_locked = 1");
+        $statement->execute();
+        $statement->setFetchMode(\PDO::FETCH_CLASS, Event::class);
+        $results = $statement->fetchAll();
+        return $results;
+    }
+
+    public function getAllAdminLockedBookings()
+    {
+        $statement = $this->pdo->prepare("SELECT * FROM bookings WHERE admin_locked = 1");
+        $statement->execute();
+        $statement->setFetchMode(\PDO::FETCH_CLASS, Booking::class);
+        $results = $statement->fetchAll();
+        return $results;
+    }
+
+    public function getAllEvents()
+    {
+        $statement = $this->pdo->prepare("SELECT * FROM events");
+        $statement->execute();
+        $statement->setFetchMode(\PDO::FETCH_CLASS, Event::class);
+        $results = $statement->fetchAll();
+        return $results;
+    }
+
+    public function getAllBookings()
+    {
+        $statement = $this->pdo->prepare("SELECT * FROM bookings");
+        $statement->execute();
+        $statement->setFetchMode(\PDO::FETCH_CLASS, Booking::class);
+        $results = $statement->fetchAll();
+        return $results;
+    }
+
+    public function getAllEventsByRoom($idRoom)
+    {
+        $statement = $this->pdo->prepare("SELECT * FROM events WHERE id_room = ?");
+        $statement->execute([$idRoom]);
+        $statement->setFetchMode(\PDO::FETCH_CLASS, Event::class);
+        $results = $statement->fetchAll();
+        return $results;
+    }
+
+    public function unlockAdminLockedEvent($idEvent)
+    {
+        $statement = $this->pdo->prepare("UPDATE events SET admin_locked = 0 WHERE id = ?");
+        $statement->execute([$idEvent]);
+        // return a boolean to confirm the update
+        return $statement->rowCount() > 0;
+    }
+
+    public function unlockAdminLockedBooking($idBooking)
+    {
+        $statement = $this->pdo->prepare("UPDATE bookings SET admin_locked = 0 WHERE id_bookings = ?");
+        $statement->execute([$idBooking]);
+        // return a boolean to confirm the update
+        return $statement->rowCount() > 0;
+    }
+
+    public function getEventByBookingId($idBooking)
+    {
+        $statement = $this->pdo->prepare("SELECT * FROM events WHERE id = ?");
+        $statement->execute([$idBooking]);
+        $statement->setFetchMode(\PDO::FETCH_CLASS, Event::class);
+        $results = $statement->fetch();
+        return $results;
+    }
+
+    public function getBookingByEventId($idEvent)
+    {
+        $statement = $this->pdo->prepare("SELECT * FROM bookings WHERE id_bookings = ?");
+        $statement->execute([$idEvent]);
+        $statement->setFetchMode(\PDO::FETCH_CLASS, Booking::class);
+        $results = $statement->fetch();
+        return $results;
+    }
+
 
 
 
