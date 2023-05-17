@@ -288,6 +288,15 @@ class Bookings
         $results = $statement->fetchAll();
         return $results;
     }
+    public function getAllTemporaryEvents()
+    {
+        $statement = $this->pdo->prepare("SELECT * FROM events WHERE temporary = 1");
+        $statement->execute();
+        $statement->setFetchMode(\PDO::FETCH_CLASS, Event::class);
+        $results = $statement->fetchAll();
+        return $results;
+    }
+
 
     public function unlockAdminLockedEvent($idEvent)
     {
@@ -322,6 +331,7 @@ class Bookings
         $results = $statement->fetch();
         return $results;
     }
+
 
 
 

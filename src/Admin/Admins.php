@@ -72,4 +72,32 @@ class Admins
         return $admin;
     }
 
+    public function connectAdmin(string $username, string $password)
+    {
+        $statement = $this->pdo->prepare("SELECT * FROM admin WHERE adminUsername = :username");
+        $statement->execute(['username' => $username]);
+        $statement->setFetchMode(\PDO::FETCH_CLASS, Admin::class);
+        $admin = $statement->fetch();
+        if ($admin) {
+            if (password_verify($password, $admin->getPasswordHash())) {
+                return $admin;
+            }
+        }
+        return false;
+    }
+    public function connectAdminAccount(string $username, string $password)
+    {
+        $statement = $this->pdo->prepare("SELECT * FROM admin WHERE adminUsername = :username AND adminPassword = :password");
+        $statement->execute(['username' => $username, 'password' => $password]);
+        $statement->setFetchMode(\PDO::FETCH_CLASS, Admin::class);
+        $result = $statement->fetch();
+        if ($result === false) {
+            // return an error message for the user
+            throw new \Exception("Aucun compte ne correspond à ces identifiants");
+        }
+        return $result;
+
+    }
+
+
 }

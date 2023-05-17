@@ -113,5 +113,14 @@ public function __construct(array $data = []) {
         return true;
     }
 
+    //prevent SQL injection
+    public function noSql(string $field) : bool {
+        if (preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $this->data[$field])) {
+    $this->errors[$field] = "Le champ $field ne doit pas contenir de caractères spéciaux";
+    return false;
+    }
+    return true;
+    }
 
-}
+
+    }

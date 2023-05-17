@@ -121,5 +121,5 @@ class Rooms
             'id' => $room->getId()
         ]);
     }
-}
 
+}

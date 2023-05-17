@@ -125,5 +125,14 @@ class Clients
         return true;
     }
 
+    // ADMIN COMMANDS   
+    public function findAllClients()
+    {
+        $statement = $this->pdo->query("SELECT * FROM clients");
+        $statement->setFetchMode(\PDO::FETCH_CLASS, Client::class);
+        $clients = $statement->fetchAll();
+        return $clients;
+    }
+
 
 }
