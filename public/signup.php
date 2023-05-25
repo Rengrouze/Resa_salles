@@ -1,7 +1,9 @@
 <?php
 
 require '../src/bootstrap.php';
+require '../src/session.php';
 require '../src/form/signup.php';
+
 
 
 render('Header', ['title' => 'Créer un compte', 'script' => 'index.js']);

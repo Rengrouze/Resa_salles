@@ -2,7 +2,7 @@
 require '../src/bootstrap.php';
 
 
-
+require '../src/session.php'; 
 
 render('header', ['title' => 'Mon compte', 'script' => 'index.js']);
 

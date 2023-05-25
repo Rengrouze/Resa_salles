@@ -134,5 +134,30 @@ class Clients
         return $clients;
     }
 
+    public function findClientById(int $id)
+    {
+        $statement = $this->pdo->prepare("SELECT * FROM clients WHERE id = :id");
+        $statement->execute(['id' => $id]);
+        $statement->setFetchMode(\PDO::FETCH_CLASS, Client::class);
+        $result = $statement->fetch();
+        if ($result === false) {
+            // return an error message for the user
+            throw new \Exception("Aucun compte ne correspond à cet identifiant");
+        }
+        return $result;
+    }
+    public function findClientNameById (int $id)
+    {
+        $statement = $this->pdo->prepare("SELECT * FROM clients WHERE id = :id");
+        $statement->execute(['id' => $id]);
+        $result = $statement->fetch();
+        if ($result === false) {
+            // return an error message for the user
+            throw new \Exception("Aucun compte ne correspond à cet identifiant");
+        }
+        // only return the full name of the client
+        return $result['name'] . ' ' . $result['firstname'];
+    }
+
 
 }

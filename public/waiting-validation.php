@@ -1,5 +1,6 @@
 <?php
 require '../src/bootstrap.php';
+require '../src/session.php';
 require '../src/MailController/mail-controller.php';
 
 

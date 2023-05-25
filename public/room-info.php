@@ -3,6 +3,7 @@
 use Calendar\Rooms;
 
 require '../src/bootstrap.php';
+require '../src/session.php';
 $roomId = $_GET['room'];
 $rooms = new Rooms(get_pdo());
 $room = $rooms->getRoom($roomId);

@@ -1,6 +1,7 @@
 <?php
 
 require '../src/bootstrap.php';
+require '../src/session.php';
 use Calendar\Rooms;
 
 $rooms = new Rooms(get_pdo());

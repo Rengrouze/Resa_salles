@@ -1,5 +1,5 @@
 <?php
-
+require '../src/session.php'; 
 require '../src/bootstrap.php';
 
 

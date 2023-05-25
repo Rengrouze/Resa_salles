@@ -27,10 +27,12 @@ $bookings = new \Calendar\Bookings(get_pdo());
 $rooms= new \Calendar\Rooms(get_pdo());
 $room = $rooms->getRoom($id_room);
 $bookedDays = $bookings->getBookedDaysByRoom($days,$id_room);
+
 // if there are booked days
 if (!empty($bookedDays)) {
     // convert the booked days to a string
-    header('Location: /public/index.php?error=1');
+    header('Location: ../public/index.php?error=1');
+    exit();
 }
 // count how many days are selected
 $daysCount = count($days);
@@ -51,6 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //ask the db again if theses days are already booked
     $bookings = new \Calendar\Bookings(get_pdo());
     $bookedDays = $bookings->getBookedDaysByRoom($days, $id_room);
+    //also ask if an event with the same days exists
+    
     // if there are booked days
     if (!empty($bookedDays)) {
         // convert the booked days to a string
@@ -91,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         unset($data['days']);
 
         //change the order of the data, day first, then temporary, then idBookings
-        $data = array_merge(['day' => $data['day']], ['temporary' => $data['temporary']], ['idBookings' => $data['idBookings']], ['idRoom' => $id_room]);
+        $data = array_merge(['day' => $data['day']], ['temporary' => $data['temporary']], ['idBookings' => $data['idBookings']], ['idRoom' => $id_room], ['adminLocked' => $data['adminLocked']]);
       
 
 
@@ -106,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // redirect to the index with a success message
-        header('Location: /public/profile.php?success=1');
+        header('Location: ../public/profile.php?success=1');
         exit();
 
 

@@ -2,6 +2,7 @@
 // is session started? if no redirect to login page
 
 require '../src/bootstrap.php';
+require '../src/session.php'; 
 require('../src/calendar.php');
 
 

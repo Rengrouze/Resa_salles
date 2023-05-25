@@ -243,6 +243,15 @@ class Bookings
         // return a boolean to confirm the update
         return $statement->rowCount() > 0;
     }
+    public function unconfirmEventAndAssociatedBookings($idEvent)
+    {
+        $statement = $this->pdo->prepare("UPDATE events SET temporary = 1 WHERE id = ?");
+        $statement->execute([$idEvent]);
+        $statement = $this->pdo->prepare("UPDATE bookings SET temporary = 1 WHERE id_bookings = ?");
+        $statement->execute([$idEvent]);
+        // return a boolean to confirm the update
+        return $statement->rowCount() > 0;
+    }
 
     public function getAllAdminLockedEvents()
     {
@@ -296,6 +305,14 @@ class Bookings
         $results = $statement->fetchAll();
         return $results;
     }
+    public function getAllNonTemporaryEvents()
+    {
+        $statement = $this->pdo->prepare("SELECT * FROM events WHERE temporary = 0");
+        $statement->execute();
+        $statement->setFetchMode(\PDO::FETCH_CLASS, Event::class);
+        $results = $statement->fetchAll();
+        return $results;
+    }
 
 
     public function unlockAdminLockedEvent($idEvent)
@@ -331,6 +348,7 @@ class Bookings
         $results = $statement->fetch();
         return $results;
     }
+    
 
 
 

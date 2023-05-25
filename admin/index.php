@@ -20,9 +20,8 @@ $bookings = new Bookings(get_pdo());
 
 ?>
 <div class="container-fluid">
-    <a class="btn btn-danger" href="../src/logout.php">Déconnexion</a>
-    <div class="row">
-        <div class="col-2">
+<div class="row">
+        <div class="col-lg-2 col-md-3">
             <ul class="nav flex-column nav-tabs" id="myTabs" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="clients-tab" data-toggle="tab" href="#clients" role="tab"
@@ -33,18 +32,19 @@ $bookings = new Bookings(get_pdo());
                         aria-controls="salles" aria-selected="false">Salles</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="reservations-tab" data-toggle="tab" href="#reservations" role="tab"
-                        aria-controls="reservations" aria-selected="false">Réservations</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" id="attente-tab" data-toggle="tab" href="#attente" role="tab"
                         aria-controls="attente" aria-selected="false">Réservations en attente de validation</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="reservations-tab" data-toggle="tab" href="#reservations" role="tab"
+                        aria-controls="reservations" aria-selected="false">Réservations</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="admin-tab" data-toggle="tab" href="#admin" role="tab" aria-controls="admin"
                         aria-selected="false">Utilisateurs admin</a>
                 </li>
             </ul>
+            <a class="btn btn-danger mt-4" href="../src/logout.php">Déconnexion</a>
         </div>
         <div class="col-10">
             <div class="tab-content mt-4" id="myTabsContent">
@@ -69,9 +69,9 @@ $bookings = new Bookings(get_pdo());
                         </thead>
                         <tbody>
                             <?php
-                            $clients = $clients->findAllClients();
+                            $allClients = $clients->findAllClients();
                             ?>
-                            <?php foreach ($clients as $client): ?>
+                            <?php foreach ($allClients as $client): ?>
                                 <tr>
                                     <th scope="row">
                                         <?= $client->getId() ?>
@@ -135,9 +135,9 @@ $bookings = new Bookings(get_pdo());
                         </thead>
                         <tbody>
                             <?php
-                            $rooms = $rooms->getRooms();
+                            $allRooms = $rooms->getRooms();
                             ?>
-                            <?php foreach ($rooms as $room): ?>
+                            <?php foreach ($allRooms as $room): ?>
                                 <tr>
                                     <th scope="row">
                                         <?= $room->getId() ?>
@@ -174,7 +174,7 @@ $bookings = new Bookings(get_pdo());
                             <!-- Contenu du tableau pour la section "Salles" -->
                     </table>
                 </div>
-                <div class="tab-pane fade" id="reservations" role="tabpanel" aria-labelledby="reservations-tab">
+                <div class="tab-pane fade" id="attente" role="tabpanel" aria-labelledby="attente-tab">
                     <h4>Réservations en attente de validation</h4>
                     <table class="table">
                         <thead>
@@ -187,7 +187,7 @@ $bookings = new Bookings(get_pdo());
                                 <th scope="col">Nombre de Jours</th>
                                 <th scope="col">Prix Total</th>
                                 <th scope="col">Actions</th>
-                                <th scope="col">Statut</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
@@ -198,9 +198,11 @@ $bookings = new Bookings(get_pdo());
                                 <tr>
                                     <td>
                                         <?= $temporaryEvent->getId() ?>
+                                      
                                     </td>
                                     <td>
-                                        <?= $clientName = $clients->findClientById($temporaryEvent->getClientId()) ?>
+                                        <?= $clientName = $clients->findClientNameById($temporaryEvent->getIdClient()) ?>
+                                      
 
                                     </td>
                                     <td>
@@ -222,8 +224,10 @@ $bookings = new Bookings(get_pdo());
                                             class="btn btn-primary">Modifier</a>
                                         <a href="deleteBooking.php?id=<?= $temporaryEvent->getId() ?>"
                                             class="btn btn-danger">Supprimer</a>
+                                            <a href="../admin/validate-booking.php?id=<?= $temporaryEvent->getId() ?>"
+                                            class="btn btn-success">Valider</a>
                                     </td>
-                                    <td>
+                                    
 
 
                                 </tr>
@@ -232,9 +236,65 @@ $bookings = new Bookings(get_pdo());
                             <!-- Contenu du tableau pour la section "Réservations" -->
                     </table>
                 </div>
-                <div class="tab-pane fade" id="attente" role="tabpanel" aria-labelledby="attente-tab">
+                <div class="tab-pane fade" id="reservations" role="tabpanel" aria-labelledby="reservations-tab">
+               
                     <h4>Réservations</h4>
                     <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Client</th>
+                                <th scope="col">Salle</th>
+                                <th scope="col">Jours</th>
+                                <th scope="col">Motif</th>
+                                <th scope="col">Nombre de Jours</th>
+                                <th scope="col">Prix Total</th>
+                                <th scope="col">Actions</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $allEvents = $bookings->getAllNonTemporaryEvents();
+                            ?>
+                            <?php foreach ($allEvents as $event): ?>
+                                <tr>
+                                    <td>
+                                        <?= $event->getId() ?>
+                                    </td>
+                                    <td>
+                                        <?= $clientName = $clients->findClientNameById($event->getIdClient()) ?>
+                                    </td>
+                                    <td>
+                                        <?= $roomName = $rooms->getRoomNameById($event->getRoomId()) ?>
+                                    </td>
+                                    <td>
+                                        <?= $event->getDays() ?>
+                                    </td>
+                                    <td>
+                                        <?= $event->getReason() ?>
+                                    </td>
+                                    <td>
+                                        <?= $event->getNumberOfDays() ?>
+                                    </td>
+                                    <td>
+                                        <?= $event->getTotalPrice() ?> €
+                                    </td>
+                                    <td>
+                                        <a href="editBooking.php?id=<?= $event->getId() ?>"
+                                            class="btn btn-primary">Modifier</a>
+                                        <a href="deleteBooking.php?id=<?= $event->getId() ?>"
+                                            class="btn btn-danger">Supprimer</a>
+
+                                        <a href="../admin/unvalidate-booking.php?id=<?= $event->getId() ?>"
+                                            class="btn btn-warning">Annuler</a>
+                                
+                                    </td>
+                                   
+                                </tr>
+                            <?php endforeach ?>
+
+                            <!-- Contenu du tableau pour la section "Réservations" -->
                         <!-- Contenu du tableau pour la section "Réservations en attente de validation" -->
                     </table>
                 </div>

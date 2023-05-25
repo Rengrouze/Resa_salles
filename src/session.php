@@ -9,11 +9,7 @@ if (isset($_SESSION['auth-admin'])) {
     exit();
 }
 
-use Calendar\{
-    Clients,
-};
 
-$clients = new Clients(get_pdo());
 
 if (isset($_SESSION['auth'])) {
     $username = $_COOKIE['username'];

@@ -1,6 +1,7 @@
 <?php
 
 require '../src/bootstrap.php';
+require '../src/session.php'; 
 require '../src/form/forgot.php';
 
 render('Header', ['title' => 'Se connecter', 'script' => 'index.js']);

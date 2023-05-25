@@ -1,10 +1,11 @@
 <?php
 require '../src/bootstrap.php';
+require '../src/session.php'; 
+require '../src/validate-booking.php';
 
 
 
 render ('header', ['title' => 'Reserver un créneau', 'script' => 'index.js']);
-require '../src/validate-booking.php';
 
 ?>
 <div class="container mt-2 mb-4 d-flex flex-row justify-content-between">
@@ -78,6 +79,7 @@ require '../src/validate-booking.php';
                 <input type="hidden" name="days" value="<?= implode(',', $days) ?>" readonly>
                 <input type="hidden" name="totalPrice" value="<?= $price * $daysCount ?>" readonly>
                 <input type="hidden" name="temporary" value="1">
+                <input type="hidden" name="adminLocked" value="0">
                 <!-- Champ d'entrée caché pour l'ID du client -->
                 <label for="reason">Motif de la réservation :</label>
                 <div class="row">   <input type="text" name="reason" required placeholder="Formation, séminaire, etc..."></div>

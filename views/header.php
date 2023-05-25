@@ -1,3 +1,5 @@
+
+<?php require '../src/header.php'; ?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -33,8 +35,6 @@
 
 <body>
 
-  <?php require '../src/session.php'; ?>
-  <?php require '../src/header.php'; ?>
   <header>
     <!-- first navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-light">

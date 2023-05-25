@@ -41,7 +41,7 @@ class Booking
         return $this->idRoom;
     }
 
-    public function getAdminLocked(): bool
+    public function getAdminLocked(): int
     {
         return $this->admin_locked;
     }
@@ -92,7 +92,7 @@ class Booking
      * @return  self
      */
 
-    public function setAdminLocked(bool $admin_locked)
+    public function setAdminLocked(int $admin_locked)
     {
         $this->admin_locked = $admin_locked;
 
