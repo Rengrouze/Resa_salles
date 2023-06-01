@@ -139,7 +139,7 @@ render('Header', ['title' => 'Créer un compte', 'script' => 'index.js']);
                                     </small>
                                 <?php endif; ?>
                             </div>
-                            <div class="col-sm-8">
+                            <div class="col-sm-4">
                                 <label for="city">Ville</label>
                                 <input type="text" class="form-control" id="city"
                                     value="<?= isset($data['city']) ? h($data['city']) : '' ?>" name="city" required>
@@ -149,8 +149,18 @@ render('Header', ['title' => 'Créer un compte', 'script' => 'index.js']);
                                     </small>
                                 <?php endif; ?>
                             </div>
+                            <div class="col-sm-4">
+                                <label for="country">Pays</label>
+                                <input type="text" class="form-control" id="country"
+                                    value="<?= isset($data['country']) ? h($data['country']) : '' ?>" name="country" required>
+                                <?php if (isset($errors['country'])): ?>
+                                    <small class="form-text text-muted">
+                                        <?= $errors['country']; ?>
+                                    </small>
+                                <?php endif; ?>
+                            </div>
                         </div>
-                        <div class="form-group mt-3"><input type="hidden" name="mode" value="register">
+                        <div class="form-group mt-3">
                             <button type="submit" class="btn btn-primary">S'inscrire</button>
                             <button type="button" class="btn btn-link" id="btn-switch-to-login">Se connecter</button>
                         </div>
@@ -172,3 +182,4 @@ render('Header', ['title' => 'Créer un compte', 'script' => 'index.js']);
 
 <?php
 render('footer');
+?>

@@ -21,7 +21,7 @@ render_admin('asidemenu');
                             for="searchClients"><span class="input-group-text"><span
                                     class="oi oi-magnifying-glass"></span></span></label> <input type="text"
                             class="form-control" id="searchClients" data-filter=".board .list-group-item"
-                            placeholder="Find clients">
+                            placeholder="Trouver un client">
                     </div><!-- /.input-group -->
                 </header><button type="button" class="btn btn-primary btn-floated position-absolute" data-toggle="modal"
                     data-target="#clientNewModal" title="Add new client"><i class="fa fa-plus"></i></button>
@@ -44,9 +44,22 @@ render_admin('asidemenu');
 
                         <?php foreach ($allClients as $client): ?>
 
-                          <?php $initial = $client->getBusiness()[0]; ?>
-                          <div class="list-group-item " data-toggle="sidebar" data-sidebar="show">
-                              <a href="#" class="stretched-link"></a> <!-- .list-group-item-figure -->
+                          <?php $initial = $client->getBusiness()[0];
+                          // if it is the first loop AND there is no GET parameter, set the first client to active and launch the updateClientDetails function
+                          
+                            if (!isset($_GET['id']) && $client === reset($allClients)) {
+                                $active = 'active';
+                            } elseif (isset($_GET['id']) && $client->getId() === $_GET['id']) {
+                                $active = 'active';
+                            } else {
+                                $active = '';
+                            }
+                        
+
+                           ?>
+                          <div class="list-group-item <?=$active?>"  data-toggle="sidebar" data-sidebar="show">
+                          <a href="#" class="stretched-link" onclick="updateClientDetails(<?= $client->getId() ?>)"></a>
+ <!-- .list-group-item-figure -->
                               <div class="list-group-item-figure">
                                   <div class="tile tile-circle bg-blue"> <?= $initial ?> </div>
                               </div><!-- /.list-group-item-figure -->
@@ -60,7 +73,7 @@ render_admin('asidemenu');
 
                         <?php endforeach; ?>
 
-
+                           
 
 
 
@@ -92,11 +105,23 @@ render_admin('asidemenu');
                     </nav>
                 </header><!-- /.sidebar-header -->
                 <!-- .sidebar-section -->
-                <div class="sidebar-section sidebar-section-fill">
+
+                <?php 
+                if (isset($_GET['id'])) {
+                    $id = $_GET['id'];
+                    $client = $clients->findClientById($id);
+                } else {
+                    $client = $clients->getFirstClient();
+                }
+                
+                $creationDay = $client->getCreationDay()->format('d/m/Y');
+
+                ?>
+                <div class="sidebar-section sidebar-section-fill" id="clientDetailsTabs">
                     <h1 class="page-title">
-                        <i class="far fa-building text-muted mr-2"></i> Zathunicon, Inc.
+                        <i class="far fa-building text-muted mr-2"></i> <?= $client->getBusiness(); ?> - Compte créé le <?= $creationDay ?>
                     </h1>
-                    <p class="text-muted"> San Francisco, United States </p><!-- .nav-scroller -->
+                    <p class="text-muted"> <?= $client->getAddress()?>, <?=$client->getCity();?></p><!-- .nav-scroller -->
                     <div class="nav-scroller border-bottom">
                         <!-- .nav-tabs -->
                         <ul class="nav nav-tabs">
@@ -129,8 +154,16 @@ render_admin('asidemenu');
                                         <button type="button" class="btn btn-link" data-toggle="modal"
                                             data-target="#clientBillingEditModal">modifier ?</button>
                                     </div>
-                                    <address> 280 Suzanne Throughway, Breannabury<br> San Francisco, 45801<br> United
-                                        States </address>
+                                    <address> <?= $client->getAddress()?><br> <?php 
+                                    //if there is an address complement, display it
+                                    if ($client->getAddressComplement() != '' || $client->getAddressComplement() != null) {
+                                        echo $client->getAddressComplement() . '<br>';
+                                    }
+                                    ?>
+                                    
+                                    
+                                    <?=$client->getCity();?>,<?=$client->getPostalCode();?><br> <?= $client->getCountry()?> </address>
+                                    <!-- TODO : ADD COUNTRY IN SQL-->
                                 </div><!-- /.card-body -->
                             </div><!-- /.card -->
                             <!-- .card -->
@@ -142,7 +175,7 @@ render_admin('asidemenu');
                                         <table class="table table-hover" style="min-width: 678px">
                                             <thead>
                                                 <tr>
-                                                    <th> Name </th>
+                                                    <th> Nom </th>
                                                     <th> Email </th>
                                                     <th> Phone </th>
                                                     <th></th>
@@ -150,9 +183,9 @@ render_admin('asidemenu');
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td class="align-middle"> Alexane Collins </td>
-                                                    <td class="align-middle"> fhauck@gmail.com </td>
-                                                    <td class="align-middle"> (062) 109-9222 </td>
+                                                    <td class="align-middle"> <?= $client->getFirstName();?> <?= $client->getName()?> </td>
+                                                    <td class="align-middle"> <?= $client->getEmail();?> </td>
+                                                    <td class="align-middle"> <?= $client->getPhone();?> </td>
                                                     <td class="align-middle text-right">
                                                         <button type="button" class="btn btn-sm btn-icon btn-secondary"
                                                             data-toggle="modal" data-target="#clientContactEditModal"><i
@@ -217,9 +250,19 @@ render_admin('asidemenu');
                                 $bookings = new Bookings(get_Pdo());
                                 $rooms = new Rooms(get_Pdo());
 
+                                if (!isset($_GET['id'])) {
+                                    $clientId = $clients->getFirstId(); // Use getFirstId() to get the first ID in the database
+                                    $allUnvalidatedEvents = $bookings->getAllUnValidatedEventsByClient($clientId);
+                                    $allValidatedEvents = $bookings->getAllValidatedEventsByClient($clientId);
+                                } else {
+                                    $clientId = $_GET['id'];
+                                    $allUnvalidatedEvents = $bookings->getAllUnValidatedEventsByClient($clientId);
+                                    $allValidatedEvents = $bookings->getAllValidatedEventsByClient($clientId);
+                                }
                                 
-                                $allUnvalidatedEvents = $bookings->getAllUnValidatedEventsByClient(20);
-                                $allValidatedEvents = $bookings->getAllValidatedEventsByClient(20);
+
+                                
+
                               
                                 
                             
@@ -235,28 +278,48 @@ render_admin('asidemenu');
                                                 <th style="min-width:260px"> Motif de la Réservation </th>
                                                 <th> Salle réservée </th>
                                                 <th> Jours de la réservation </th>
-                                                <th> Nombres de jours </th>
+                                                <th> Date de la reservation </th>
                                                 <th> Prix </th>
                                                 <th> Actions </th>
                                             </tr>
                                         </thead><!-- /thead -->
                                         <!-- tbody -->
                                         <tbody>
+                                        <?php
+                                        if (empty($allUnvalidatedEvents) && empty($allValidatedEvents)) {
+                                            echo '<div class="alert alert-info">Aucune réservation n\'a été effectuée pour ce client</div>';
+                                        }
+                                        ?>
                                             <!-- tr -->
 
                                             <?php foreach($allUnvalidatedEvents as $event): ?>
 
-                                                
+
                                                <?php  $reasonInitals = $event->getReason()[0]; 
                                                $roomName = $rooms->getRoomNameById($event->getRoomId());
                                               
-                                               // remove the , beetwen the days and format the two dates
-                                                  $days = explode(',', $event->getDays());
-                                                    $days[0] = date('d/m/Y', strtotime($days[0]));
-                                                    $days[1] = date('d/m/Y', strtotime($days[1]));
-                                                    $days = implode(' - ', $days);
+                                               $days = explode(',', $event->getDays());
+                                                $formattedDates = array();
 
+                                                foreach ($days as $day) {
+                                                    $formattedDates[] = date('d/m/Y', strtotime($day));
+                                                }
+
+                                                if (count($formattedDates) > 4) {
+                                                    $remainingDays = count($formattedDates) - 4;
+                                                    $daysToDisplay = array_slice($formattedDates, 0, 4);
+                                                    $days = implode(' - ', $daysToDisplay) . " ... et {$remainingDays} jours";
+                                                } else {
+                                                    $days = implode(' - ', $formattedDates);
+                                                }
+
+                                                
                                                
+                                                
+                                                $bookingDay = date('d/m/Y', strtotime($event->getBookingDay()));
+
+                                                
+
                                                ?>
                                             <tr>
                                                 <td class="align-middle text-truncate">
@@ -265,7 +328,8 @@ render_admin('asidemenu');
                                                 </td>
                                                 <td class="align-middle"> <?=$roomName?> </td>
                                                 <td class="align-middle"> <?= $days;?> </td>
-                                                <td class="align-middle"> <?= $event->getNumberOfDays();?> </td>
+                                                <td class="align-middle"><?=$bookingDay?></td>
+
                                                 <td class="align-middle">
                                                     <span class="badge badge-warning"><?= $event->getTotalPrice(); ?> € TTC</span>
                                                 </td>
@@ -320,18 +384,31 @@ render_admin('asidemenu');
                                         <!-- tbody -->
                                         <tbody>
                                             <!-- tr -->
-
+                                            <?php
+                                        if (empty($allUnvalidatedEvents) && empty($allValidatedEvents)) {
+                                            echo '<div class="alert alert-info">Aucune réservation n\'a été effectuée pour ce client</div>';
+                                        }
+                                        ?>
                                             <?php foreach($allValidatedEvents as $event): ?>
 
                                                 
                                                <?php  $reasonInitals = $event->getReason()[0]; 
                                                $roomName = $rooms->getRoomNameById($event->getRoomId());
                                               
-                                               // remove the , beetwen the days and format the two dates
-                                                  $days = explode(',', $event->getDays());
-                                                    $days[0] = date('d/m/Y', strtotime($days[0]));
-                                                    $days[1] = date('d/m/Y', strtotime($days[1]));
-                                                    $days = implode(' - ', $days);
+                                               $days = explode(',', $event->getDays());
+                                               $formattedDates = array();
+
+                                               foreach ($days as $day) {
+                                                   $formattedDates[] = date('d/m/Y', strtotime($day));
+                                               }
+
+                                               if (count($formattedDates) > 4) {
+                                                   $remainingDays = count($formattedDates) - 4;
+                                                   $daysToDisplay = array_slice($formattedDates, 0, 5);
+                                                   $days = implode(' - ', $daysToDisplay) . " ... et {$remainingDays} jours";
+                                               } else {
+                                                   $days = implode(' - ', $formattedDates);
+                                               }
 
                                                
                                                ?>
@@ -767,6 +844,7 @@ render_admin('asidemenu');
 <script src="assets/vendor/sortablejs/Sortable.min.js"></script> <!-- END PLUGINS JS -->
 <!-- BEGIN THEME JS -->
 <script src="assets/javascript/theme.min.js"></script> <!-- END THEME JS -->
+<script src="assets/javascript/test.js"></script> <!-- END THEME JS -->
 </body>
 
 </html>

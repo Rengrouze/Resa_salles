@@ -16,6 +16,7 @@ class Event
 
     private $admin_locked;
 
+    private $booking_day;
 
 
     public function getId(): int
@@ -63,6 +64,13 @@ class Event
         return $this->admin_locked;
     }
 
+    //bookingday is a date time object 
+    public function getBookingDay(): string
+    {
+        return $this->booking_day;
+    }
+ 
+
 
     // setters
 
@@ -104,6 +112,11 @@ class Event
     public function setAdminLocked(int $admin_locked)
     {
         $this->admin_locked = $admin_locked;
+    }
+    
+    public function setBookingDay(string $booking_day)
+    {
+        $this->booking_day = $booking_day;
     }
 
 

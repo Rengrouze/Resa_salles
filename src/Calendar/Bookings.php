@@ -348,6 +348,14 @@ class Bookings
         $results = $statement->fetch();
         return $results;
     }
+
+    public function countUnvalidatedEvents()
+    {
+        $statement = $this->pdo->query("SELECT COUNT(*) as count FROM events WHERE temporary = 1");
+        $result = $statement->fetch();
+        $count = $result['count']; // Extract the count value using the alias
+        return $count;
+    }
     
 
 

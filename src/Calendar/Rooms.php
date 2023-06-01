@@ -121,5 +121,12 @@ class Rooms
             'id' => $room->getId()
         ]);
     }
+    public function countRooms()
+    {
+        $statement = $this->pdo->query("SELECT COUNT(*) as count FROM rooms");
+        $result = $statement->fetch();
+        $count = $result['count']; // Extract the count value using the alias
+        return $count;
+    }
 
 }

@@ -19,6 +19,10 @@ class Client
 
     private $activated;
 
+    private $country;
+
+    private $creation_day;
+
 
 
     public function setId(int $id)
@@ -65,10 +69,11 @@ class Client
         return $this->address;
     }
 
-    public function getAddressComplement(): string
-    {
-        return $this->address_complement;
-    }
+    public function getAddressComplement(): ?string
+{
+    return $this->address_complement;
+}
+
 
     public function getPostalCode(): string
     {
@@ -83,6 +88,17 @@ class Client
     public function getActivated(): bool
     {
         return $this->activated;
+    }
+
+    public function getCountry(): string
+    {
+        return $this->country;
+    }
+
+    // creation day is a datetime object
+    public function getCreationDay(): \DateTime
+    {
+        return new \DateTime($this->creation_day);
     }
 
     // setters
@@ -142,6 +158,16 @@ class Client
     public function setActivated(bool $activated)
     {
         $this->activated = $activated;
+    }
+
+    public function setCountry(string $country)
+    {
+        $this->country = $country;
+    }
+
+    public function setCreationDay(\DateTime $creation_day)
+    {
+        $this->creation_day = $creation_day->format('Y-m-d H:i:s');
     }
 
 

@@ -58,6 +58,8 @@ class Clients
         $client->setAddressComplement($data['address_complement']);
         $client->setPostalCode($data['postal_code']);
         $client->setCity($data['city']);
+        $client->setCountry($data['country']);
+        
         return $client;
     }
 
@@ -65,7 +67,7 @@ class Clients
 
     public function create(Client $client)
     {
-        $statement = $this->pdo->prepare("INSERT INTO clients (name, firstname, email, password, phone, business, siret, address,address_complement, city, postal_code) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $statement = $this->pdo->prepare("INSERT INTO clients (name, firstname, email, password, phone, business, siret, address,address_complement, city, postal_code, country) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $statement->execute([
 
             $client->getName(),
@@ -79,6 +81,8 @@ class Clients
             $client->getAddressComplement(),
             $client->getCity(),
             $client->getPostalCode(),
+            $client->getCountry(),
+            
         ]);
         // return (bool) $statement->rowCount();
         // once the client is created, return the id of the client
@@ -127,12 +131,13 @@ class Clients
 
     // ADMIN COMMANDS   
     public function findAllClients()
-    {
-        $statement = $this->pdo->query("SELECT * FROM clients");
-        $statement->setFetchMode(\PDO::FETCH_CLASS, Client::class);
-        $clients = $statement->fetchAll();
-        return $clients;
-    }
+{
+    $statement = $this->pdo->query("SELECT * FROM clients ORDER BY id ASC");
+    $statement->setFetchMode(\PDO::FETCH_CLASS, Client::class);
+    $clients = $statement->fetchAll();
+    return $clients;
+}
+
 
     public function findClientById(int $id)
     {
@@ -158,6 +163,38 @@ class Clients
         // only return the full name of the client
         return $result['name'] . ' ' . $result['firstname'];
     }
+    
+    public function countClients()
+    {
+        $statement = $this->pdo->query("SELECT COUNT(*) as count FROM clients");
+        $result = $statement->fetch();
+        $count = $result['count']; // Extract the count value using the alias
+        return $count;
+    }
+
+    public function getFirstClient()
+    {
+        $statement = $this->pdo->query("SELECT * FROM clients ORDER BY id ASC LIMIT 1");
+        $statement->setFetchMode(\PDO::FETCH_CLASS, Client::class);
+        $result = $statement->fetch();
+        if ($result === false) {
+            // return an error message for the user
+            throw new \Exception("Aucun compte ne correspond à cet identifiant");
+        }
+        return $result;
+    }
+    public function getFirstId()
+    {
+        $statement = $this->pdo->query("SELECT * FROM clients ORDER BY id ASC LIMIT 1");
+        $result = $statement->fetch();
+        if ($result === false) {
+            // return an error message for the user
+            throw new \Exception("Aucun compte ne correspond à cet identifiant");
+        }
+        return $result['id'];
+    }
+    
+
 
 
 }

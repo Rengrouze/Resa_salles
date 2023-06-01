@@ -27,11 +27,11 @@ if (isset($_SESSION['auth-admin'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = $_POST;
     session_destroy();
-    var_dump($data);
+    
 
     $validator = new Admin\AdminValidator();
     $errors = $validator->validates($_POST);
-    var_dump($errors);
+    
     if (empty($errors)) {
         // ask the database if the user exists with the email and password
 
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $admin = $admins->connectAdminAccount($data['username'], $data['password']);
 
-            var_dump($admin);
+           
 
 
 

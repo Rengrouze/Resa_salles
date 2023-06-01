@@ -22,6 +22,8 @@ if (isset($_SESSION['auth'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $data = $_POST;
+    var_dump($data);
+    
     $validator = new Calendar\SignupValidator();
     $errors = $validator->validates($_POST);
     if (empty($errors)) {
@@ -42,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } catch (\Exception $e) {
             // if the user does not exist, show an error
             $errors['email'] = "Cet email est déjà utilisé";
+            var_dump($e->getMessage());
         }
     }
 

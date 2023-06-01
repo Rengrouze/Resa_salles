@@ -64,6 +64,9 @@ $allValidatedEvents = $events->getAllValidatedEventsByClient($id);
             <li class="list-group-item">Code postal :
                 <?= $client->getPostalCode(); ?>
             </li>
+            <li class="list-group-item">Pays :
+                <?= $client->getCountry(); ?>
+            </li>
             <input type="hidden" name="client_id" value="<?= $client->getId(); ?>">
         </ul>
     </div>
@@ -74,7 +77,7 @@ $allValidatedEvents = $events->getAllValidatedEventsByClient($id);
                 <?= $successMessage ?>
             </div>
         <?php endif; ?>
-        <h1>Vos reservations en attente de validation</h1>
+        <h1>Vos réservations en attente de validation</h1>
         <div class="table-responsive">
             <table class="table table-striped mt-4">
                 <thead>
@@ -136,7 +139,7 @@ $allValidatedEvents = $events->getAllValidatedEventsByClient($id);
                     <?= $successMessage ?>
                 </div>
             <?php endif; ?>
-            <h1>Vos reservations validées</h1>
+            <h1>Vos réservations validées</h1>
             <div class="table-responsive">
                 <table class="table table-striped mt-4">
                     <thead>
