@@ -226,6 +226,24 @@ class Bookings
         return $results;
     }
 
+    public function getAllValidatedEventsByRoom($idRoom)
+    {
+        $statement = $this->pdo->prepare("SELECT * FROM events WHERE id_room = ? AND temporary = 0");
+        $statement->execute([$idRoom]);
+        $statement->setFetchMode(\PDO::FETCH_CLASS, Event::class);
+        $results = $statement->fetchAll();
+        return $results;
+    }
+
+    public function getAllUnValidatedEventsByRoom($idRoom)
+    {
+        $statement = $this->pdo->prepare("SELECT * FROM events WHERE id_room = ? AND temporary = 1");
+        $statement->execute([$idRoom]);
+        $statement->setFetchMode(\PDO::FETCH_CLASS, Event::class);
+        $results = $statement->fetchAll();
+        return $results;
+    }
+
     public function deleteEventAndBookings($idEvent)
     {
         $statement = $this->pdo->prepare("DELETE FROM events WHERE id = ?");

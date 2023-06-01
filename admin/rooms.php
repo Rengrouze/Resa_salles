@@ -21,7 +21,7 @@ render_admin('asidemenu');
                             for="searchClients"><span class="input-group-text"><span
                                     class="oi oi-magnifying-glass"></span></span></label> <input type="text"
                             class="form-control" id="searchClients" data-filter=".board .list-group-item"
-                            placeholder="Trouver un client">
+                            placeholder="Trouver une salle">
                     </div><!-- /.input-group -->
                 </header><button type="button" class="btn btn-primary btn-floated position-absolute" data-toggle="modal"
                     data-target="#clientNewModal" title="Add new client"><i class="fa fa-plus"></i></button>
@@ -33,25 +33,27 @@ render_admin('asidemenu');
 
                         <?php
 
-                        use Calendar\Clients;
+                        use Calendar\Rooms;
 
-                        $clients = new Clients(get_pdo());
+                        $rooms = new Rooms(get_pdo());
 
-                        $allClients = $clients->findAllClients();
-                        // check in the url if get id is set
-                       
+                        $allRooms = $rooms->getRooms();
+                        
+
+
+                     
 
 
                         ?>
 
-                        <?php foreach ($allClients as $client): ?>
+                        <?php foreach ($allRooms as $room): ?>
 
-                          <?php $initial = $client->getBusiness()[0];
+                          <?php $initial = $room->getName()[0];
                           // if it is the first loop AND there is no GET parameter, set the first client to active and launch the updateClientDetails function
                           
-                            if (!isset($_GET['id']) && $client === reset($allClients)) {
+                            if (!isset($_GET['id']) && $room === reset($allRooms)) {
                                 $active = 'active';
-                            } elseif (isset($_GET['id']) && $client->getId() === $_GET['id']) {
+                            } elseif (isset($_GET['id']) && $room->getId() === $_GET['id']) {
                                 $active = 'active';
                             } else {
                                 $active = '';
@@ -60,15 +62,15 @@ render_admin('asidemenu');
 
                            ?>
                           <div class="list-group-item <?=$active?>"  data-toggle="sidebar" data-sidebar="show">
-                          <a href="#" class="stretched-link" onclick="updateClientDetails(<?= $client->getId() ?>)"></a>
+                          <a href="#" class="stretched-link" onclick="updateRoomDetails(<?= $room->getId() ?>)"></a>
  <!-- .list-group-item-figure -->
                               <div class="list-group-item-figure">
                                   <div class="tile tile-circle bg-blue"> <?= $initial ?> </div>
                               </div><!-- /.list-group-item-figure -->
                               <!-- .list-group-item-body -->
                               <div class="list-group-item-body">
-                                  <h4 class="list-group-item-title"> <?= $client->getBusiness(); ?> </h4>
-                                  <p class="list-group-item-text"><?= $client->getAddress(); ?>, <?= $client->getCity() ?>
+                                  <h4 class="list-group-item-title"> <?= $room->getName(); ?> </h4>
+                                  <p class="list-group-item-text"><?= $room->getLocation() ?>
                                   </p>
                               </div><!-- /.list-group-item-body -->
                           </div><!-- /.list-group-item -->
@@ -111,25 +113,25 @@ render_admin('asidemenu');
                 <?php 
                 if (isset($_GET['id'])) {
                     $id = $_GET['id'];
-                    $client = $clients->findClientById($id);
+                    $room = $rooms->getRoom($id);
                 } else {
-                    $client = $clients->getFirstClient();
+                    $room = $rooms->getFirstRoom();
                 }
                 
                 
-                $creationDay = $client->getCreationDay()->format('d/m/Y');
+                
 
                 ?>
                 <div class="sidebar-section sidebar-section-fill" id="clientDetailsTabs">
                     <h1 class="page-title">
-                        <i class="far fa-building text-muted mr-2"></i> <?= $client->getBusiness(); ?> - Compte créé le <?= $creationDay ?>
+                        <i class="far fa-building text-muted mr-2"></i> <?= $room->getName(); ?>
                     </h1>
-                    <p class="text-muted"> <?= $client->getAddress()?>, <?=$client->getCity();?></p><!-- .nav-scroller -->
+                    <p class="text-muted"> TODO ADD ADMIN ADDRESS, <?=$room->getLocation();?></p><!-- .nav-scroller -->
                     <div class="nav-scroller border-bottom">
                         <!-- .nav-tabs -->
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
-                                <a class="nav-link active show" data-toggle="tab" href="#client-billing-contact">Adresse et contact</a>
+                                <a class="nav-link active show" data-toggle="tab" href="#client-billing-contact">Informations et options</a>
                             </li>
                            
                             <li class="nav-item">
@@ -139,7 +141,7 @@ render_admin('asidemenu');
                                 <a class="nav-link" data-toggle="tab" href="#client-invoices">Reservations validées</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#client-expenses">Factures</a>
+                                <a class="nav-link" data-toggle="tab" href="#client-expenses">Photos</a>
                             </li>
                         </ul><!-- /.nav-tabs -->
                     </div><!-- /.nav-scroller -->
@@ -153,20 +155,15 @@ render_admin('asidemenu');
                                 <!-- .card-body -->
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <h2 id="client-billing-contact-tab" class="card-title"> Adresse de facturation </h2>
+                                        <h2 id="client-billing-contact-tab" class="card-title"> Adresse </h2>
                                         <button type="button" class="btn btn-link" data-toggle="modal"
                                             data-target="#clientBillingEditModal">modifier</button>
                                     </div>
-                                    <address> <?= $client->getAddress()?><br> <?php 
-                                    //if there is an address complement, display it
-                                    if ($client->getAddressComplement() != '' || $client->getAddressComplement() != null) {
-                                        echo $client->getAddressComplement() . '<br>';
-                                    }
-                                    ?>
+                                    <address> TODO : $room->getAddress(); <br> TODO : $room->getAddressComplement(); <br>
                                     
                                     
-                                    <?=$client->getCity();?>, <?=$client->getPostalCode();?><br> <?= $client->getCountry()?> <br>
-                                SIRET : <?= $client->getSiret()?>
+                                    TODO : $room->getPostalCode();, <?=$room->getLocation();?><br> TODO : $room->getCountry(); <br>
+                               
                                 </address>
                                     <!-- TODO : ADD COUNTRY IN SQL-->
                                 </div><!-- /.card-body -->
@@ -175,44 +172,28 @@ render_admin('asidemenu');
                             <div class="card mt-4">
                                 <!-- .card-body -->
                                 <div class="card-body">
-                                    <h2 class="card-title"> Contacts </h2><!-- .table-responsive -->
-                                    <div class="table-responsive">
-                                        <table class="table table-hover" style="min-width: 678px">
-                                            <thead>
-                                                <tr>
-                                                    <th> Nom </th>
-                                                    <th> Email </th>
-                                                    <th> Téléphone </th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td class="align-middle"> <?= $client->getFirstName();?> <?= $client->getName()?> </td>
-                                                    <td class="align-middle"> <?= $client->getEmail();?> </td>
-                                                    <td class="align-middle"> <?= $client->getPhone();?> </td>
-                                                    <td class="align-middle text-right">
-                                                        <button type="button" class="btn btn-sm btn-icon btn-secondary"
-                                                            data-toggle="modal" data-target="#clientContactEditModal"><i
-                                                                class="fa fa-pencil-alt"></i> <span
-                                                                class="sr-only">Edit</span></button> <button
-                                                            type="button" class="btn btn-sm btn-icon btn-secondary"><i
-                                                                class="far fa-trash-alt"></i> <span
-                                                                class="sr-only">Remove</span></button>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div><!-- /.table-responsive -->
-                                </div><!-- /.card-body -->
-                                <?php
-                                var_dump($client);
-                                ?>
-                                <!-- .card-footer -->
-                                <div class="card-footer">
-                                    <a href="#clientContactNewModal" class="card-footer-item" data-toggle="modal"><i
-                                            class="fa fa-plus-circle mr-1"></i> Add contact</a>
-                                </div><!-- /.card-footer -->
+                                <h2 class="card-title">Informations</h2>
+                                <div>
+                                    <p><i class="fas fa-ruler"></i> <strong>Taille:</strong> <?= $room->getSize() ?> m²</p>
+                                    <p><i class="fas fa-users"></i> <strong>Capacité:</strong> <?= $room->getCapacity() ?> personnes</p>
+                                    
+                                    <p><i class="fas fa-chair"></i> <strong>Chaises:</strong> <?= $room->getSeats();?></p>
+
+
+                                    <p><i class="fas fa-euro-sign"></i> <strong>Tarif:</strong> <?= $room->getPrice() ?> €/jour</p>
+                                    <p><strong>Options:</strong></p>
+                                    <ul class="list-unstyled">
+                                        <?php foreach ($room->getOptions() as $option => $value): ?>
+                                            <li>
+                                                <i class="<?= $value ? 'fas fa-check' : 'fas fa-times' ?>"></i>
+                                                <?= $option ?>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </div>
+                                </div>
+
+                           
                             </div><!-- /.card -->
                         </div><!-- /.tab-pane -->
                         <!-- .tab-pane -->
@@ -253,28 +234,20 @@ render_admin('asidemenu');
                                 <?php 
 
                                 use Calendar\Bookings;
-                                use Calendar\Rooms;
+                                
 
                                 $bookings = new Bookings(get_Pdo());
                                 $rooms = new Rooms(get_Pdo());
 
                                 if (!isset($_GET['id'])) {
-                                    $clientId = $clients->getFirstId(); // Use getFirstId() to get the first ID in the database
-                                    $allUnvalidatedEvents = $bookings->getAllUnValidatedEventsByClient($clientId);
-                                    $allValidatedEvents = $bookings->getAllValidatedEventsByClient($clientId);
+                                    $roomId = $rooms->getFirstId(); // Use getFirstId() to get the first ID in the database
+                                    $allUnvalidatedEvents = $bookings->getAllUnValidatedEventsByRoom($roomId);
+                                    $allValidatedEvents = $bookings->getAllValidatedEventsByRoom($roomId);
                                 } else {
-                                    $clientId = $_GET['id'];
-                                    $allUnvalidatedEvents = $bookings->getAllUnValidatedEventsByClient($clientId);
-                                    $allValidatedEvents = $bookings->getAllValidatedEventsByClient($clientId);
-                                }
-                                
-
-                                
-
-                              
-                                
-                            
-                                
+                                    $roomId = $_GET['id'];
+                                    $allUnvalidatedEvents = $bookings->getAllUnValidatedEventsByRoom($roomId);
+                                    $allValidatedEvents = $bookings->getAllValidatedEventsByRoom($roomId);
+                                }                               
 
                                 ?>
                                 <div class="table-responsive">
@@ -284,7 +257,7 @@ render_admin('asidemenu');
                                         <thead>
                                             <tr>
                                                 <th style="min-width:260px"> Motif de la Réservation </th>
-                                                <th> Salle réservée </th>
+                                                <th> Client ayant réservé </th>
                                                 <th> Jours de la réservation </th>
                                                 <th> Date de la reservation </th>
                                                 <th> Prix </th>
@@ -687,14 +660,14 @@ render_admin('asidemenu');
                 </div>
             </form><!-- /.modal -->
             <!-- .modal -->
-            <form id="clientBillingEditForm" action="update_client.php" name="clientBillingEditForm" method="post">
+        <!--    <form id="clientBillingEditForm" action="update_client.php" name="clientBillingEditForm" method="post">
 
                 <?php
                 // check if there is an id in the url if not ignore
                 if (isset($_GET['id'])) {
-                    $client = $clients->findClientById($_GET['id']);
+                    $room = $rooms->getRoom($_GET['id']);
                 }
-                var_dump($client);
+                var_dump($room);
                 ?>
 
                 <div class="modal fade" id="clientBillingEditModal" tabindex="-1" role="dialog"
@@ -762,7 +735,7 @@ render_admin('asidemenu');
                         </div>
                     </div>
                 </div>
-                </form>
+                </form> -->
 
             <!-- .modal -->
             <form id="clientContactNewForm" name="clientContactNewForm">
@@ -812,9 +785,8 @@ render_admin('asidemenu');
             <?php
                 // check if there is an id in the url if not ignore
                 if (isset($_GET['id'])) {
-                    $client = $clients->findClientById($_GET['id']);
+                    $room = $rooms->getRoom($_GET['id']);
                 }
-                var_dump($client);
                 ?>
                 <input type="hidden" name="id" value="<?= $client->getId(); ?>">
                 <div class="modal fade" id="clientContactEditModal" tabindex="-1" role="dialog"
@@ -857,7 +829,7 @@ render_admin('asidemenu');
                         </div><!-- /.modal-content -->
                     </div><!-- /.modal-dialog -->
                 </div>
-            </form><!-- /.modal -->
+            </form><!-- /.modal --> 
         </div><!-- /.page -->
     </div><!-- /.wrapper -->
 </main><!-- /.app-main -->

@@ -128,5 +128,26 @@ class Rooms
         $count = $result['count']; // Extract the count value using the alias
         return $count;
     }
+    public function getFirstRoom()
+    {
+        $query = $this->pdo->query("SELECT * FROM rooms LIMIT 1");
+        $query->setFetchMode(\PDO::FETCH_CLASS, Room::class);
+        $result = $query->fetch();
+        if ($result === false) {
+            throw new \Exception('Aucune salle ne correspond à cet ID');
+        }
+        return $result;
+    }
+    
+    public function getFirstId()
+    {
+        $query = $this->pdo->query("SELECT id FROM rooms LIMIT 1");
+        $query->setFetchMode(\PDO::FETCH_CLASS, Room::class);
+        $result = $query->fetch();
+        if ($result === false) {
+            throw new \Exception('Aucune salle ne correspond à cet ID');
+        }
+        return $result->getId();
+    }
 
 }

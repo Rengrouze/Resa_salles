@@ -193,6 +193,34 @@ class Clients
         }
         return $result['id'];
     }
+    public function updateClient($id, $data)
+    {
+        $fields = [];
+        $params = ['id' => $id];
+
+        foreach ($data as $key => $value) {
+            if ($key === 'address_complement') {
+                // Include address_complement even if it's empty
+                $fields[] = "$key = :$key";
+                $params[$key] = $value;
+            } elseif (!empty($value)) {
+                $fields[] = "$key = :$key";
+                $params[$key] = $value;
+            }
+        }
+
+        $sql = "UPDATE clients SET " . implode(", ", $fields) . " WHERE id = :id";
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute($params);
+
+        if ($statement->rowCount() === 0) {
+            throw new \Exception("Client not found or no changes were made");
+        }
+
+        return true;
+    }
+
+
     
 
 
