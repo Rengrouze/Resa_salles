@@ -22,7 +22,7 @@
                             <a href="#" class="menu-link">Reservations</a> <!-- grand child menu -->
                             <ul class="menu">
                                 <li class="menu-item">
-                                    <a href="page-team.html" class="menu-link">Résa en attente</a>
+                                    <a href="unvalidated-events.php" class="menu-link">Résa en attente</a>
                                 </li>
                                 <li class="menu-item">
                                     <a href="page-team-feeds.html" class="menu-link">Reservations validées</a>

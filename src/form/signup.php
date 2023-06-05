@@ -22,8 +22,8 @@ if (isset($_SESSION['auth'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $data = $_POST;
-    var_dump($data);
-    
+
+
     $validator = new Calendar\SignupValidator();
     $errors = $validator->validates($_POST);
     if (empty($errors)) {

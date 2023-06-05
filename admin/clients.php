@@ -46,7 +46,7 @@ render_admin('asidemenu');
 
                         <?php foreach ($allClients as $client): ?>
 
-                          <?php $initial = $client->getBusiness()[0];
+                        <?php $initial = $client->getBusiness()[0];
                           // if it is the first loop AND there is no GET parameter, set the first client to active and launch the updateClientDetails function
                           
                             if (!isset($_GET['id']) && $client === reset($allClients)) {
@@ -59,23 +59,24 @@ render_admin('asidemenu');
                         
 
                            ?>
-                          <div class="list-group-item <?=$active?>"  data-toggle="sidebar" data-sidebar="show">
-                          <a href="#" class="stretched-link" onclick="updateClientDetails(<?= $client->getId() ?>)"></a>
- <!-- .list-group-item-figure -->
-                              <div class="list-group-item-figure">
-                                  <div class="tile tile-circle bg-blue"> <?= $initial ?> </div>
-                              </div><!-- /.list-group-item-figure -->
-                              <!-- .list-group-item-body -->
-                              <div class="list-group-item-body">
-                                  <h4 class="list-group-item-title"> <?= $client->getBusiness(); ?> </h4>
-                                  <p class="list-group-item-text"><?= $client->getAddress(); ?>, <?= $client->getCity() ?>
-                                  </p>
-                              </div><!-- /.list-group-item-body -->
-                          </div><!-- /.list-group-item -->
+                        <div class="list-group-item <?=$active?>" data-toggle="sidebar" data-sidebar="show">
+                            <a href="#" class="stretched-link"
+                                onclick="updateClientDetails(<?= $client->getId() ?>)"></a>
+                            <!-- .list-group-item-figure -->
+                            <div class="list-group-item-figure">
+                                <div class="tile tile-circle bg-blue"> <?= $initial ?> </div>
+                            </div><!-- /.list-group-item-figure -->
+                            <!-- .list-group-item-body -->
+                            <div class="list-group-item-body">
+                                <h4 class="list-group-item-title"> <?= $client->getBusiness(); ?> </h4>
+                                <p class="list-group-item-text"><?= $client->getAddress(); ?>, <?= $client->getCity() ?>
+                                </p>
+                            </div><!-- /.list-group-item-body -->
+                        </div><!-- /.list-group-item -->
 
                         <?php endforeach; ?>
 
-                           
+
 
 
 
@@ -122,18 +123,22 @@ render_admin('asidemenu');
                 ?>
                 <div class="sidebar-section sidebar-section-fill" id="clientDetailsTabs">
                     <h1 class="page-title">
-                        <i class="far fa-building text-muted mr-2"></i> <?= $client->getBusiness(); ?> - Compte créé le <?= $creationDay ?>
+                        <i class="far fa-building text-muted mr-2"></i> <?= $client->getBusiness(); ?> - Compte créé le
+                        <?= $creationDay ?>
                     </h1>
-                    <p class="text-muted"> <?= $client->getAddress()?>, <?=$client->getCity();?></p><!-- .nav-scroller -->
+                    <p class="text-muted"> <?= $client->getAddress()?>, <?=$client->getCity();?></p>
+                    <!-- .nav-scroller -->
                     <div class="nav-scroller border-bottom">
                         <!-- .nav-tabs -->
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
-                                <a class="nav-link active show" data-toggle="tab" href="#client-billing-contact">Adresse et contact</a>
+                                <a class="nav-link active show" data-toggle="tab" href="#client-billing-contact">Adresse
+                                    et contact</a>
                             </li>
-                           
+
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#client-projects">Reservations en attente</a>
+                                <a class="nav-link" data-toggle="tab" href="#client-projects">Reservations en
+                                    attente</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#client-invoices">Reservations validées</a>
@@ -153,7 +158,8 @@ render_admin('asidemenu');
                                 <!-- .card-body -->
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <h2 id="client-billing-contact-tab" class="card-title"> Adresse de facturation </h2>
+                                        <h2 id="client-billing-contact-tab" class="card-title"> Adresse de facturation
+                                        </h2>
                                         <button type="button" class="btn btn-link" data-toggle="modal"
                                             data-target="#clientBillingEditModal">modifier</button>
                                     </div>
@@ -163,11 +169,12 @@ render_admin('asidemenu');
                                         echo $client->getAddressComplement() . '<br>';
                                     }
                                     ?>
-                                    
-                                    
-                                    <?=$client->getCity();?>, <?=$client->getPostalCode();?><br> <?= $client->getCountry()?> <br>
-                                SIRET : <?= $client->getSiret()?>
-                                </address>
+
+
+                                        <?=$client->getCity();?>, <?=$client->getPostalCode();?><br>
+                                        <?= $client->getCountry()?> <br>
+                                        SIRET : <?= $client->getSiret()?>
+                                    </address>
                                     <!-- TODO : ADD COUNTRY IN SQL-->
                                 </div><!-- /.card-body -->
                             </div><!-- /.card -->
@@ -188,7 +195,8 @@ render_admin('asidemenu');
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td class="align-middle"> <?= $client->getFirstName();?> <?= $client->getName()?> </td>
+                                                    <td class="align-middle"> <?= $client->getFirstName();?>
+                                                        <?= $client->getName()?> </td>
                                                     <td class="align-middle"> <?= $client->getEmail();?> </td>
                                                     <td class="align-middle"> <?= $client->getPhone();?> </td>
                                                     <td class="align-middle text-right">
@@ -206,7 +214,7 @@ render_admin('asidemenu');
                                     </div><!-- /.table-responsive -->
                                 </div><!-- /.card-body -->
                                 <?php
-                                var_dump($client);
+                                
                                 ?>
                                 <!-- .card-footer -->
                                 <div class="card-footer">
@@ -216,7 +224,7 @@ render_admin('asidemenu');
                             </div><!-- /.card -->
                         </div><!-- /.tab-pane -->
                         <!-- .tab-pane -->
-                        
+
                         <!-- .tab-pane -->
                         <div class="tab-pane fade" id="client-projects" role="tabpanel"
                             aria-labelledby="client-projects-tab">
@@ -225,8 +233,8 @@ render_admin('asidemenu');
                                 <!-- .card-header -->
                                 <div class="card-header d-flex">
                                     <!-- .dropdown -->
-                                      <div class="dropdown">
-                                    <!-- <button type="button" class="btn btn-secondary" data-toggle="dropdown"
+                                    <div class="dropdown">
+                                        <!-- <button type="button" class="btn btn-secondary" data-toggle="dropdown"
                                             aria-haspopup="true" aria-expanded="false"><i
                                                 class="fas fa-filter mr-1"></i> All (3) <i
                                                 class="fa fa-caret-down"></i></button>  .dropdown-menu 
@@ -246,7 +254,8 @@ render_admin('asidemenu');
                                                 <span class="custom-control-label">Archived (0)</span></label>
                                         </div> /.dropdown-menu -->
                                     </div><!-- /.dropdown -->
-                                    <button type="button" class="btn btn-primary ml-auto">Ajouter manuellement une réservation</button>
+                                    <button type="button" class="btn btn-primary ml-auto">Ajouter manuellement une
+                                        réservation</button>
                                 </div><!-- /.card-header -->
                                 <!-- .table-responsive -->
 
@@ -293,7 +302,7 @@ render_admin('asidemenu');
                                         </thead><!-- /thead -->
                                         <!-- tbody -->
                                         <tbody>
-                                        <?php
+                                            <?php
                                         if (empty($allUnvalidatedEvents) && empty($allValidatedEvents)) {
                                             echo '<div class="alert alert-info">Aucune réservation n\'a été effectuée pour ce client</div>';
                                         }
@@ -303,7 +312,7 @@ render_admin('asidemenu');
                                             <?php foreach($allUnvalidatedEvents as $event): ?>
 
 
-                                               <?php  $reasonInitals = $event->getReason()[0]; 
+                                            <?php  $reasonInitals = $event->getReason()[0]; 
                                                $roomName = $rooms->getRoomNameById($event->getRoomId());
                                               
                                                $days = explode(',', $event->getDays());
@@ -331,7 +340,8 @@ render_admin('asidemenu');
                                                ?>
                                             <tr>
                                                 <td class="align-middle text-truncate">
-                                                    <a href="#" class="tile bg-pink text-white mr-2"><?= $reasonInitals?></a> <a
+                                                    <a href="#"
+                                                        class="tile bg-pink text-white mr-2"><?= $reasonInitals?></a> <a
                                                         href="#"><?= $event->getReason();?></a>
                                                 </td>
                                                 <td class="align-middle"> <?=$roomName?> </td>
@@ -339,7 +349,8 @@ render_admin('asidemenu');
                                                 <td class="align-middle"><?=$bookingDay?></td>
 
                                                 <td class="align-middle">
-                                                    <span class="badge badge-warning"><?= $event->getTotalPrice(); ?> € TTC</span>
+                                                    <span class="badge badge-warning"><?= $event->getTotalPrice(); ?> €
+                                                        TTC</span>
                                                 </td>
                                                 <td class="align-middle text-right">
                                                     <div class="dropdown">
@@ -351,13 +362,13 @@ render_admin('asidemenu');
                                                             <div class="dropdown-arrow mr-n1"></div><button
                                                                 class="dropdown-item" type="button">Edit</button>
                                                             <button class="dropdown-item" type="button">Delete</button>
-                                                            
+
                                                         </div>
                                                     </div>
                                                 </td>
                                             </tr><!-- /tr -->
                                             <?php endforeach; ?>
-                                           
+
                                         </tbody><!-- /tbody -->
                                     </table><!-- /.table -->
                                 </div><!-- /.table-responsive -->
@@ -371,7 +382,7 @@ render_admin('asidemenu');
                                 <!-- .card-header -->
                                 <div class="card-header d-flex">
                                     <!-- .dropdown -->
-                                    
+
                                     <button type="button" class="btn btn-primary ml-auto">TODO : Export excel</button>
                                 </div><!-- /.card-header -->
                                 <!-- .table-responsive -->
@@ -399,8 +410,8 @@ render_admin('asidemenu');
                                         ?>
                                             <?php foreach($allValidatedEvents as $event): ?>
 
-                                                
-                                               <?php  $reasonInitals = $event->getReason()[0]; 
+
+                                            <?php  $reasonInitals = $event->getReason()[0]; 
                                                $roomName = $rooms->getRoomNameById($event->getRoomId());
                                               
                                                $days = explode(',', $event->getDays());
@@ -422,14 +433,16 @@ render_admin('asidemenu');
                                                ?>
                                             <tr>
                                                 <td class="align-middle text-truncate">
-                                                    <a href="#" class="tile bg-pink text-white mr-2"><?= $reasonInitals?></a> <a
+                                                    <a href="#"
+                                                        class="tile bg-pink text-white mr-2"><?= $reasonInitals?></a> <a
                                                         href="#"><?= $event->getReason();?></a>
                                                 </td>
                                                 <td class="align-middle"> <?=$roomName?> </td>
                                                 <td class="align-middle"> <?= $days;?> </td>
                                                 <td class="align-middle"> <?= $event->getNumberOfDays();?> </td>
                                                 <td class="align-middle">
-                                                    <span class="badge badge-success"><?= $event->getTotalPrice(); ?> € TTC</span>
+                                                    <span class="badge badge-success"><?= $event->getTotalPrice(); ?> €
+                                                        TTC</span>
                                                 </td>
                                                 <td class="align-middle text-right">
                                                     <div class="dropdown">
@@ -441,13 +454,13 @@ render_admin('asidemenu');
                                                             <div class="dropdown-arrow mr-n1"></div><button
                                                                 class="dropdown-item" type="button">Edit</button>
                                                             <button class="dropdown-item" type="button">Delete</button>
-                                                            
+
                                                         </div>
                                                     </div>
                                                 </td>
                                             </tr><!-- /tr -->
                                             <?php endforeach; ?>
-                                           
+
                                         </tbody><!-- /tbody -->
                                     </table><!-- /.table -->
                                 </div><!-- /.table-responsive -->
@@ -694,7 +707,7 @@ render_admin('asidemenu');
                 if (isset($_GET['id'])) {
                     $client = $clients->findClientById($_GET['id']);
                 }
-                var_dump($client);
+                
                 ?>
 
                 <div class="modal fade" id="clientBillingEditModal" tabindex="-1" role="dialog"
@@ -705,8 +718,9 @@ render_admin('asidemenu');
                             <div class="modal-header">
                                 <h6 id="clientBillingEditModalLabel" class="modal-title inline-editable">
                                     <span class="sr-only">Entreprise</span>
-                                    <input type="text" class="form-control form-control-lg" value="<?= $client->getBusiness(); ?>"
-                                        placeholder="Nom de l'entreprise" required id="business" name="business">
+                                    <input type="text" class="form-control form-control-lg"
+                                        value="<?= $client->getBusiness(); ?>" placeholder="Nom de l'entreprise"
+                                        required id="business" name="business">
                                 </h6>
                             </div>
                             <div class="modal-body">
@@ -714,15 +728,16 @@ render_admin('asidemenu');
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="address">Adresse</label>
-                                            <input type="text" id="adress" class="form-control" required value="<?= $client->getAddress(); ?>"
-                                                name="address">
+                                            <input type="text" id="adress" class="form-control" required
+                                                value="<?= $client->getAddress(); ?>" name="address">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="address_complement">Complément d'adresse</label>
-                                            <input type="text" id="ceSuite"  class="form-control"
-                                                value="<?= $client->getAddressComplement(); ?>" name="address_complement">
+                                            <input type="text" id="ceSuite" class="form-control"
+                                                value="<?= $client->getAddressComplement(); ?>"
+                                                name="address_complement">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -735,8 +750,8 @@ render_admin('asidemenu');
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="city">Ville</label>
-                                            <input type="text" id="city" required class="form-control" value="<?= $client->getCity(); ?>"
-                                                name="city">
+                                            <input type="text" id="city" required class="form-control"
+                                                value="<?= $client->getCity(); ?>" name="city">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -749,8 +764,8 @@ render_admin('asidemenu');
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="siret">Siret</label>
-                                            <input type="text" id="siret" class="form-control" required value="<?= $client->getSiret(); ?>"
-                                                name="siret">
+                                            <input type="text" id="siret" class="form-control" required
+                                                value="<?= $client->getSiret(); ?>" name="siret">
                                         </div>
                                     </div>
                                 </div>
@@ -762,11 +777,11 @@ render_admin('asidemenu');
                         </div>
                     </div>
                 </div>
-                </form>
+            </form>
 
             <!-- .modal -->
             <form id="clientContactNewForm" name="clientContactNewForm">
-           
+
                 <div class="modal fade" id="clientContactNewModal" tabindex="-1" role="dialog"
                     aria-labelledby="clientContactNewModalLabel" aria-hidden="true">
                     <!-- .modal-dialog -->
@@ -809,12 +824,12 @@ render_admin('asidemenu');
             </form><!-- /.modal -->
             <!-- .modal -->
             <form id="clientContactEditForm" method="post" action="update_client.php" name="clientContactEditForm">
-            <?php
+                <?php
                 // check if there is an id in the url if not ignore
                 if (isset($_GET['id'])) {
                     $client = $clients->findClientById($_GET['id']);
                 }
-                var_dump($client);
+             
                 ?>
                 <input type="hidden" name="id" value="<?= $client->getId(); ?>">
                 <div class="modal fade" id="clientContactEditModal" tabindex="-1" role="dialog"
@@ -825,27 +840,31 @@ render_admin('asidemenu');
                         <div class="modal-content">
                             <!-- .modal-header -->
                             <div class="modal-header">
-                            <h6 id="clientContactEditModalLabel" class="modal-title inline-editable">
-                                <span class="sr-only">Nom prénom</span>
-                                <input type="text" name="firstname" class="form-control form-control-lg" value="<?=$client->getFirstName()?>" placeholder="Prénom" required="">
-                                <input type="text" name="name" class="form-control form-control-lg" value="<?=$client->getName()?>" placeholder="Nom" required="">
-                            </h6>
-                        </div><!-- /.modal-header -->
+                                <h6 id="clientContactEditModalLabel" class="modal-title inline-editable">
+                                    <span class="sr-only">Nom prénom</span>
+                                    <input type="text" name="firstname" class="form-control form-control-lg"
+                                        value="<?=$client->getFirstName()?>" placeholder="Prénom" required="">
+                                    <input type="text" name="name" class="form-control form-control-lg"
+                                        value="<?=$client->getName()?>" placeholder="Nom" required="">
+                                </h6>
+                            </div><!-- /.modal-header -->
 
                             <!-- .modal-body -->
                             <div class="modal-body">
                                 <!-- .form-group -->
                                 <div class="form-group">
                                     <div class="form-label-group">
-                                        <input type="email" name="email"  class="form-control" value="<?=$client->getEmail()?>"
-                                            placeholder="Email" required=""> <label for="mail">Email</label>
+                                        <input type="email" name="email" class="form-control"
+                                            value="<?=$client->getEmail()?>" placeholder="Email" required=""> <label
+                                            for="mail">Email</label>
                                     </div>
                                 </div><!-- /.form-group -->
                                 <!-- .form-group -->
                                 <div class="form-group">
                                     <div class="form-label-group">
-                                        <input type="tel" id="phone" name="phone" class="form-control" required value="<?=$client->getPhone()?>"
-                                            placeholder="Phone"> <label for="phone">Téléphone</label>
+                                        <input type="tel" id="phone" name="phone" class="form-control" required
+                                            value="<?=$client->getPhone()?>" placeholder="Phone"> <label
+                                            for="phone">Téléphone</label>
                                     </div>
                                 </div><!-- /.form-group -->
                             </div><!-- /.modal-body -->

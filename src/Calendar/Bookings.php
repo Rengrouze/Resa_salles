@@ -207,6 +207,16 @@ class Bookings
         $results = $statement->fetchAll();
         return $results;
     }
+    public function getMostRecentEvent()
+    {
+        // order dsc by booking_day
+        $statement = $this->pdo->prepare("SELECT * FROM events ORDER BY booking_day DESC LIMIT 1");
+        $statement->execute();
+        $statement->setFetchMode(\PDO::FETCH_CLASS, Event::class);
+        $results = $statement->fetch();
+        return $results;
+
+    }
 
     public function getAllValidatedEventsByClient($idClient)
     {
@@ -323,9 +333,30 @@ class Bookings
         $results = $statement->fetchAll();
         return $results;
     }
+
+    public function getAllTemporaryEventsDSC()
+    {
+        // order by booking day DSC
+        $statement = $this->pdo->prepare("SELECT * FROM events WHERE temporary = 1 ORDER BY booking_day DESC");
+        $statement->execute();
+        $statement->setFetchMode(\PDO::FETCH_CLASS, Event::class);
+        $results = $statement->fetchAll();
+        return $results;
+    }
+
+
     public function getAllNonTemporaryEvents()
     {
         $statement = $this->pdo->prepare("SELECT * FROM events WHERE temporary = 0");
+        $statement->execute();
+        $statement->setFetchMode(\PDO::FETCH_CLASS, Event::class);
+        $results = $statement->fetchAll();
+        return $results;
+    }
+    public function getAllNonTemporaryEventsDSC()
+    {
+        // order by booking day DSC
+        $statement = $this->pdo->prepare("SELECT * FROM events WHERE temporary = 0 ORDER BY booking_day DESC");
         $statement->execute();
         $statement->setFetchMode(\PDO::FETCH_CLASS, Event::class);
         $results = $statement->fetchAll();
@@ -363,7 +394,7 @@ class Bookings
         $statement = $this->pdo->prepare("SELECT * FROM bookings WHERE id_bookings = ?");
         $statement->execute([$idEvent]);
         $statement->setFetchMode(\PDO::FETCH_CLASS, Booking::class);
-        $results = $statement->fetch();
+        $results = $statement->fetchAll();
         return $results;
     }
 
@@ -374,7 +405,7 @@ class Bookings
         $count = $result['count']; // Extract the count value using the alias
         return $count;
     }
-    
+
 
 
 

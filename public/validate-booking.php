@@ -40,30 +40,29 @@ render ('header', ['title' => 'Reserver un créneau', 'script' => 'index.js']);
                 <li class="list-group-item">Code postal :
                     <?= $client->getPostalCode(); ?>
                 </li>
-                <input type="hidden" name="client_id"
-                        value="<?= $client->getId(); ?>">
+                <input type="hidden" name="client_id" value="<?= $client->getId(); ?>">
             </ul>
         </div>
         <form method="post" action="">
             <!-- Convertir la div en un formulaire -->
-            <div >
+            <div>
                 <h2>Informations de réservation</h2>
                 <h3 class="mt-3">Salle :
                     <?= $room->getName(); ?></h3>
                 <ul class="list-group">
                     <?php foreach ($daysForDisplay as $index => $day): ?>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <div>
-                                Jour
-                                <?= $index + 1 ?> :
-                                <?= $day; ?>
-                            </div>
-                            <div>
-                                <span>
-                                    <?= $room->getPrice(); ?> €
-                                </span> <!-- Prix à droite avec badge Bootstrap -->
-                            </div>
-                        </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            Jour
+                            <?= $index + 1 ?> :
+                            <?= $day; ?>
+                        </div>
+                        <div>
+                            <span>
+                                <?= $room->getPrice(); ?> €
+                            </span> <!-- Prix à droite avec badge Bootstrap -->
+                        </div>
+                    </li>
                     <?php endforeach; ?>
                 </ul>
                 <h4 class="text-right mt-3">Prix total :
@@ -82,27 +81,29 @@ render ('header', ['title' => 'Reserver un créneau', 'script' => 'index.js']);
                 <input type="hidden" name="adminLocked" value="0">
                 <!-- Champ d'entrée caché pour l'ID du client -->
                 <label for="reason">Motif de la réservation :</label>
-                <div class="row">   <input type="text" name="reason" required placeholder="Formation, séminaire, etc..."></div>
-            
+                <div class="row"> <input type="text" name="reason" required placeholder="Formation, séminaire, etc...">
+                </div>
+
 
                 <div class="d-flex flex-row justify-content-between">
-                <button type="submit" class="btn btn-primary mt-3">Réserver</button>
-                <!-- Bouton de soumission du formulaire -->
-                <a href="/public/index.php" class="btn btn-secondary mt-3 d-block">Retour</a>
+                    <button type="submit" class="btn btn-primary mt-3">Réserver</button>
+                    <!-- Bouton de soumission du formulaire -->
+                    <a href="/public/index.php" class="btn btn-secondary mt-3 d-block">Retour</a>
                 </div>
-                
+
             </div>
         </form>
-        </div>
-        <div class="col-md-6">
-            <h4 class="text-center">Une fois validé comment se passe la suite ?</h4>
-            <p class="text-center">Une fois validé, les dates que vous avez choisi seront bloqué pendant 48h (sauf cas particulier) vous recevrez un mail de confirmation avec un devis. Vous devrez confirmer votre reservation à partir de votre compte ou du lien dans le mail de confirmation</p>
+    </div>
+    <div class="col-md-6">
+        <h4 class="text-center">Une fois validé comment se passe la suite ?</h4>
+        <p class="text-center">Une fois validé, les dates que vous avez choisi seront bloquées pendant 48h (sauf cas
+            particulier) vous recevrez un mail de confirmation avec un devis. Vous devrez confirmer votre reservation à
+            partir de votre compte ou du lien dans le mail de confirmation</p>
 
-        </div>
+    </div>
 </div>
 
 
 <?php
 
 render ('footer');
-

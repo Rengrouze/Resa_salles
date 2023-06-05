@@ -7,9 +7,9 @@ class Booking
     private $day;
 
     private $temporary;
-    private $idBookings;
+    private $id_bookings;
 
-    private $idRoom;
+    private $id_room;
 
     private $admin_locked;
 
@@ -38,7 +38,7 @@ class Booking
 
     public function getRoomId(): int
     {
-        return $this->idRoom;
+        return $this->id_room;
     }
 
     public function getAdminLocked(): int
@@ -65,13 +65,13 @@ class Booking
      */
     public function getIdBookings(): int
     {
-        return $this->idBookings;
+        return $this->id_bookings;
     }
 
 
-    public function setIdBookings($idBookings): self
+    public function setIdBookings($id_bookings): self
     {
-        $this->idBookings = $idBookings;
+        $this->id_bookings = $id_bookings;
 
         return $this;
     }
@@ -79,9 +79,9 @@ class Booking
 
 
 
-    public function setRoomId($idRoom): self
+    public function setRoomId($id_room): self
     {
-        $this->idRoom = $idRoom;
+        $this->id_room = $id_room;
 
         return $this;
     }

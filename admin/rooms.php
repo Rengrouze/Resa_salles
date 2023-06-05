@@ -34,23 +34,25 @@ render_admin('asidemenu');
                         <?php
 
                         use Calendar\Rooms;
+                        use Calendar\Bookings;
+                        use Calendar\Clients;
 
                         $rooms = new Rooms(get_pdo());
 
                         $allRooms = $rooms->getRooms();
-                        
 
 
-                     
+
+
 
 
                         ?>
 
                         <?php foreach ($allRooms as $room): ?>
 
-                          <?php $initial = $room->getName()[0];
-                          // if it is the first loop AND there is no GET parameter, set the first client to active and launch the updateClientDetails function
-                          
+                        <?php $initial = $room->getName()[0];
+                            // if it is the first loop AND there is no GET parameter, set the first client to active and launch the updateClientDetails function
+                        
                             if (!isset($_GET['id']) && $room === reset($allRooms)) {
                                 $active = 'active';
                             } elseif (isset($_GET['id']) && $room->getId() === $_GET['id']) {
@@ -58,26 +60,31 @@ render_admin('asidemenu');
                             } else {
                                 $active = '';
                             }
-                        
 
-                           ?>
-                          <div class="list-group-item <?=$active?>"  data-toggle="sidebar" data-sidebar="show">
-                          <a href="#" class="stretched-link" onclick="updateRoomDetails(<?= $room->getId() ?>)"></a>
- <!-- .list-group-item-figure -->
-                              <div class="list-group-item-figure">
-                                  <div class="tile tile-circle bg-blue"> <?= $initial ?> </div>
-                              </div><!-- /.list-group-item-figure -->
-                              <!-- .list-group-item-body -->
-                              <div class="list-group-item-body">
-                                  <h4 class="list-group-item-title"> <?= $room->getName(); ?> </h4>
-                                  <p class="list-group-item-text"><?= $room->getLocation() ?>
-                                  </p>
-                              </div><!-- /.list-group-item-body -->
-                          </div><!-- /.list-group-item -->
+
+                            ?>
+                        <div class="list-group-item <?= $active ?>" data-toggle="sidebar" data-sidebar="show">
+                            <a href="#" class="stretched-link" onclick="updateRoomDetails(<?= $room->getId() ?>)"></a>
+                            <!-- .list-group-item-figure -->
+                            <div class="list-group-item-figure">
+                                <div class="tile tile-circle bg-blue">
+                                    <?= $initial ?>
+                                </div>
+                            </div><!-- /.list-group-item-figure -->
+                            <!-- .list-group-item-body -->
+                            <div class="list-group-item-body">
+                                <h4 class="list-group-item-title">
+                                    <?= $room->getName(); ?>
+                                </h4>
+                                <p class="list-group-item-text">
+                                    <?= $room->getLocation() ?>
+                                </p>
+                            </div><!-- /.list-group-item-body -->
+                        </div><!-- /.list-group-item -->
 
                         <?php endforeach; ?>
 
-                           
+
 
 
 
@@ -110,32 +117,38 @@ render_admin('asidemenu');
                 </header><!-- /.sidebar-header -->
                 <!-- .sidebar-section -->
 
-                <?php 
+                <?php
                 if (isset($_GET['id'])) {
                     $id = $_GET['id'];
                     $room = $rooms->getRoom($id);
                 } else {
                     $room = $rooms->getFirstRoom();
                 }
-                
-                
-                
+
+
+
 
                 ?>
                 <div class="sidebar-section sidebar-section-fill" id="clientDetailsTabs">
                     <h1 class="page-title">
-                        <i class="far fa-building text-muted mr-2"></i> <?= $room->getName(); ?>
+                        <i class="far fa-building text-muted mr-2"></i>
+                        <?= $room->getName(); ?>
                     </h1>
-                    <p class="text-muted"> TODO ADD ADMIN ADDRESS, <?=$room->getLocation();?></p><!-- .nav-scroller -->
+                    <p class="text-muted"> TODO ADD ADMIN ADDRESS,
+                        <?= $room->getLocation(); ?>
+                    </p>
+                    <!-- .nav-scroller -->
                     <div class="nav-scroller border-bottom">
                         <!-- .nav-tabs -->
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
-                                <a class="nav-link active show" data-toggle="tab" href="#client-billing-contact">Informations et options</a>
+                                <a class="nav-link active show" data-toggle="tab"
+                                    href="#client-billing-contact">Informations et options</a>
                             </li>
-                           
+
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#client-projects">Reservations en attente</a>
+                                <a class="nav-link" data-toggle="tab" href="#client-projects">Reservations en
+                                    attente</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#client-invoices">Reservations validées</a>
@@ -159,12 +172,15 @@ render_admin('asidemenu');
                                         <button type="button" class="btn btn-link" data-toggle="modal"
                                             data-target="#clientBillingEditModal">modifier</button>
                                     </div>
-                                    <address> TODO : $room->getAddress(); <br> TODO : $room->getAddressComplement(); <br>
-                                    
-                                    
-                                    TODO : $room->getPostalCode();, <?=$room->getLocation();?><br> TODO : $room->getCountry(); <br>
-                               
-                                </address>
+                                    <address> TODO : $room->getAddress(); <br> TODO : $room->getAddressComplement();
+                                        <br>
+
+
+                                        TODO : $room->getPostalCode();,
+                                        <?= $room->getLocation(); ?><br> TODO :
+                                        $room->getCountry(); <br>
+
+                                    </address>
                                     <!-- TODO : ADD COUNTRY IN SQL-->
                                 </div><!-- /.card-body -->
                             </div><!-- /.card -->
@@ -172,32 +188,41 @@ render_admin('asidemenu');
                             <div class="card mt-4">
                                 <!-- .card-body -->
                                 <div class="card-body">
-                                <h2 class="card-title">Informations</h2>
-                                <div>
-                                    <p><i class="fas fa-ruler"></i> <strong>Taille:</strong> <?= $room->getSize() ?> m²</p>
-                                    <p><i class="fas fa-users"></i> <strong>Capacité:</strong> <?= $room->getCapacity() ?> personnes</p>
-                                    
-                                    <p><i class="fas fa-chair"></i> <strong>Chaises:</strong> <?= $room->getSeats();?></p>
+                                    <h2 class="card-title">Informations</h2>
+                                    <div>
+                                        <p><i class="fas fa-ruler"></i> <strong>Taille:</strong>
+                                            <?= $room->getSize() ?>
+                                            m²
+                                        </p>
+                                        <p><i class="fas fa-users"></i> <strong>Capacité:</strong>
+                                            <?= $room->getCapacity() ?> personnes
+                                        </p>
+
+                                        <p><i class="fas fa-chair"></i> <strong>Chaises:</strong>
+                                            <?= $room->getSeats(); ?>
+                                        </p>
 
 
-                                    <p><i class="fas fa-euro-sign"></i> <strong>Tarif:</strong> <?= $room->getPrice() ?> €/jour</p>
-                                    <p><strong>Options:</strong></p>
-                                    <ul class="list-unstyled">
-                                        <?php foreach ($room->getOptions() as $option => $value): ?>
+                                        <p><i class="fas fa-euro-sign"></i> <strong>Tarif:</strong>
+                                            <?= $room->getPrice() ?> €/jour
+                                        </p>
+                                        <p><strong>Options:</strong></p>
+                                        <ul class="list-unstyled">
+                                            <?php foreach ($room->getOptions() as $option => $value): ?>
                                             <li>
                                                 <i class="<?= $value ? 'fas fa-check' : 'fas fa-times' ?>"></i>
                                                 <?= $option ?>
                                             </li>
-                                        <?php endforeach; ?>
-                                    </ul>
-                                </div>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </div>
                                 </div>
 
-                           
+
                             </div><!-- /.card -->
                         </div><!-- /.tab-pane -->
                         <!-- .tab-pane -->
-                        
+
                         <!-- .tab-pane -->
                         <div class="tab-pane fade" id="client-projects" role="tabpanel"
                             aria-labelledby="client-projects-tab">
@@ -206,8 +231,8 @@ render_admin('asidemenu');
                                 <!-- .card-header -->
                                 <div class="card-header d-flex">
                                     <!-- .dropdown -->
-                                      <div class="dropdown">
-                                    <!-- <button type="button" class="btn btn-secondary" data-toggle="dropdown"
+                                    <div class="dropdown">
+                                        <!-- <button type="button" class="btn btn-secondary" data-toggle="dropdown"
                                             aria-haspopup="true" aria-expanded="false"><i
                                                 class="fas fa-filter mr-1"></i> All (3) <i
                                                 class="fa fa-caret-down"></i></button>  .dropdown-menu 
@@ -227,31 +252,30 @@ render_admin('asidemenu');
                                                 <span class="custom-control-label">Archived (0)</span></label>
                                         </div> /.dropdown-menu -->
                                     </div><!-- /.dropdown -->
-                                    <button type="button" class="btn btn-primary ml-auto">Ajouter manuellement une réservation</button>
+                                    <button type="button" class="btn btn-primary ml-auto">Ajouter manuellement une
+                                        réservation</button>
                                 </div><!-- /.card-header -->
                                 <!-- .table-responsive -->
 
-                                <?php 
 
-                                use Calendar\Bookings;
-                                
-
-                                $bookings = new Bookings(get_Pdo());
-                                $rooms = new Rooms(get_Pdo());
-
-                                if (!isset($_GET['id'])) {
-                                    $roomId = $rooms->getFirstId(); // Use getFirstId() to get the first ID in the database
-                                    $allUnvalidatedEvents = $bookings->getAllUnValidatedEventsByRoom($roomId);
-                                    $allValidatedEvents = $bookings->getAllValidatedEventsByRoom($roomId);
-                                } else {
-                                    $roomId = $_GET['id'];
-                                    $allUnvalidatedEvents = $bookings->getAllUnValidatedEventsByRoom($roomId);
-                                    $allValidatedEvents = $bookings->getAllValidatedEventsByRoom($roomId);
-                                }                               
-
-                                ?>
                                 <div class="table-responsive">
                                     <!-- .table -->
+                                    <?php
+
+                                            $bookings = new Bookings(get_pdo());
+                                            $clients = new Clients(get_pdo());
+                                            if (!isset($_GET['id'])) {
+                                                $roomId = $rooms->getFirstId(); // Use getFirstId() to get the first ID in the database
+                                                $allUnvalidatedEvents = $bookings->getAllUnValidatedEventsByRoom($roomId);
+                                                $allValidatedEvents = $bookings->getAllValidatedEventsByRoom($roomId);
+                                            } else {
+                                                $roomId = $_GET['id'];
+                                                $allUnvalidatedEvents = $bookings->getAllUnValidatedEventsByRoom($roomId);
+                                                $allValidatedEvents = $bookings->getAllValidatedEventsByRoom($roomId);
+                                            }
+
+                                            
+                                            ?>
                                     <table class="table">
                                         <!-- thead -->
                                         <thead>
@@ -266,17 +290,13 @@ render_admin('asidemenu');
                                         </thead><!-- /thead -->
                                         <!-- tbody -->
                                         <tbody>
-                                        <?php
+                                            <?php
                                         if (empty($allUnvalidatedEvents) && empty($allValidatedEvents)) {
-                                            echo '<div class="alert alert-info">Aucune réservation n\'a été effectuée pour ce client</div>';
+                                            echo '<div class="alert alert-info">Aucune réservation n\'a été effectuée pour cette salle</div>';
                                         }
                                         ?>
-                                            <!-- tr -->
-
-                                            <?php foreach($allUnvalidatedEvents as $event): ?>
-
-
-                                               <?php  $reasonInitals = $event->getReason()[0]; 
+                                            <?php foreach ($allUnvalidatedEvents as $event): ?>
+                                            <?php  $reasonInitals = $event->getReason()[0]; 
                                                $roomName = $rooms->getRoomNameById($event->getRoomId());
                                               
                                                $days = explode(',', $event->getDays());
@@ -299,20 +319,28 @@ render_admin('asidemenu');
                                                 
                                                 $bookingDay = date('d/m/Y', strtotime($event->getBookingDay()));
 
-                                                
+                                                $clientName = $clients->findClientNameById($event->getIdClient());
 
                                                ?>
+
+                                            <!-- tr -->
+
+
                                             <tr>
                                                 <td class="align-middle text-truncate">
-                                                    <a href="#" class="tile bg-pink text-white mr-2"><?= $reasonInitals?></a> <a
-                                                        href="#"><?= $event->getReason();?></a>
+                                                    <a href="#"
+                                                        class="tile bg-pink text-white mr-2"><?= $reasonInitals?></a> <a
+                                                        href="unvalidated-events.php?id=<?=$event->getId()?>"><?= $event->getReason();?></a>
                                                 </td>
-                                                <td class="align-middle"> <?=$roomName?> </td>
-                                                <td class="align-middle"> <?= $days;?> </td>
+                                                <td class="align-middle"> <a
+                                                        href="clients?id=<?=$event->getIdClient()?>"><?=$clientName?></a>
+                                                </td>
+                                                <td class=" align-middle"> <?= $days;?> </td>
                                                 <td class="align-middle"><?=$bookingDay?></td>
 
                                                 <td class="align-middle">
-                                                    <span class="badge badge-warning"><?= $event->getTotalPrice(); ?> € TTC</span>
+                                                    <span class="badge badge-warning"><?= $event->getTotalPrice(); ?> €
+                                                        TTC</span>
                                                 </td>
                                                 <td class="align-middle text-right">
                                                     <div class="dropdown">
@@ -324,13 +352,14 @@ render_admin('asidemenu');
                                                             <div class="dropdown-arrow mr-n1"></div><button
                                                                 class="dropdown-item" type="button">Edit</button>
                                                             <button class="dropdown-item" type="button">Delete</button>
-                                                            
+
                                                         </div>
                                                     </div>
                                                 </td>
                                             </tr><!-- /tr -->
                                             <?php endforeach; ?>
-                                           
+
+
                                         </tbody><!-- /tbody -->
                                     </table><!-- /.table -->
                                 </div><!-- /.table-responsive -->
@@ -344,65 +373,77 @@ render_admin('asidemenu');
                                 <!-- .card-header -->
                                 <div class="card-header d-flex">
                                     <!-- .dropdown -->
-                                    
+
                                     <button type="button" class="btn btn-primary ml-auto">TODO : Export excel</button>
                                 </div><!-- /.card-header -->
                                 <!-- .table-responsive -->
                                 <div class="table-responsive">
                                     <!-- .table -->
                                     <table class="table">
+
                                         <!-- thead -->
                                         <thead>
                                             <tr>
                                                 <th style="min-width:260px"> Motif de la Réservation </th>
                                                 <th> Salle réservée </th>
                                                 <th> Jours de la réservation </th>
-                                                <th> Nombres de jours </th>
+
+                                                <th> Date de la reservation </th>
                                                 <th> Prix </th>
                                                 <th> Actions </th>
                                             </tr>
                                         </thead><!-- /thead -->
-                                        <!-- tbody -->
-                                        <tbody>
-                                            <!-- tr -->
-                                            <?php
-                                        if (empty($allUnvalidatedEvents) && empty($allValidatedEvents)) {
-                                            echo '<div class="alert alert-info">Aucune réservation n\'a été effectuée pour ce client</div>';
+                                        <?php
+                                        if (empty($allValidatedEvents && $allUnvalidatedEvents)) {
+                                            echo '<div class="alert alert-info">Aucune réservation n\'a été effectuée pour cette salle</div>';
                                         }
                                         ?>
-                                            <?php foreach($allValidatedEvents as $event): ?>
-
-                                                
-                                               <?php  $reasonInitals = $event->getReason()[0]; 
+                                        <?php foreach ($allValidatedEvents as $event): ?>
+                                        <?php  $reasonInitals = $event->getReason()[0]; 
                                                $roomName = $rooms->getRoomNameById($event->getRoomId());
                                               
                                                $days = explode(',', $event->getDays());
-                                               $formattedDates = array();
+                                                $formattedDates = array();
 
-                                               foreach ($days as $day) {
-                                                   $formattedDates[] = date('d/m/Y', strtotime($day));
-                                               }
+                                                foreach ($days as $day) {
+                                                    $formattedDates[] = date('d/m/Y', strtotime($day));
+                                                }
 
-                                               if (count($formattedDates) > 4) {
-                                                   $remainingDays = count($formattedDates) - 4;
-                                                   $daysToDisplay = array_slice($formattedDates, 0, 5);
-                                                   $days = implode(' - ', $daysToDisplay) . " ... et {$remainingDays} jours";
-                                               } else {
-                                                   $days = implode(' - ', $formattedDates);
-                                               }
+                                                if (count($formattedDates) > 4) {
+                                                    $remainingDays = count($formattedDates) - 4;
+                                                    $daysToDisplay = array_slice($formattedDates, 0, 4);
+                                                    $days = implode(' - ', $daysToDisplay) . " ... et {$remainingDays} jours";
+                                                } else {
+                                                    $days = implode(' - ', $formattedDates);
+                                                }
 
+                                                
                                                
+                                                
+                                                $bookingDay = date('d/m/Y', strtotime($event->getBookingDay()));
+
+                                                $clientName = $clients->findClientNameById($event->getIdClient());
+
                                                ?>
+                                        <!-- tbody -->
+                                        <tbody>
+                                            <!-- tr -->
+
                                             <tr>
                                                 <td class="align-middle text-truncate">
-                                                    <a href="#" class="tile bg-pink text-white mr-2"><?= $reasonInitals?></a> <a
+                                                    <a href="#"
+                                                        class="tile bg-pink text-white mr-2"><?= $reasonInitals?></a> <a
                                                         href="#"><?= $event->getReason();?></a>
                                                 </td>
-                                                <td class="align-middle"> <?=$roomName?> </td>
-                                                <td class="align-middle"> <?= $days;?> </td>
-                                                <td class="align-middle"> <?= $event->getNumberOfDays();?> </td>
+                                                <td class="align-middle"> <a
+                                                        href="clients?id=<?=$event->getIdClient()?>"><?=$clientName?></a>
+                                                </td>
+                                                <td class=" align-middle"> <?= $days;?> </td>
+                                                <td class="align-middle"><?=$bookingDay?></td>
+
                                                 <td class="align-middle">
-                                                    <span class="badge badge-success"><?= $event->getTotalPrice(); ?> € TTC</span>
+                                                    <span class="badge badge-success"><?= $event->getTotalPrice(); ?> €
+                                                        TTC</span>
                                                 </td>
                                                 <td class="align-middle text-right">
                                                     <div class="dropdown">
@@ -414,13 +455,14 @@ render_admin('asidemenu');
                                                             <div class="dropdown-arrow mr-n1"></div><button
                                                                 class="dropdown-item" type="button">Edit</button>
                                                             <button class="dropdown-item" type="button">Delete</button>
-                                                            
+
                                                         </div>
                                                     </div>
                                                 </td>
                                             </tr><!-- /tr -->
                                             <?php endforeach; ?>
-                                           
+
+
                                         </tbody><!-- /tbody -->
                                     </table><!-- /.table -->
                                 </div><!-- /.table-responsive -->
@@ -660,25 +702,25 @@ render_admin('asidemenu');
                 </div>
             </form><!-- /.modal -->
             <!-- .modal -->
-        <!--    <form id="clientBillingEditForm" action="update_client.php" name="clientBillingEditForm" method="post">
+            <form id="clientBillingEditForm" action="update_client.php" name="clientBillingEditForm" method="post">
 
                 <?php
                 // check if there is an id in the url if not ignore
                 if (isset($_GET['id'])) {
                     $room = $rooms->getRoom($_GET['id']);
                 }
-                var_dump($room);
+              
                 ?>
 
                 <div class="modal fade" id="clientBillingEditModal" tabindex="-1" role="dialog"
                     aria-labelledby="clientBillingEditModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
-                            <input type="hidden" name="id" value="<?= $client->getId(); ?>">
+                            <input type="hidden" name="id" value="">
                             <div class="modal-header">
                                 <h6 id="clientBillingEditModalLabel" class="modal-title inline-editable">
                                     <span class="sr-only">Entreprise</span>
-                                    <input type="text" class="form-control form-control-lg" value="<?= $client->getBusiness(); ?>"
+                                    <input type="text" class="form-control form-control-lg" value=""
                                         placeholder="Nom de l'entreprise" required id="business" name="business">
                                 </h6>
                             </div>
@@ -687,42 +729,43 @@ render_admin('asidemenu');
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="address">Adresse</label>
-                                            <input type="text" id="adress" class="form-control" required value="<?= $client->getAddress(); ?>"
+                                            <input type="text" id="adress" class="form-control" required value=""
                                                 name="address">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="address_complement">Complément d'adresse</label>
-                                            <input type="text" id="ceSuite"  class="form-control"
-                                                value="<?= $client->getAddressComplement(); ?>" name="address_complement">
+                                            <label for="address_complement">Complément
+                                                d'adresse</label>
+                                            <input type="text" id="ceSuite" class="form-control" value=""
+                                                name="address_complement">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="postal_code">Code Postal</label>
-                                            <input type="text" id="postal_code" required class="form-control"
-                                                value="<?= $client->getPostalCode(); ?>" name="postal_code">
+                                            <input type="text" id="postal_code" required class="form-control" value=""
+                                                name="postal_code">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="city">Ville</label>
-                                            <input type="text" id="city" required class="form-control" value="<?= $client->getCity(); ?>"
+                                            <input type="text" id="city" required class="form-control" value=""
                                                 name="city">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="country">Pays</label>
-                                            <input type="text" id="country" required class="form-control"
-                                                value="<?= $client->getCountry(); ?>" name="country">
+                                            <input type="text" id="country" required class="form-control" value=""
+                                                name="country">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="siret">Siret</label>
-                                            <input type="text" id="siret" class="form-control" required value="<?= $client->getSiret(); ?>"
+                                            <input type="text" id="siret" class="form-control" required value=""
                                                 name="siret">
                                         </div>
                                     </div>
@@ -735,11 +778,11 @@ render_admin('asidemenu');
                         </div>
                     </div>
                 </div>
-                </form> -->
+            </form>
 
             <!-- .modal -->
             <form id="clientContactNewForm" name="clientContactNewForm">
-           
+
                 <div class="modal fade" id="clientContactNewModal" tabindex="-1" role="dialog"
                     aria-labelledby="clientContactNewModalLabel" aria-hidden="true">
                     <!-- .modal-dialog -->
@@ -766,8 +809,8 @@ render_admin('asidemenu');
                                 <!-- .form-group -->
                                 <div class="form-group">
                                     <div class="form-label-group">
-                                        <input type="tel" id="cnPhone" class="form-control" placeholder="Phone"> <label
-                                            for="cnPhone">Phone</label>
+                                        <input type="tel" id="cnPhone" class="form-control" placeholder="Phone">
+                                        <label for="cnPhone">Phone</label>
                                     </div>
                                 </div><!-- /.form-group -->
                             </div><!-- /.modal-body -->
@@ -782,13 +825,13 @@ render_admin('asidemenu');
             </form><!-- /.modal -->
             <!-- .modal -->
             <form id="clientContactEditForm" method="post" action="update_client.php" name="clientContactEditForm">
-            <?php
+                <?php
                 // check if there is an id in the url if not ignore
                 if (isset($_GET['id'])) {
                     $room = $rooms->getRoom($_GET['id']);
                 }
                 ?>
-                <input type="hidden" name="id" value="<?= $client->getId(); ?>">
+                <input type="hidden" name="id" value="">
                 <div class="modal fade" id="clientContactEditModal" tabindex="-1" role="dialog"
                     aria-labelledby="clientContactEditModalLabel" aria-hidden="true">
                     <!-- .modal-dialog -->
@@ -797,26 +840,28 @@ render_admin('asidemenu');
                         <div class="modal-content">
                             <!-- .modal-header -->
                             <div class="modal-header">
-                            <h6 id="clientContactEditModalLabel" class="modal-title inline-editable">
-                                <span class="sr-only">Nom prénom</span>
-                                <input type="text" name="firstname" class="form-control form-control-lg" value="<?=$client->getFirstName()?>" placeholder="Prénom" required="">
-                                <input type="text" name="name" class="form-control form-control-lg" value="<?=$client->getName()?>" placeholder="Nom" required="">
-                            </h6>
-                        </div><!-- /.modal-header -->
+                                <h6 id="clientContactEditModalLabel" class="modal-title inline-editable">
+                                    <span class="sr-only">Nom prénom</span>
+                                    <input type="text" name="firstname" class="form-control form-control-lg" value=""
+                                        placeholder="Prénom" required="">
+                                    <input type="text" name="name" class="form-control form-control-lg" value=""
+                                        placeholder="Nom" required="">
+                                </h6>
+                            </div><!-- /.modal-header -->
 
                             <!-- .modal-body -->
                             <div class="modal-body">
                                 <!-- .form-group -->
                                 <div class="form-group">
                                     <div class="form-label-group">
-                                        <input type="email" name="email"  class="form-control" value="<?=$client->getEmail()?>"
+                                        <input type="email" name="email" class="form-control" value=""
                                             placeholder="Email" required=""> <label for="mail">Email</label>
                                     </div>
                                 </div><!-- /.form-group -->
                                 <!-- .form-group -->
                                 <div class="form-group">
                                     <div class="form-label-group">
-                                        <input type="tel" id="phone" name="phone" class="form-control" required value="<?=$client->getPhone()?>"
+                                        <input type="tel" id="phone" name="phone" class="form-control" required value=""
                                             placeholder="Phone"> <label for="phone">Téléphone</label>
                                     </div>
                                 </div><!-- /.form-group -->
@@ -829,7 +874,7 @@ render_admin('asidemenu');
                         </div><!-- /.modal-content -->
                     </div><!-- /.modal-dialog -->
                 </div>
-            </form><!-- /.modal --> 
+            </form><!-- /.modal -->
         </div><!-- /.page -->
     </div><!-- /.wrapper -->
 </main><!-- /.app-main -->
