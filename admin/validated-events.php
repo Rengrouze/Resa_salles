@@ -1,27 +1,11 @@
 <?php
 require '../src/bootstrap.php';
 require '../src/adminSession.php';
-use Calendar\Rooms;
-use Calendar\Bookings;
-use Calendar\Clients;
 
-$bookings = new Bookings(get_pdo());
-$rooms = new Rooms(get_pdo());
-$clients = new Clients(get_pdo());
-
-$allUnvalidatedEvents = $bookings->getAllTemporaryEventsDSC();
-
-
-
-// if there are no events, return to index.php
-if (empty($allUnvalidatedEvents)) {
-    header('Location: index.php');
-}
-
-render_admin('header', ['title' => 'Réservations non validées', 'script' => 'index.js']);
+render_admin('header', ['title' => 'Reservations validées', 'script' => 'index.js']);
 render_admin('asidemenu');
 ?>
-<!-- .app-main --> 
+<!-- .app-main -->
 <main class="app-main">
     <!-- .wrapper -->
     <div class="wrapper">
@@ -47,32 +31,47 @@ render_admin('asidemenu');
                     <div class="list-group list-group-flush list-group-divider border-top" data-toggle="radiolist">
                         <!-- .list-group-item -->
 
-                        <?php foreach ($allUnvalidatedEvents as $event): ?>
+                        <?php
 
-<?php $initial = $event->getReason()[0];
+                        use Calendar\Rooms;
+                        use Calendar\Bookings;
+                        use Calendar\Clients;
 
+                        $bookings = new Bookings(get_pdo());
+                        $rooms = new Rooms(get_pdo());
+                        $clients = new Clients(get_pdo());
 
-    // if it is the first loop AND there is no GET parameter, set the first client to active and launch the updateClientDetails function
-
-    if (!isset($_GET['id']) && $event === reset($allUnvalidatedEvents)) {
-        $active = 'active';
-    } elseif (isset($_GET['id']) && $event->getId() === $_GET['id']) {
-        $active = 'active';
-    } else {
-        $active = '';
-    }
-    $client = $clients->findClientById($event->getIdClient());
-    $bookingDay = $event->getBookingDay();
-    // remove the time from the date
-    $bookingDay = substr($bookingDay, 0, 10);
-    //reformat to d/m/Y
-    $bookingDay = date("d/m/Y", strtotime($bookingDay));
+                        $allValidatedEvents = $bookings->getAllNonTemporaryEventsDSC();
 
 
-    ?>
+
+                        ?>
+                        <?php foreach ($allValidatedEvents as $event): ?>
+
+                        <?php $initial = $event->getReason()[0];
+
+
+                            // if it is the first loop AND there is no GET parameter, set the first client to active and launch the updateClientDetails function
+
+                            if (!isset($_GET['id']) && $event === reset($allValidatedEvents)) {
+                                $active = 'active';
+                            } elseif (isset($_GET['id']) && $event->getId() === $_GET['id']) {
+                                $active = 'active';
+                            } else {
+                                $active = '';
+                            }
+                            $client = $clients->findClientById($event->getIdClient());
+                            $bookingDay = $event->getBookingDay();
+                            // remove the time from the date
+                            $bookingDay = substr($bookingDay, 0, 10);
+                            //reformat to d/m/Y
+                            $bookingDay = date("d/m/Y", strtotime($bookingDay));
+
+
+                            ?>
                         <div class="list-group-item <?= $active ?>" data-toggle="sidebar" data-sidebar="show">
                             <a href="#" class="stretched-link"
-                                onclick="updateUnvalidatedBookingDetails(<?= $event->getId() ?>)"></a>
+                                onclick="updateValidatedBookingDetails(<?= $event->getId() ?>)"></a>
                             <!-- .list-group-item-figure -->
                             <div class="list-group-item-figure">
                                 <div class="tile tile-circle bg-blue">
@@ -166,8 +165,9 @@ render_admin('asidemenu');
                                     href="#client-billing-contact">Informations de la reservation</a>
                             </li>
 
+                          
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#client-expenses">Devis TODO</a>
+                                <a class="nav-link" data-toggle="tab" href="#client-expenses">Facture TODO</a>
                             </li>
                         </ul><!-- /.nav-tabs -->
                     </div><!-- /.nav-scroller -->
@@ -226,12 +226,8 @@ render_admin('asidemenu');
                                         </li>
                                         <?php endforeach; ?>
                                     </ul>
-                                    <button type="button" class="btn btn-alert mt-3" data-toggle="modal"
-                                    data-target="#clientBillingEditModal2">Refuser</button>
-                                    <button type="button" class="btn btn-primary mt-3" data-toggle="modal"
-                                                data-target="#clientBillingEditModal">modifier</button>
-                                                <a  class="btn btn-success mt-3" href="validate-booking.php?id=<?= $event->getId() ?>"
-                                                >Valider</a>
+                                    <a  class="btn btn-alert mt-3" href="unvalidate-booking.php?id=<?= $event->getId() ?>" >Annuler</a>
+                                   
                                 </div>
                         </div>
                         <!-- /.card -->
@@ -636,7 +632,7 @@ render_admin('asidemenu');
                 <?php
                 // check if there is an id in the url if not ignore
                 if (isset($_GET['id'])) {
-                    // $room = $rooms->getRoom($_GET['id']);
+                  //  $event = $bookings->getRoom($_GET['id']);
                 }
               
                 ?>
@@ -757,7 +753,7 @@ render_admin('asidemenu');
                 <?php
                 // check if there is an id in the url if not ignore
                 if (isset($_GET['id'])) {
-              //      $room = $rooms->getRoom($_GET['id']);
+                  //  $room = $rooms->getRoom($_GET['id']);
                 }
                 ?>
                 <input type="hidden" name="id" value="">

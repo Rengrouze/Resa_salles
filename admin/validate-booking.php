@@ -9,4 +9,4 @@ require '../src/adminSession.php';
 $id = $_GET['id'];
 $bookings = new Bookings(get_pdo());
 $bookings->confirmEventAndAssociatedBookings($id);
-header('Location: index.php');
+header('Location: validated-events.php?id=' . $id);

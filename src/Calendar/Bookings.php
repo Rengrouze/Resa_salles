@@ -261,6 +261,13 @@ class Bookings
         $statement = $this->pdo->prepare("DELETE FROM bookings WHERE id_bookings = ?");
         $statement->execute([$idEvent]);
     }
+    public function deleteEventAndBookingByRoom($idRoom)
+    {
+        $statement = $this->pdo->prepare("DELETE FROM events WHERE id_room = ?");
+        $statement->execute([$idRoom]);
+        $statement = $this->pdo->prepare("DELETE FROM bookings WHERE id_room = ?");
+        $statement->execute([$idRoom]);
+    }
 
     public function confirmEventAndAssociatedBookings($idEvent)
     {
@@ -401,6 +408,13 @@ class Bookings
     public function countUnvalidatedEvents()
     {
         $statement = $this->pdo->query("SELECT COUNT(*) as count FROM events WHERE temporary = 1");
+        $result = $statement->fetch();
+        $count = $result['count']; // Extract the count value using the alias
+        return $count;
+    }
+    public function countValidatedEvents()
+    {
+        $statement = $this->pdo->query("SELECT COUNT(*) as count FROM events WHERE temporary = 0");
         $result = $statement->fetch();
         $count = $result['count']; // Extract the count value using the alias
         return $count;

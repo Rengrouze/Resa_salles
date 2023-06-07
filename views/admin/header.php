@@ -99,6 +99,7 @@
                     <!-- .top-bar-item -->
                     <div class="top-bar-item top-bar-item-full">
                         <!-- .top-bar-search -->
+                        <h1 class="h2"><?=$title ?? "rien"?></h1><!-- /.top-bar-search -->
 
                     </div><!-- /.top-bar-item -->
                     <!-- .top-bar-item -->

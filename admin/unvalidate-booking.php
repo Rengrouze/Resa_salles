@@ -9,4 +9,4 @@ require '../src/adminSession.php';
 $id = $_GET['id'];
 $bookings = new Bookings(get_pdo());
 $bookings->unconfirmEventAndAssociatedBookings($id);
-header('Location: index.php');
+header('Location: unvalidated-events.php?id=' . $id);

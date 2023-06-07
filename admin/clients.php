@@ -2,7 +2,7 @@
 require '../src/bootstrap.php';
 require '../src/adminSession.php';
 
-render_admin('header', ['title' => 'Mon compte', 'script' => 'index.js']);
+render_admin('header', ['title' => 'Liste Clients', 'script' => 'index.js']);
 render_admin('asidemenu');
 ?>
 <!-- .app-main -->
@@ -342,7 +342,7 @@ render_admin('asidemenu');
                                                 <td class="align-middle text-truncate">
                                                     <a href="#"
                                                         class="tile bg-pink text-white mr-2"><?= $reasonInitals?></a> <a
-                                                        href="#"><?= $event->getReason();?></a>
+                                                        href="unvalidated-events.php?id=<?=$event->getId()?>"><?= $event->getReason();?></a>
                                                 </td>
                                                 <td class="align-middle"> <?=$roomName?> </td>
                                                 <td class="align-middle"> <?= $days;?> </td>
@@ -435,7 +435,7 @@ render_admin('asidemenu');
                                                 <td class="align-middle text-truncate">
                                                     <a href="#"
                                                         class="tile bg-pink text-white mr-2"><?= $reasonInitals?></a> <a
-                                                        href="#"><?= $event->getReason();?></a>
+                                                        href="validated-events.php?id=<?=$event->getId()?>"><?= $event->getReason();?></a>
                                                 </td>
                                                 <td class="align-middle"> <?=$roomName?> </td>
                                                 <td class="align-middle"> <?= $days;?> </td>

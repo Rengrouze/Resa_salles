@@ -2,7 +2,7 @@
 require '../src/bootstrap.php';
 require '../src/adminSession.php';
 
-render_admin('header', ['title' => 'Mon compte', 'script' => 'index.js']);
+render_admin('header', ['title' => 'Liste Salles', 'script' => 'index.js']);
 render_admin('asidemenu');
 ?>
 <!-- .app-main -->
@@ -41,9 +41,9 @@ render_admin('asidemenu');
 
                         $allRooms = $rooms->getRooms();
 
+                       
 
-
-
+                        
 
 
                         ?>
@@ -60,7 +60,8 @@ render_admin('asidemenu');
                             } else {
                                 $active = '';
                             }
-
+                            
+                      
 
                             ?>
                         <div class="list-group-item <?= $active ?>" data-toggle="sidebar" data-sidebar="show">
@@ -190,6 +191,10 @@ render_admin('asidemenu');
                                 <div class="card-body">
                                     <h2 class="card-title">Informations</h2>
                                     <div>
+                                        <!-- description -->
+                                        <p class="card-text">
+                                            Description : <?= $room->getDescription(); ?>
+                                        </p>
                                         <p><i class="fas fa-ruler"></i> <strong>Taille:</strong>
                                             <?= $room->getSize() ?>
                                             m²
@@ -623,86 +628,161 @@ render_admin('asidemenu');
             </div><!-- /.page-sidebar -->
             <!-- Keep in mind that modals should be placed outsite of page sidebar -->
             <!-- .modal -->
-            <form id="clientNewForm" name="clientNewForm">
+            <form id="clientNewForm" action="create-room.php" name="clientNewForm" method="post">
                 <div class="modal fade" id="clientNewModal" tabindex="-1" role="dialog"
                     aria-labelledby="clientNewModalLabel" aria-hidden="true">
                     <!-- .modal-dialog -->
                     <div class="modal-dialog" role="document">
-                        <!-- .modal-content -->
                         <div class="modal-content">
-                            <!-- .modal-header -->
+                            
                             <div class="modal-header">
-                                <h6 id="clientNewModalLabel" class="modal-title inline-editable">
-                                    <span class="sr-only">Client name</span> <input type="text"
-                                        class="form-control form-control-lg" placeholder="E.g. Stilearning, Inc."
-                                        required="">
+                                <h6 id="clientBillingEditModalLabel" class="modal-title inline-editable">
+                                    <span class="sr-only">Nom de la salle</span>
+                                    <input type="text" class="form-control form-control-lg" value=""
+                                        placeholder="Nom de la salle" required id="name" name="name">
                                 </h6>
-                            </div><!-- /.modal-header -->
-                            <!-- .modal-body -->
+                            </div>
                             <div class="modal-body">
-                                <!-- .form-row -->
                                 <div class="form-row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="cnContactName">Contact name</label> <input type="text"
-                                                id="cnContactName" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="cnContactEmail">Contact email</label> <input type="email"
-                                                id="cnContactEmail" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="cnStreet">Street</label> <input type="text" id="cnStreet"
-                                                class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="cnSuite">Suite</label> <input type="text" id="cnSuite"
-                                                class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="cnZip">Zip</label> <input type="text" id="cnZip"
-                                                class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="cnCountry">Country</label> <select id="cnCountry"
-                                                class="custom-select d-block w-100">
-                                                <option value=""> Choose... </option>
-                                                <option> United States </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="cnCity">City</label> <select id="cnCity"
-                                                class="custom-select d-block w-100">
-                                                <option value=""> Choose... </option>
-                                                <option> San Francisco </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div><!-- /.form-row -->
-                            </div><!-- /.modal-body -->
-                            <!-- .modal-footer -->
+                                <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="address">Adresse</label>
+                                <input type="text" id="address" class="form-control" required value="" name="address">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="address_complement">Complément d'adresse</label>
+                                <input type="text" id="address_complement" class="form-control" value="" name="address_complement">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="postal_code">Code Postal</label>
+                                <input type="text" id="postal_code" required class="form-control" value="" name="postal_code">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="city">Ville</label>
+                                <input type="text" id="city" required class="form-control" value="" name="city">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="capacity">Capacité</label>
+                                <input type="number" id="capacity" class="form-control" required value="" name="capacity">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="seats">Places assises</label>
+                                <input type="number" id="seats" class="form-control" required value="" name="seats">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <textarea id="description" class="form-control" required name="description"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="imagePath">Chemin de l'image</label>
+                                <input type="text" id="imagePath" class="form-control" required value="" name="imagePath">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="price">Prix</label>
+                                <input type="number" id="price" class="form-control" required value="" name="price">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="location">Emplacement</label>
+                                <input type="text" id="location" class="form-control" required value="" name="location">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="size">Taille</label>
+                                <input type="number" id="size" class="form-control" required value="" name="size">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="equipment">Équipements</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="projector" value="1" name="projector" >
+                                    <label class="form-check-label" for="projector">Projecteur</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="wifi" value="1" name="wifi" >
+                                    <label class="form-check-label" for="wifi">Wifi</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="coffee" value="1" name="coffee" >
+                                    <label class="form-check-label" for="coffee">Café</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="water" value="1" name="water" >
+                                    <label class="form-check-label" for="water">Eau</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="paperboard" value="1" name="paperboard" >
+                                    <label class="form-check-label" for="paperboard">Paperboard</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="tv" value="1" name="tv" >
+                                    <label class="form-check-label" for="tv">TV</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="toilets" value="1" name="toilets" >
+                                    <label class="form-check-label" for="toilets">Toilettes</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="parking" value="1" name="parking" >
+                                    <label class="form-check-label" for="parking">Parking</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="disabledAccess" value="1" name="disabledAccess" >
+                                    <label class="form-check-label" for="disabledAccess">Accès handicapé</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="airConditioning" value="1" name="airConditioning" >
+                                    <label class="form-check-label" for="airConditioning">Climatisation</label>
+                                </div>
+
+                            </div>
+                        </div>   
+                        
+
+                        </div>  
+                                
+                               
+                                    
+                              
+                        </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Save</button> <button type="button"
-                                    class="btn btn-light" data-dismiss="modal">Close</button>
-                            </div><!-- /.modal-footer -->
-                        </div><!-- /.modal-content -->
+                                <button type="submit" class="btn btn-primary">Créer une salle</button>
+                                <button type="button" class="btn btn-light" data-dismiss="modal">Fermer</button>
+                            </div>
+                        </div>
                     </div><!-- /.modal-dialog -->
                 </div>
             </form><!-- /.modal -->
             <!-- .modal -->
-            <form id="clientBillingEditForm" action="update_client.php" name="clientBillingEditForm" method="post">
+            <form id="clientBillingEditForm" action="update_room.php" name="clientBillingEditForm" method="post">
 
                 <?php
                 // check if there is an id in the url if not ignore
@@ -716,64 +796,154 @@ render_admin('asidemenu');
                     aria-labelledby="clientBillingEditModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
-                            <input type="hidden" name="id" value="">
+                            <input type="hidden" name="id" value="<?=$room->getId()?>">
                             <div class="modal-header">
                                 <h6 id="clientBillingEditModalLabel" class="modal-title inline-editable">
-                                    <span class="sr-only">Entreprise</span>
-                                    <input type="text" class="form-control form-control-lg" value=""
-                                        placeholder="Nom de l'entreprise" required id="business" name="business">
+                                    <span class="sr-only">Nom de la salle</span>
+                                    <input type="text" class="form-control form-control-lg" value="<?= $room->getName(); ?>"
+                                        placeholder="Nom de la salle" required id="name" name="name">
                                 </h6>
                             </div>
                             <div class="modal-body">
                                 <div class="form-row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="address">Adresse</label>
-                                            <input type="text" id="adress" class="form-control" required value=""
-                                                name="address">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="address_complement">Complément
-                                                d'adresse</label>
-                                            <input type="text" id="ceSuite" class="form-control" value=""
-                                                name="address_complement">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="postal_code">Code Postal</label>
-                                            <input type="text" id="postal_code" required class="form-control" value=""
-                                                name="postal_code">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="city">Ville</label>
-                                            <input type="text" id="city" required class="form-control" value=""
-                                                name="city">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="country">Pays</label>
-                                            <input type="text" id="country" required class="form-control" value=""
-                                                name="country">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="siret">Siret</label>
-                                            <input type="text" id="siret" class="form-control" required value=""
-                                                name="siret">
-                                        </div>
-                                    </div>
-                                </div>
+                                <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="address">Adresse</label>
+                                <input type="text" id="address" class="form-control" required value="<?= $room->getAddress(); ?>" name="address">
                             </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="address_complement">Complément d'adresse</label>
+                                <input type="text" id="address_complement" class="form-control" value="<?= $room->getAddressComplement(); ?>" name="address_complement">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="postal_code">Code Postal</label>
+                                <input type="text" id="postal_code" required class="form-control" value="<?= $room->getPostalCode(); ?>" name="postal_code">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="city">Ville</label>
+                                <input type="text" id="city" required class="form-control" value="<?= $room->getCity(); ?>" name="city">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="capacity">Capacité</label>
+                                <input type="number" id="capacity" class="form-control" required value="<?= $room->getCapacity(); ?>" name="capacity">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="seats">Places assises</label>
+                                <input type="number" id="seats" class="form-control" required value="<?= $room->getSeats(); ?>" name="seats">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <textarea id="description" class="form-control" required name="description"><?= $room->getDescription(); ?></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="imagePath">Chemin de l'image</label>
+                                <input type="text" id="imagePath" class="form-control" required value="<?= $room->getImagePath(); ?>" name="imagePath">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="price">Prix</label>
+                                <input type="number" id="price" class="form-control" required value="<?= $room->getPrice(); ?>" name="price">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="location">Emplacement</label>
+                                <input type="text" id="location" class="form-control" required value="<?= $room->getLocation(); ?>" name="location">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="size">Taille</label>
+                                <input type="number" id="size" class="form-control" required value="<?= $room->getSize(); ?>" name="size">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="equipment">Équipements</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="projector" value="1" name="projector" <?= $room->getProjector() ? 'checked' : ''; ?>>
+                                    <label class="form-check-label" for="projector">Projecteur</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="wifi" value="1" name="wifi" <?= $room->getWifi() ? 'checked' : ''; ?>>
+                                    <label class="form-check-label" for="wifi">Wifi</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="coffee" value="1" name="coffee" <?= $room->getCoffee() ? 'checked' : ''; ?>>
+                                    <label class="form-check-label" for="coffee">Café</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="water" value="1" name="water" <?= $room->getWater() ? 'checked' : ''; ?>>
+                                    <label class="form-check-label" for="water">Eau</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="paperboard" value="1" name="paperboard" <?= $room->getPaperboard() ? 'checked' : ''; ?>>
+                                    <label class="form-check-label" for="paperboard">Paperboard</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="tv" value="1" name="tv" <?= $room->getTv() ? 'checked' : ''; ?>>
+                                    <label class="form-check-label" for="tv">TV</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="toilets" value="1" name="toilets" <?= $room->getToilets() ? 'checked' : ''; ?>>
+                                    <label class="form-check-label" for="toilets">Toilettes</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="parking" value="1" name="parking" <?= $room->getParking() ? 'checked' : ''; ?>>
+                                    <label class="form-check-label" for="parking">Parking</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="disabledAccess" value="1" name="disabledAccess" <?= $room->getDisabledAccess() ? 'checked' : ''; ?>>
+                                    <label class="form-check-label" for="disabledAccess">Accès handicapé</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="airConditioning" value="1" name="airConditioning" <?= $room->getAirConditioning() ? 'checked' : ''; ?>>
+                                    <label class="form-check-label" for="airConditioning">Climatisation</label>
+                                </div>
+
+                            </div>
+                        </div>   
+                        
+
+                        </div>  
+                                
+                               
+                                    
+                              
+                        </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary">Modifier</button>
                                 <button type="button" class="btn btn-light" data-dismiss="modal">Fermer</button>
+                                <a href="delete-room.php?id=<?= $room->getId(); ?>" class="btn btn-danger">Supprimer</a>
+                                <script>
+function confirmDelete() {
+    return confirm("Êtes-vous sûr de vouloir supprimer cette salle ?");
+}
+</script>
                             </div>
                         </div>
                     </div>

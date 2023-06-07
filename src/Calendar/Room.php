@@ -14,6 +14,13 @@ class Room
     private $price;
     private $location;
     private $size;
+    private $address;
+    private $address_complement;
+    private $postal_code;
+    private $city;
+
+
+
 
     private $projector;
     private $wifi;
@@ -73,55 +80,129 @@ class Room
         return $this->size;
     }
 
-    public function getProjector(): bool
+    public function getProjector(): int
     {
         return $this->projector;
     }
 
-    public function getWifi(): bool
+    public function getWifi(): int
     {
         return $this->wifi;
     }
 
-    public function getCoffee(): bool
+    public function getCoffee(): int
     {
         return $this->coffee;
     }
 
-    public function getWater(): bool
+    public function getWater(): int
     {
         return $this->water;
     }
 
-    public function getPaperboard(): bool
+    public function getPaperboard(): int
     {
         return $this->paperboard;
     }
 
-    public function getTv(): bool
+    public function getTv(): int
     {
         return $this->tv;
     }
 
-    public function getToilets(): bool
+    public function getToilets(): int
     {
         return $this->toilets;
     }
 
-    public function getParking(): bool
+    public function getParking(): int
     {
         return $this->parking;
     }
 
-    public function getDisabledAccess(): bool
+    public function getDisabledAccess(): int
     {
         return $this->disabledAccess;
     }
 
-    public function getAirConditioning(): bool
+    public function getAirConditioning(): int
     {
         return $this->airConditioning;
     }
+
+    // ...
+
+    public function setProjector(int $projector)
+    {
+        $this->projector = $projector;
+    }
+
+    public function setWifi(int $wifi)
+    {
+        $this->wifi = $wifi;
+    }
+
+    public function setCoffee(int $coffee)
+    {
+        $this->coffee = $coffee;
+    }
+
+    public function setWater(int $water)
+    {
+        $this->water = $water;
+    }
+
+    public function setPaperboard(int $paperboard)
+    {
+        $this->paperboard = $paperboard;
+    }
+
+    public function setTv(int $tv)
+    {
+        $this->tv = $tv;
+    }
+
+    public function setToilets(int $toilets)
+    {
+        $this->toilets = $toilets;
+    }
+
+    public function setParking(int $parking)
+    {
+        $this->parking = $parking;
+    }
+
+    public function setDisabledAccess(int $disabledAccess)
+    {
+        $this->disabledAccess = $disabledAccess;
+    }
+
+    public function setAirConditioning(int $airConditioning)
+    {
+        $this->airConditioning = $airConditioning;
+    }
+
+    public function getAddress(): string
+    {
+        return htmlentities($this->address);
+    }
+
+    public function getAddressComplement(): string
+    {
+        return htmlentities($this->address_complement);
+    }
+
+    public function getPostalCode(): string
+    {
+        return htmlentities($this->postal_code);
+    }
+
+    public function getCity(): string
+    {
+        return htmlentities($this->city);
+    }
+
+
 
     // setters
 
@@ -165,55 +246,29 @@ class Room
         $this->size = $size;
     }
 
-    public function setProjector(bool $projector)
+    
+
+    public function setAddress(string $address)
     {
-        $this->projector = $projector;
+        $this->address = $address;
     }
 
-    public function setWifi(bool $wifi)
+    public function setAddressComplement(string $address_complement)
     {
-        $this->wifi = $wifi;
+        $this->address_complement = $address_complement;
     }
 
-    public function setCoffee(bool $coffee)
+    public function setPostalCode(string $postal_code)
     {
-        $this->coffee = $coffee;
+        $this->postal_code = $postal_code;
     }
 
-    public function setWater(bool $water)
+    public function setCity(string $city)
     {
-        $this->water = $water;
+        $this->city = $city;
     }
 
-    public function setPaperboard(bool $paperboard)
-    {
-        $this->paperboard = $paperboard;
-    }
 
-    public function setTv(bool $tv)
-    {
-        $this->tv = $tv;
-    }
-
-    public function setToilets(bool $toilets)
-    {
-        $this->toilets = $toilets;
-    }
-
-    public function setParking(bool $parking)
-    {
-        $this->parking = $parking;
-    }
-
-    public function setDisabledAccess(bool $disabledAccess)
-    {
-        $this->disabledAccess = $disabledAccess;
-    }
-
-    public function setAirConditioning(bool $airConditioning)
-    {
-        $this->airConditioning = $airConditioning;
-    }
 
     // get options
 
@@ -230,6 +285,22 @@ class Room
             'parking' => $this->parking,
             'disabledAccess' => $this->disabledAccess,
             'airConditioning' => $this->airConditioning
+        ];
+    }
+
+    public function getFrenchOptionsName(): array
+    {
+        return [
+            'projector' => 'Vidéoprojecteur',
+            'wifi' => 'Wifi',
+            'coffee' => 'Café',
+            'water' => 'Eau',
+            'paperboard' => 'Paperboard',
+            'tv' => 'TV',
+            'toilets' => 'Toilettes',
+            'parking' => 'Parking',
+            'disabledAccess' => 'Accès handicapé',
+            'airConditioning' => 'Climatisation'
         ];
     }
 

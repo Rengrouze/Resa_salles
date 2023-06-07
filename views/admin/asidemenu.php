@@ -6,7 +6,7 @@
         <ul class="menu">
             <!-- .menu-item -->
             <li class="menu-item has-active">
-                <a href="index.html" class="menu-link"><span class="menu-icon fas fa-home"></span> <span
+                <a href="index.php" class="menu-link"><span class="menu-icon fas fa-home"></span> <span
                         class="menu-text">Tableau de bord</span></a>
             </li><!-- /.menu-item -->
             <!-- .menu-item -->
@@ -18,30 +18,50 @@
                         <li class="menu-item">
                             <a href="clients.php" class="menu-link">Clients</a>
                         </li>
+                        <li class="menu-item">
+                            <a href="rooms.php" class="menu-link">Salles</a>
+                        </li>
+                        
                         <li class="menu-item has-child">
                             <a href="#" class="menu-link">Reservations</a> <!-- grand child menu -->
-                            <ul class="menu">
-                                <li class="menu-item">
-                                    <a href="unvalidated-events.php" class="menu-link">Résa en attente</a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="page-team-feeds.html" class="menu-link">Reservations validées</a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="page-team-projects.html" class="menu-link">Archives</a>
-                                </li>
+                            <?php
 
-                            </ul><!-- /grand child menu -->
-                        </li>
-                        <li class="menu-item has-child">
-                            <a href="#" class="menu-link">Salles</a> <!-- grand child menu -->
+                            use Calendar\Bookings;
+
+                            //check if there are unvalidated bookings
+                            $bookings = new Bookings(get_pdo());
+                            $unvalidatedBookings = $bookings->countUnvalidatedEvents();
+                            $validatedBookings=$bookings->countValidatedEvents();
+
+
+
+
+                            ?>
                             <ul class="menu">
                                 <li class="menu-item">
-                                    <a href="rooms.php" class="menu-link">Listes salles</a>
+                                    <?php 
+                                    if ($unvalidatedBookings > 0) {
+                                        echo '<a href="unvalidated-events.php" class="menu-link">Résa en attente <span class="badge badge-warning">' . $unvalidatedBookings . '</span></a>';
+                                    } else {
+                                        // give a disabled link
+                                        echo '<a href="#" class="menu-link disabled">Résa en attente <span class="badge badge-warning">' . $unvalidatedBookings . '</span></a>';
+                                    }	?>
+                                   
                                 </li>
                                 <li class="menu-item">
-                                    <a href="add-room-form.php" class="menu-link">Ajouter une salle</a>
+                                    <?php
+                                    if ($validatedBookings > 0) {
+                                        echo '<a href="validated-events.php" class="menu-link">Résa validées <span class="badge badge-success">' . $validatedBookings . '</span></a>';
+                                    } else {
+                                        // give a disabled link
+                                        echo '<a href="#" class="menu-link disabled">Résa validées <span class="badge badge-success">' . $validatedBookings . '</span></a>';
+                                    }	?>
+
+                                    
                                 </li>
+                              <!--  <li class="menu-item">
+                                    <a href="page-team-projects.html" class="menu-link">Archives</a>
+                                </li>-->
 
                             </ul><!-- /grand child menu -->
                         </li>

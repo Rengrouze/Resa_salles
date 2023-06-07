@@ -42,7 +42,7 @@ $client = $_SESSION['auth'];
 
 
 // Prix par jour
-$price = 200; // Mettez le prix par jour souhaité ici
+$price = $room->getPrice(); // Mettez le prix par jour souhaité ici
 
 
 
