@@ -188,13 +188,12 @@ render_admin('asidemenu');
                                         <button type="button" class="btn btn-link" data-toggle="modal"
                                             data-target="#clientBillingEditModal">modifier</button>
                                     </div>
-                                    <address> TODO : $room->getAddress(); <br> TODO : $room->getAddressComplement();
+                                    <address> <?=$room->getAddress();?> <br><?=$room->getAddressComplement();?>
                                         <br>
 
 
-                                        TODO : $room->getPostalCode();,
-                                        <?= $room->getLocation(); ?><br> TODO :
-                                        $room->getCountry(); <br>
+                                        <?=$room->getPostalCode();?>,
+                                        <?= $room->getCity(); ?><br>
 
                                     </address>
                                     <!-- TODO : ADD COUNTRY IN SQL-->
