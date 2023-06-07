@@ -40,13 +40,28 @@ render_admin('asidemenu');
                         $rooms = new Rooms(get_pdo());
 
                         $allRooms = $rooms->getRooms();
-
                        
 
-                        
+                       //if allRooms is empty, display a message
+                        if (empty($allRooms)) {
+
+                      
+                            echo "Aucune salle n'a été trouvée";
+                            $noRoom = true;
+                           
+                        } else 
+                        {
+                            $noRoom = false;
+
+                        }
+
+                       
+                       
+
 
 
                         ?>
+                        <?php if ($noRoom === false): ?>
 
                         <?php foreach ($allRooms as $room): ?>
 
@@ -626,164 +641,12 @@ render_admin('asidemenu');
                     </div><!-- /.tab-content -->
                 </div><!-- /.sidebar-section -->
             </div><!-- /.page-sidebar -->
+           
             <!-- Keep in mind that modals should be placed outsite of page sidebar -->
             <!-- .modal -->
-            <form id="clientNewForm" action="create-room.php" name="clientNewForm" method="post">
-                <div class="modal fade" id="clientNewModal" tabindex="-1" role="dialog"
-                    aria-labelledby="clientNewModalLabel" aria-hidden="true">
-                    <!-- .modal-dialog -->
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            
-                            <div class="modal-header">
-                                <h6 id="clientBillingEditModalLabel" class="modal-title inline-editable">
-                                    <span class="sr-only">Nom de la salle</span>
-                                    <input type="text" class="form-control form-control-lg" value=""
-                                        placeholder="Nom de la salle" required id="name" name="name">
-                                </h6>
-                            </div>
-                            <div class="modal-body">
-                                <div class="form-row">
-                                <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="address">Adresse</label>
-                                <input type="text" id="address" class="form-control" required value="" name="address">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="address_complement">Complément d'adresse</label>
-                                <input type="text" id="address_complement" class="form-control" value="" name="address_complement">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="postal_code">Code Postal</label>
-                                <input type="text" id="postal_code" required class="form-control" value="" name="postal_code">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="city">Ville</label>
-                                <input type="text" id="city" required class="form-control" value="" name="city">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="capacity">Capacité</label>
-                                <input type="number" id="capacity" class="form-control" required value="" name="capacity">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="seats">Places assises</label>
-                                <input type="number" id="seats" class="form-control" required value="" name="seats">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="description">Description</label>
-                                <textarea id="description" class="form-control" required name="description"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="imagePath">Chemin de l'image</label>
-                                <input type="text" id="imagePath" class="form-control" required value="" name="imagePath">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="price">Prix</label>
-                                <input type="number" id="price" class="form-control" required value="" name="price">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="location">Emplacement</label>
-                                <input type="text" id="location" class="form-control" required value="" name="location">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="size">Taille</label>
-                                <input type="number" id="size" class="form-control" required value="" name="size">
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="equipment">Équipements</label>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="projector" value="1" name="projector" >
-                                    <label class="form-check-label" for="projector">Projecteur</label>
-                                </div>
-
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="wifi" value="1" name="wifi" >
-                                    <label class="form-check-label" for="wifi">Wifi</label>
-                                </div>
-
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="coffee" value="1" name="coffee" >
-                                    <label class="form-check-label" for="coffee">Café</label>
-                                </div>
-
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="water" value="1" name="water" >
-                                    <label class="form-check-label" for="water">Eau</label>
-                                </div>
-
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="paperboard" value="1" name="paperboard" >
-                                    <label class="form-check-label" for="paperboard">Paperboard</label>
-                                </div>
-
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="tv" value="1" name="tv" >
-                                    <label class="form-check-label" for="tv">TV</label>
-                                </div>
-
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="toilets" value="1" name="toilets" >
-                                    <label class="form-check-label" for="toilets">Toilettes</label>
-                                </div>
-
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="parking" value="1" name="parking" >
-                                    <label class="form-check-label" for="parking">Parking</label>
-                                </div>
-
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="disabledAccess" value="1" name="disabledAccess" >
-                                    <label class="form-check-label" for="disabledAccess">Accès handicapé</label>
-                                </div>
-
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="airConditioning" value="1" name="airConditioning" >
-                                    <label class="form-check-label" for="airConditioning">Climatisation</label>
-                                </div>
-
-                            </div>
-                        </div>   
-                        
-
-                        </div>  
-                                
-                               
-                                    
-                              
-                        </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Créer une salle</button>
-                                <button type="button" class="btn btn-light" data-dismiss="modal">Fermer</button>
-                            </div>
-                        </div>
-                    </div><!-- /.modal-dialog -->
-                </div>
-            </form><!-- /.modal -->
             <!-- .modal -->
             <form id="clientBillingEditForm" action="update_room.php" name="clientBillingEditForm" method="post">
-
+                
                 <?php
                 // check if there is an id in the url if not ignore
                 if (isset($_GET['id'])) {
@@ -792,7 +655,7 @@ render_admin('asidemenu');
               
                 ?>
 
-                <div class="modal fade" id="clientBillingEditModal" tabindex="-1" role="dialog"
+<div class="modal fade" id="clientBillingEditModal" tabindex="-1" role="dialog"
                     aria-labelledby="clientBillingEditModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -919,12 +782,12 @@ render_admin('asidemenu');
                                     <input class="form-check-input" type="checkbox" id="disabledAccess" value="1" name="disabledAccess" <?= $room->getDisabledAccess() ? 'checked' : ''; ?>>
                                     <label class="form-check-label" for="disabledAccess">Accès handicapé</label>
                                 </div>
-
+                                
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="airConditioning" value="1" name="airConditioning" <?= $room->getAirConditioning() ? 'checked' : ''; ?>>
                                     <label class="form-check-label" for="airConditioning">Climatisation</label>
                                 </div>
-
+                                
                             </div>
                         </div>   
                         
@@ -934,21 +797,170 @@ render_admin('asidemenu');
                                
                                     
                               
-                        </div>
-                            <div class="modal-footer">
+                    </div>
+                    <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary">Modifier</button>
                                 <button type="button" class="btn btn-light" data-dismiss="modal">Fermer</button>
                                 <a href="delete-room.php?id=<?= $room->getId(); ?>" class="btn btn-danger">Supprimer</a>
-                                <script>
-function confirmDelete() {
-    return confirm("Êtes-vous sûr de vouloir supprimer cette salle ?");
-}
-</script>
                             </div>
                         </div>
                     </div>
                 </div>
             </form>
+            <?php endif; ?>
+            <form id="clientNewForm" action="create-room.php" name="clientNewForm" method="post">
+                <div class="modal fade" id="clientNewModal" tabindex="-1" role="dialog"
+                    aria-labelledby="clientNewModalLabel" aria-hidden="true">
+                    <!-- .modal-dialog -->
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            
+                            <div class="modal-header">
+                                <h6 id="clientBillingEditModalLabel" class="modal-title inline-editable">
+                                    <span class="sr-only">Nom de la salle</span>
+                                    <input type="text" class="form-control form-control-lg" value=""
+                                        placeholder="Nom de la salle" required id="name" name="name">
+                                </h6>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-row">
+                                <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="address">Adresse</label>
+                                <input type="text" id="address" class="form-control" required value="" name="address">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="address_complement">Complément d'adresse</label>
+                                <input type="text" id="address_complement" class="form-control" value="" name="address_complement">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="postal_code">Code Postal</label>
+                                <input type="text" id="postal_code" required class="form-control" value="" name="postal_code">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="city">Ville</label>
+                                <input type="text" id="city" required class="form-control" value="" name="city">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="capacity">Capacité</label>
+                                <input type="number" id="capacity" class="form-control" required value="" name="capacity">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="seats">Places assises</label>
+                                <input type="number" id="seats" class="form-control" required value="" name="seats">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <textarea id="description" class="form-control" required name="description"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="imagePath">Chemin de l'image</label>
+                                <input type="text" id="imagePath" class="form-control" required value="" name="imagePath">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="price">Prix</label>
+                                <input type="number" id="price" class="form-control" required value="" name="price">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="location">Emplacement</label>
+                                <input type="text" id="location" class="form-control" required value="" name="location">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="size">Taille</label>
+                                <input type="number" id="size" class="form-control" required value="" name="size">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="equipment">Équipements</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="projector" value="1" name="projector" >
+                                    <label class="form-check-label" for="projector">Projecteur</label>
+                                </div>
+            
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="wifi" value="1" name="wifi" >
+                                    <label class="form-check-label" for="wifi">Wifi</label>
+                                </div>
+            
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="coffee" value="1" name="coffee" >
+                                    <label class="form-check-label" for="coffee">Café</label>
+                                </div>
+            
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="water" value="1" name="water" >
+                                    <label class="form-check-label" for="water">Eau</label>
+                                </div>
+            
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="paperboard" value="1" name="paperboard" >
+                                    <label class="form-check-label" for="paperboard">Paperboard</label>
+                                </div>
+            
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="tv" value="1" name="tv" >
+                                    <label class="form-check-label" for="tv">TV</label>
+                                </div>
+            
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="toilets" value="1" name="toilets" >
+                                    <label class="form-check-label" for="toilets">Toilettes</label>
+                                </div>
+            
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="parking" value="1" name="parking" >
+                                    <label class="form-check-label" for="parking">Parking</label>
+                                </div>
+            
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="disabledAccess" value="1" name="disabledAccess" >
+                                    <label class="form-check-label" for="disabledAccess">Accès handicapé</label>
+                                </div>
+            
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="airConditioning" value="1" name="airConditioning" >
+                                    <label class="form-check-label" for="airConditioning">Climatisation</label>
+                                </div>
+            
+                            </div>
+                        </div>   
+                        
+            
+                        </div>  
+                                
+                               
+                                    
+                              
+                        </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Créer une salle</button>
+                                <button type="button" class="btn btn-light" data-dismiss="modal">Fermer</button>
+                            </div>
+                        </div>
+                    </div><!-- /.modal-dialog -->
+                </div>
+            </form><!-- /.modal -->
 
             <!-- .modal -->
             <form id="clientContactNewForm" name="clientContactNewForm">
@@ -993,58 +1005,8 @@ function confirmDelete() {
                     </div><!-- /.modal-dialog -->
                 </div>
             </form><!-- /.modal -->
-            <!-- .modal -->
-            <form id="clientContactEditForm" method="post" action="update_client.php" name="clientContactEditForm">
-                <?php
-                // check if there is an id in the url if not ignore
-                if (isset($_GET['id'])) {
-                    $room = $rooms->getRoom($_GET['id']);
-                }
-                ?>
-                <input type="hidden" name="id" value="">
-                <div class="modal fade" id="clientContactEditModal" tabindex="-1" role="dialog"
-                    aria-labelledby="clientContactEditModalLabel" aria-hidden="true">
-                    <!-- .modal-dialog -->
-                    <div class="modal-dialog" role="document">
-                        <!-- .modal-content -->
-                        <div class="modal-content">
-                            <!-- .modal-header -->
-                            <div class="modal-header">
-                                <h6 id="clientContactEditModalLabel" class="modal-title inline-editable">
-                                    <span class="sr-only">Nom prénom</span>
-                                    <input type="text" name="firstname" class="form-control form-control-lg" value=""
-                                        placeholder="Prénom" required="">
-                                    <input type="text" name="name" class="form-control form-control-lg" value=""
-                                        placeholder="Nom" required="">
-                                </h6>
-                            </div><!-- /.modal-header -->
-
-                            <!-- .modal-body -->
-                            <div class="modal-body">
-                                <!-- .form-group -->
-                                <div class="form-group">
-                                    <div class="form-label-group">
-                                        <input type="email" name="email" class="form-control" value=""
-                                            placeholder="Email" required=""> <label for="mail">Email</label>
-                                    </div>
-                                </div><!-- /.form-group -->
-                                <!-- .form-group -->
-                                <div class="form-group">
-                                    <div class="form-label-group">
-                                        <input type="tel" id="phone" name="phone" class="form-control" required value=""
-                                            placeholder="Phone"> <label for="phone">Téléphone</label>
-                                    </div>
-                                </div><!-- /.form-group -->
-                            </div><!-- /.modal-body -->
-                            <!-- .modal-footer -->
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Modifier</button> <button type="button"
-                                    class="btn btn-light" data-dismiss="modal">Fermer</button>
-                            </div><!-- /.modal-footer -->
-                        </div><!-- /.modal-content -->
-                    </div><!-- /.modal-dialog -->
-                </div>
-            </form><!-- /.modal -->
+           
+            
         </div><!-- /.page -->
     </div><!-- /.wrapper -->
 </main><!-- /.app-main -->
