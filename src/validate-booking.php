@@ -109,7 +109,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $events->createBooking($booking);
         }
 
-        // redirect to the index with a success message
+        require '../src/MailController/mail-controller.php';
+
+        $destinataire = $client->getEmail();
+        $objet = "Confirmation de votre réservation";
+        $contenu = "Bonjour " . $clientName . ",<br> Nous avons bien reçu votre demande de réservation pour la salle " . $room->getName() . " pour les jours suivants : " . implode(", ", $daysForDisplay) . ".<br> Le montant total de la réservation s'élève à " . $data['totalPrice'] . "€ TTC.<br> Votre demande est en cours de validation par notre équipe. Vous recevrez prochainement un e-mail pour confirmer ou annuler votre réservation.<br> Nous vous remercions de votre confiance et nous avons hâte de vous accueillir.<br> À très bientôt,<br> L'équipe de ResaSite";
+        
+        sendmail( $objet, $contenu,$destinataire);
+
+
+     
+     
         header('Location: ../public/profile.php?success=1');
         exit();
 

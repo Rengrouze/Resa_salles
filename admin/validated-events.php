@@ -226,10 +226,19 @@ render_admin('asidemenu');
                                         </li>
                                         <?php endforeach; ?>
                                     </ul>
-                                    <a  class="btn btn-alert mt-3" href="unvalidate-booking.php?id=<?= $event->getId() ?>" >Annuler</a>
+                                    <a  class="btn btn-alert mt-3" href="unvalidate-booking.php?id=<?= $event->getId() ?>" onclick="return confirmCancellation()" >Annuler</a>
                                    
                                 </div>
                         </div>
+                        <script>
+                            function confirmCancellation() {
+                                if (confirm("Êtes-vous sûr de vouloir annuler cette réservation ?")) {
+                                    return true;  // Continue with the link
+                                } else {
+                                    return false; // Cancel the link action
+                                }
+                            }
+                        </script>
                         <!-- /.card -->
 
                     </div><!-- /.tab-pane -->

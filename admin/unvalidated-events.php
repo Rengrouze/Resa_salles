@@ -230,8 +230,18 @@ render_admin('asidemenu');
                                     data-target="#clientBillingEditModal2">Refuser</button>
                                     <button type="button" class="btn btn-primary mt-3" data-toggle="modal"
                                                 data-target="#clientBillingEditModal">modifier</button>
-                                                <a  class="btn btn-success mt-3" href="validate-booking.php?id=<?= $event->getId() ?>"
-                                                >Valider</a>
+                                                <a class="btn btn-success mt-3" href="validate-booking.php?id=<?= $event->getId() ?>" onclick="return confirmValidation()">Valider</a>
+
+                                                <script>
+                                                    function confirmValidation() {
+                                                        if (confirm("Êtes-vous sûr de vouloir valider cette réservation ?")) {
+                                                            return true;  // Continue with the link
+                                                        } else {
+                                                            return false; // Cancel the link action
+                                                        }
+                                                    }
+                                                </script>
+
                                 </div>
                         </div>
                         <!-- /.card -->

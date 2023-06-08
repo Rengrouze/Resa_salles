@@ -36,8 +36,10 @@ render_admin('asidemenu');
                         use Calendar\Rooms;
                         use Calendar\Bookings;
                         use Calendar\Clients;
+                        use Calendar\Photos;
 
                         $rooms = new Rooms(get_pdo());
+
 
                         $allRooms = $rooms->getRooms();
                        
@@ -93,7 +95,7 @@ render_admin('asidemenu');
                                     <?= $room->getName(); ?>
                                 </h4>
                                 <p class="list-group-item-text">
-                                    <?= $room->getLocation() ?>
+                                <?=$room->getAddress();?>, <?= $room->getLocation() ?>
                                 </p>
                             </div><!-- /.list-group-item-body -->
                         </div><!-- /.list-group-item -->
@@ -150,7 +152,7 @@ render_admin('asidemenu');
                         <i class="far fa-building text-muted mr-2"></i>
                         <?= $room->getName(); ?>
                     </h1>
-                    <p class="text-muted"> TODO ADD ADMIN ADDRESS,
+                    <p class="text-muted"> <?=$room->getAddress();?>,
                         <?= $room->getLocation(); ?>
                     </p>
                     <!-- .nav-scroller -->
@@ -174,10 +176,31 @@ render_admin('asidemenu');
                             </li>
                         </ul><!-- /.nav-tabs -->
                     </div><!-- /.nav-scroller -->
+                    <?php
+                    // Vérifier si le paramètre "photos" est présent dans l'URL
+                    if (isset($_GET['photos'])) {
+                        $photosStatus = $_GET['photos'];
+
+                        // Vérifier la valeur du paramètre "photos"
+                        if ($photosStatus === 'added' || $photosStatus === 'updated' || $photosStatus === 'deleted') {
+                            // Si la valeur est "added", définir la classe active sur le tab-pane correspondant
+                            $tabPaneClass = 'tab-pane fade show active';
+                            $defaultTabPaneClass = 'tab-pane fade';
+                        } else {
+                            // Autres cas de valeur du paramètre "photos"
+                            $tabPaneClass = 'tab-pane fade';
+                            $defaultTabPaneClass = 'tab-pane fade show active';
+                        }
+                    } else {
+                        // Aucun paramètre "photos" présent dans l'URL
+                        $tabPaneClass = 'tab-pane fade';
+                        $defaultTabPaneClass = 'tab-pane fade show active';
+                    }
+                    ?>
                     <!-- .tab-content -->
                     <div class="tab-content pt-4" id="clientDetailsTabs">
                         <!-- .tab-pane -->
-                        <div class="tab-pane fade show active" id="client-billing-contact" role="tabpanel"
+                        <div class="<?= $defaultTabPaneClass ?>" id="client-billing-contact" role="tabpanel"
                             aria-labelledby="client-billing-contact-tab">
                             <!-- .card -->
                             <div class="card">
@@ -488,161 +511,178 @@ render_admin('asidemenu');
                             </div><!-- /.card -->
                         </div><!-- /.tab-pane -->
                         <!-- .tab-pane -->
-                        <div class="tab-pane fade" id="client-expenses" role="tabpanel"
-                            aria-labelledby="client-expenses-tab">
-                            <!-- .card -->
-                            <div class="card">
-                                <!-- .card-header -->
-                                <div class="card-header d-flex">
-                                    <!-- .dropdown -->
-                                    <div class="dropdown">
-                                        <button class="btn btn-secondary" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false"><span>This Year</span> <i
-                                                class="fa fa-fw fa-caret-down"></i></button> <!-- .dropdown-menu -->
-                                        <div class="dropdown-menu dropdown-menu-md stop-propagation">
-                                            <div class="dropdown-arrow"></div><!-- .custom-control -->
-                                            <div class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input"
-                                                    id="clientExpensesDateFilter0" name="clientExpensesDateFilter"
-                                                    value="0"> <label class="custom-control-label"
-                                                    for="clientExpensesDateFilter0">Last 7 days</label>
-                                            </div><!-- /.custom-control -->
-                                            <!-- .custom-control -->
-                                            <div class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input"
-                                                    id="clientExpensesDateFilter1" name="clientExpensesDateFilter"
-                                                    value="1"> <label class="custom-control-label"
-                                                    for="clientExpensesDateFilter1">Last 3 days</label>
-                                            </div><!-- /.custom-control -->
-                                            <!-- .custom-control -->
-                                            <div class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input"
-                                                    id="clientExpensesDateFilter2" name="clientExpensesDateFilter"
-                                                    value="2"> <label class="custom-control-label"
-                                                    for="clientExpensesDateFilter2">This month</label>
-                                            </div><!-- /.custom-control -->
-                                            <!-- .custom-control -->
-                                            <div class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input"
-                                                    id="clientExpensesDateFilter3" name="clientExpensesDateFilter"
-                                                    value="3"> <label class="custom-control-label"
-                                                    for="clientExpensesDateFilter3">Last month</label>
-                                            </div><!-- /.custom-control -->
-                                            <!-- .custom-control -->
-                                            <div class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input"
-                                                    id="clientExpensesDateFilter4" name="clientExpensesDateFilter"
-                                                    value="4" checked> <label class="custom-control-label"
-                                                    for="clientExpensesDateFilter4">This year</label>
-                                            </div><!-- /.custom-control -->
-                                        </div><!-- /.dropdown-menu -->
-                                    </div><!-- /.dropdown -->
-                                    <button id="client-expenses-tab" type="button" class="btn btn-primary ml-auto">Add
-                                        expense</button>
-                                </div><!-- /.card-header -->
-                                <!-- .table-responsive -->
-                                <div class="table-responsive">
-                                    <!-- .table -->
-                                    <table class="table">
-                                        <!-- thead -->
-                                        <thead>
-                                            <tr>
-                                                <th> Date </th>
-                                                <th> Amount </th>
-                                                <th style="min-width:200px"> Vendor </th>
-                                                <th></th>
-                                                <th> Category </th>
-                                                <th></th>
-                                            </tr>
-                                        </thead><!-- /thead -->
-                                        <!-- tbody -->
-                                        <tbody>
-                                            <!-- tr -->
-                                            <tr>
-                                                <td class="align-middle"> 04/11/2019 </td>
-                                                <td class="align-middle"> $360.00 </td>
-                                                <td class="align-middle"> Facebook, Inc. </td>
-                                                <td class="align-middle">
-                                                    <i class="fa fa-paperclip text-muted"></i>
-                                                </td>
-                                                <td class="align-middle">
-                                                    <span class="badge text-white bg-purple">Campaign</span>
-                                                </td>
-                                                <td class="align-middle text-right">
-                                                    <div class="dropdown">
-                                                        <button type="button" class="btn btn-sm btn-icon btn-secondary"
-                                                            data-toggle="dropdown" aria-expanded="false"
-                                                            aria-haspopup="true"><i class="fa fa-ellipsis-h"></i> <span
-                                                                class="sr-only">Actions</span></button>
-                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                            <div class="dropdown-arrow mr-n1"></div><button
-                                                                class="dropdown-item" type="button">Edit</button>
-                                                            <button class="dropdown-item" type="button">Delete</button>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr><!-- /tr -->
-                                            <!-- tr -->
-                                            <tr>
-                                                <td class="align-middle"> 09/15/2019 </td>
-                                                <td class="align-middle"> $49.00 </td>
-                                                <td class="align-middle"> Adobe Systems </td>
-                                                <td class="align-middle">
-                                                    <i class="fa fa-paperclip text-muted"></i>
-                                                </td>
-                                                <td class="align-middle">
-                                                    <span class="badge text-white bg-orange">Other</span>
-                                                </td>
-                                                <td class="align-middle text-right">
-                                                    <div class="dropdown">
-                                                        <button type="button" class="btn btn-sm btn-icon btn-secondary"
-                                                            data-toggle="dropdown" aria-expanded="false"
-                                                            aria-haspopup="true"><i class="fa fa-ellipsis-h"></i> <span
-                                                                class="sr-only">Actions</span></button>
-                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                            <div class="dropdown-arrow mr-n1"></div><button
-                                                                class="dropdown-item" type="button">Edit</button>
-                                                            <button class="dropdown-item" type="button">Delete</button>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr><!-- /tr -->
-                                            <!-- tr -->
-                                            <tr>
-                                                <td class="align-middle"> 10/11/2019 </td>
-                                                <td class="align-middle"> $610.00 </td>
-                                                <td class="align-middle"> InVisionApp, Inc. </td>
-                                                <td class="align-middle">
-                                                    <i class="fa fa-paperclip text-muted"></i>
-                                                </td>
-                                                <td class="align-middle">
-                                                    <span class="badge text-white bg-pink">Design</span>
-                                                </td>
-                                                <td class="align-middle text-right">
-                                                    <div class="dropdown">
-                                                        <button type="button" class="btn btn-sm btn-icon btn-secondary"
-                                                            data-toggle="dropdown" aria-expanded="false"
-                                                            aria-haspopup="true"><i class="fa fa-ellipsis-h"></i> <span
-                                                                class="sr-only">Actions</span></button>
-                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                            <div class="dropdown-arrow mr-n1"></div><button
-                                                                class="dropdown-item" type="button">Edit</button>
-                                                            <button class="dropdown-item" type="button">Delete</button>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr><!-- /tr -->
-                                        </tbody><!-- /tbody -->
-                                    </table><!-- /.table -->
-                                </div><!-- /.table-responsive -->
-                            </div><!-- /.card -->
-                        </div><!-- /.tab-pane -->
+              
+
+<!-- Tab-pane "client-expenses" avec la classe active si le paramètre "photos" est présent avec la valeur "added" -->
+<div class="<?= $tabPaneClass ?>" id="client-expenses" role="tabpanel" aria-labelledby="client-expenses-tab">
+ 
+    <!-- .card -->
+    <div class="card">
+    <!-- .card-header -->
+    
+    <!-- /.card-header -->
+    <!-- .card-body -->
+    <div class="card-body">
+        <!-- Section de la galerie pour les miniatures -->
+        <div class="gallery-thumbnails">
+            <h4>Miniature</h4>
+            <hr>
+            <!-- Images des miniatures -->
+            <?php
+            $photos = new Photos(get_pdo());
+            $minPhoto = $photos->getIdMinPhotoByRoomId($roomId);
+            $roomPhotos = $photos->getPhotosByRoom($roomId);
+            ?>
+
+            <?php if ($minPhoto) : ?>
+                <div class="thumbnail">
+                    <img src="../public/images/room_images/<?=$roomId?>/min/<?=$minPhoto->getId();?>" alt="Miniature 1" class="img-fluid img-thumbnail thumbnail-image">
+                    <style>
+                        .thumbnail-image {
+                            max-width: 250px;
+                        }
+                    </style>
+
+<div class="thumbnail-actions">
+                    <a href="delete-photo.php?id=<?=$minPhoto->getId()?>" class="btn btn-sm btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette miniature ?')">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </div>
+                </div>
+            <?php else : ?>
+                <div class="thumbnail">
+                    <button class="btn btn-sm btn-secondary add-thumbnail " type="button" data-toggle="modal" data-target="#newMinModal">
+                        <i class="fa fa-plus"></i> Ajouter
+                    </button>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <!-- Section de la galerie pour toutes les photos -->
+       <!-- Section de la galerie pour toutes les photos -->
+<!-- Section de la galerie pour toutes les photos -->
+        <!-- Section de la galerie pour toutes les photos -->
+            <div class="gallery-photos">
+                <h4>Toutes les photos</h4>
+                <hr>
+                <!-- Images des photos -->
+                <div class="row">
+                    <?php $photoCount = count($roomPhotos); ?>
+                    <?php for ($i = 0; $i < $photoCount; $i++) : ?>
+                        <?php $photo = $roomPhotos[$i]; ?>
+                        <div class="col-md-3">
+                            <div class="photo">
+                                <img src="../public/images/room_images/<?=$roomId?>/<?=$photo->getId();?>.jpg" alt="Photo <?=$photo->getId();?>" class="img-fluid img-thumbnail thumbnail-image">
+                                <div class="photo-actions mb-2 mt-2">
+                            <a href="delete-photo.php?id=<?=$photo->getId()?>" class="btn btn-sm btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette photo ?')">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </div>
+                            </div>
+                        </div>
+
+                        <?php if (($i + 1) % 4 === 0 && $i < $photoCount - 1) : ?>
+                            </div><div class="row">
+                        <?php endif; ?>
+                    <?php endfor; ?>
+                </div>
+
+            <!-- Bouton pour ajouter une photo -->
+                <?php $remainingPhotos = 10 - count($roomPhotos); ?>
+                <?php if ($remainingPhotos > 0) : ?>
+                    <div class="photo">
+                        <button class="btn btn-lg btn-secondary add-photo" type="button" data-toggle="modal" data-target="#addPhotoModal">
+                            <i class="fa fa-plus"></i> Ajouter
+                        </button>
+                        <?php if ($remainingPhotos < 10) : ?>
+                            <br>
+                            <small>Reste <?= $remainingPhotos ?> photo<?= $remainingPhotos > 1 ? 's' : '' ?></small>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
+
+                        </div>
+
+
+
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+
+                </div>
+        <!-- /.tab-pane -->
+
+
+
                     </div><!-- /.tab-content -->
                 </div><!-- /.sidebar-section -->
             </div><!-- /.page-sidebar -->
            
             <!-- Keep in mind that modals should be placed outsite of page sidebar -->
+
+
+
+   <!-- .modal -->
+   
+            <!-- /.modal -->
+
+
+         
+
             <!-- .modal -->
+            <div class="modal fade" id="newMinModal" tabindex="-1" role="dialog" aria-labelledby="newMinModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="newMinModalLabel">Choisir l'image de la miniature</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form method="post" action="add-min-photo.php" enctype="multipart/form-data">
+                            <div class="modal-body">
+                                <input type="hidden" name="id" value="<?=$room->getId()?>">
+                                <!-- just a file input  -->
+                                <input type="file" name="photo" id="photo">
+                                <input type="hidden" name="min" value="1">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Ajouter</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="addPhotoModal" tabindex="-1" role="dialog" aria-labelledby="addPhotoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addPhotoModalLabel">Ajouter des photos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" action="add-photos.php" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <input type="hidden" name="id" value="<?=$room->getId()?>">
+                    <!-- File input for selecting multiple photos -->
+                    <div class="form-group">
+                        <label for="photos">Sélectionner les photos</label>
+                        <input type="file" name="photos[]" id="photos" multiple>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Ajouter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
             <!-- .modal -->
             <form id="clientBillingEditForm" action="update_room.php" name="clientBillingEditForm" method="post">
                 

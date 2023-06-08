@@ -1,12 +1,17 @@
 <?php
 
 use Calendar\Rooms;
+use Calendar\Photos;
 
 require '../src/bootstrap.php';
 require '../src/session.php';
 $roomId = $_GET['room'];
 $rooms = new Rooms(get_pdo());
 $room = $rooms->getRoom($roomId);
+$photos = new Photos(get_pdo());
+$allPhotos = $photos->getPhotosByRoom($roomId);
+
+
 
 
 $translation = array(
@@ -47,21 +52,24 @@ render('header', ['title' => $room->getName(), 'script' => 'index.js', 'style' =
 <section class="room-details">
   <div class="row">
     <div class="col-md-6">
-    <div id="carouselExampleControls" class="carousel slide  d-md-block" data-bs-ride="carousel">
-  <div class="carousel-inner">
+       <div id="carouselExampleControls" class="carousel slide  d-md-block" data-bs-ride="carousel">
+          <div class="carousel-inner">
+          <?php if (empty($allPhotos)) : ?>
     <div class="carousel-item active">
-      <img src="../public/images/carousel/<?= $room->getId()?>/1.jpg" class="d-block w-100" alt="...">
-      
+        <img src="https://via.placeholder.com/150x150" class="d-block w-100" alt="Placeholder Image">
     </div>
-    <div class="carousel-item">
-      <img src="../public/images/carousel/<?= $room->getId()?>/2.jpg" class="d-block w-100" alt="...">
-      
-    </div>
-    <div class="carousel-item">
-      <img src="../public/images/carousel/<?= $room->getId()?>/3.jpg" class="d-block w-100" alt="...">
-     
-    </div>
-  </div>
+<?php else : ?>
+    <?php foreach ($allPhotos as $index => $photo): ?>
+        <?php
+        $photoLink = '../public/images/room_images/' . $room->getId() . '/' . $photo->getId() . '.jpg';
+        ?>
+        <div class="carousel-item <?= ($index === 0) ? 'active' : '' ?>">
+            <img src="<?= $photoLink ?>" class="d-block w-100" alt="...">
+        </div>
+    <?php endforeach; ?>
+<?php endif; ?>
+
+       </div>
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
     <span class="carousel-control-prev-icon bg-dark" aria-hidden="true"></span>
     <span class="visually-hidden">Previous</span>

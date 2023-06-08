@@ -1,11 +1,13 @@
 <?php
 use Calendar\{
   Rooms,
+  Photos
 };
 
 $pdo = get_pdo();
 
 $rooms = new Rooms($pdo);
+$photos = new Photos($pdo);
 
 //get all rooms
 
@@ -57,7 +59,18 @@ $icons = [
     <div class="row no-gutters">
       <div class="col-md-4">
         <div style="height: 100%; overflow: hidden;">
-          <img src="https://via.placeholder.com/150x150" class="card-img img-fluid" alt="..." style="height: 100%; object-fit: cover;">
+        <?php 
+$photo = $photos->getIdMinPhotoByRoomId($room->getId()); 
+// if there is no photo for the room, we use a default image
+if ($photo === false) {
+    $photoLink = 'https://via.placeholder.com/150x150';
+} else {
+    $photoLink = '../public/images/room_images/' . $room->getId() . '/min/' . $photo->getId() . '.jpg';
+}
+?>
+                 
+<img src="<?= $photoLink ?>" class="card-img img-fluid" alt="..." style="height: 100%; object-fit: cover;">
+
         </div>
       </div>
       <div class="col-md-8">
