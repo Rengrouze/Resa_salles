@@ -8,7 +8,7 @@ use Calendar\Rooms;
 
 // Retrieve the form data
 $data = $_POST;
-var_dump($data);
+
 
 // Create an instance of the Rooms class
 $rooms = new Rooms(get_pdo());
@@ -37,7 +37,7 @@ try {
 } catch (\Exception $e) {
     // Handle the exception
     $errorMessage = $e->getMessage();
-    var_dump($errorMessage);
+    
     
     // You can redirect or show an error message here
 }

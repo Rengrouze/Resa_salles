@@ -30,11 +30,15 @@ function updateRoomDetails(roomId) {
       var detailsSection = $(response).find("#clientDetailsTabs").html();
       var billingEditForm = $(response).find("#clientBillingEditForm").html();
       var contactEditForm = $(response).find("#clientContactEditForm").html();
+      var photoAddMinForm = $(response).find("#newMinModal").html();
+      var photoAddform = $(response).find("#addPhotoModal").html();
 
       // Update the content of the details section
       $("#clientDetailsTabs").html(detailsSection);
       $("#clientBillingEditForm").html(billingEditForm);
       $("#clientContactEditForm").html(contactEditForm);
+      $("#newMinModal").html(photoAddMinForm);
+      $("#addPhotoModal").html(photoAddform);
     },
     error: function () {
       console.log("Error occurred while fetching client details");

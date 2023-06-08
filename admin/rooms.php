@@ -627,11 +627,17 @@ render_admin('asidemenu');
    
             <!-- /.modal -->
 
-
          
 
             <!-- .modal -->
             <div class="modal fade" id="newMinModal" tabindex="-1" role="dialog" aria-labelledby="newMinModalLabel" aria-hidden="true">
+            <?php
+                // check if there is an id in the url if not ignore
+                if (isset($_GET['id'])) {
+                    $room = $rooms->getRoom($_GET['id']);
+                }
+              
+                ?>
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -643,6 +649,9 @@ render_admin('asidemenu');
                         <form method="post" action="add-min-photo.php" enctype="multipart/form-data">
                             <div class="modal-body">
                                 <input type="hidden" name="id" value="<?=$room->getId()?>">
+                                <?php
+                                var_dump($room->getId());
+                                ?>
                                 <!-- just a file input  -->
                                 <input type="file" name="photo" id="photo">
                                 <input type="hidden" name="min" value="1">
@@ -655,7 +664,16 @@ render_admin('asidemenu');
                 </div>
             </div>
 
+
+
             <div class="modal fade" id="addPhotoModal" tabindex="-1" role="dialog" aria-labelledby="addPhotoModalLabel" aria-hidden="true">
+            <?php
+                // check if there is an id in the url if not ignore
+                if (isset($_GET['id'])) {
+                    $room = $rooms->getRoom($_GET['id']);
+                }
+              
+                ?>
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">

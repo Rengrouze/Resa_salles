@@ -26,6 +26,8 @@ try {
     }
 
     $roomId = $_POST['id'];
+    var_dump($roomId);
+    die();
 
     $minValue = isset($_POST['min']) ? intval($_POST['min'], 10) : 0;
 

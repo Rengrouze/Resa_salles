@@ -97,7 +97,21 @@ class Rooms
             'airConditioning' => $room->getAirConditioning()
         ]);
         // return the id of the created room
-        return $this->pdo->lastInsertId();
+        $roomId = $this->pdo->lastInsertId();
+    
+        // Vérifier si le dossier room_images existe
+        $roomImagesDir = '../public/images/room_images/' . $roomId;
+        if (!file_exists($roomImagesDir)) {
+            mkdir($roomImagesDir, 0777, true);
+        }
+        
+        // Vérifier si le dossier room_images/min existe
+        $roomImagesMinDir = $roomImagesDir . '/min';
+        if (!file_exists($roomImagesMinDir)) {
+            mkdir($roomImagesMinDir, 0777, true);
+        }
+    
+        return $roomId;
 
     }
 
