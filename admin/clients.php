@@ -203,10 +203,7 @@ render_admin('asidemenu');
                                                         <button type="button" class="btn btn-sm btn-icon btn-secondary"
                                                             data-toggle="modal" data-target="#clientContactEditModal"><i
                                                                 class="fa fa-pencil-alt"></i> <span
-                                                                class="sr-only">Edit</span></button> <button
-                                                            type="button" class="btn btn-sm btn-icon btn-secondary"><i
-                                                                class="far fa-trash-alt"></i> <span
-                                                                class="sr-only">Remove</span></button>
+                                                                class="sr-only">Edit</span></button>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -218,8 +215,7 @@ render_admin('asidemenu');
                                 ?>
                                 <!-- .card-footer -->
                                 <div class="card-footer">
-                                    <a href="#clientContactNewModal" class="card-footer-item" data-toggle="modal"><i
-                                            class="fa fa-plus-circle mr-1"></i> Add contact</a>
+
                                 </div><!-- /.card-footer -->
                             </div><!-- /.card -->
                         </div><!-- /.tab-pane -->
