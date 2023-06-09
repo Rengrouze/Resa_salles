@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : jeu. 08 juin 2023 à 14:24
--- Version du serveur : 10.4.10-MariaDB
--- Version de PHP : 7.3.12
+-- Généré le : ven. 09 juin 2023 à 13:37
+-- Version du serveur : 5.7.36
+-- Version de PHP : 7.4.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `clients` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `firstname` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `business` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -110,11 +110,11 @@ CREATE TABLE IF NOT EXISTS `clients` (
   `address_complement` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `city` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `postal_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `activated` tinyint(1) NOT NULL DEFAULT 0,
+  `activated` tinyint(1) NOT NULL DEFAULT '0',
   `country` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `creation_day` datetime NOT NULL DEFAULT current_timestamp(),
+  `creation_day` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`) USING HASH
+  UNIQUE KEY `email` (`email`)
 ) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -143,7 +143,7 @@ CREATE TABLE IF NOT EXISTS `events` (
   `temporary` tinyint(1) NOT NULL,
   `id_room` int(11) NOT NULL,
   `admin_locked` tinyint(1) NOT NULL,
-  `booking_day` datetime NOT NULL DEFAULT current_timestamp(),
+  `booking_day` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=84 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -166,16 +166,15 @@ CREATE TABLE IF NOT EXISTS `photos` (
   `id_room` int(11) NOT NULL,
   `min` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=60 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `photos`
 --
 
 INSERT INTO `photos` (`id`, `id_room`, `min`) VALUES
-(38, 11, 0),
-(42, 11, 0),
-(37, 11, 1);
+(58, 11, 1),
+(59, 12, 1);
 
 -- --------------------------------------------------------
 
@@ -225,14 +224,15 @@ CREATE TABLE IF NOT EXISTS `rooms` (
   `disabledAccess` tinyint(1) DEFAULT NULL,
   `airConditioning` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `rooms`
 --
 
 INSERT INTO `rooms` (`id`, `name`, `capacity`, `seats`, `description`, `imagePath`, `price`, `location`, `size`, `address`, `address_complement`, `postal_code`, `city`, `projector`, `wifi`, `coffee`, `water`, `paperboard`, `tv`, `toilets`, `parking`, `disabledAccess`, `airConditioning`) VALUES
-(11, 'Parafit', 40, 10, 'claquÃ© mais Ã§a marche', '../images', 40, 'MillanÃ§ay', 400, '2 rue de la victoire', '', 41200, 'MillanÃ§ay', 0, 1, 0, 0, 0, 0, 0, 0, 0, 0);
+(11, 'Parafit', 40, 10, 'claquÃ© mais Ã§a marche', '../images', 40, 'MillanÃ§ay', 400, '2 rue de la victoire', '', 41200, 'MillanÃ§ay', 0, 1, 0, 0, 0, 0, 0, 0, 0, 0),
+(12, 'Randomisateur', 505, 300, 'Une salle gigantesque aux proportions exag&eacute;r&eacute;e pour soutenir la Macronie', 'nique', 1000, 'Paname prÃ¨s des riches', 3400, '3 rue des Perdus', '', 78400, 'Bourges', 1, 0, 0, 1, 0, 0, 1, 1, 1, 1);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
