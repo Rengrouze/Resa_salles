@@ -66,7 +66,7 @@
                             </ul><!-- /grand child menu -->
                         </li>
                         <li class="menu-item">
-                            <a href="page-calendar.html" class="menu-link">Calendar</a>
+                            <a href="room-picker.php" class="menu-link">Calendar</a>
                         </li>
 
                     </ul><!-- /child menu -->

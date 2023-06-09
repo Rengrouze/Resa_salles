@@ -7,7 +7,7 @@ render_admin('asidemenu');
 use Calendar\Bookings;
 use Calendar\Clients;
 use Calendar\Rooms;
-
+$showFull = false;
 
 $events = new Bookings(get_pdo());
 $clients = new Clients(get_pdo());
@@ -54,7 +54,7 @@ $numberOfUnvalidatedEvents = $events->countUnvalidatedEvents();
                                     <!-- metric column -->
                                     <div class="col">
                                         <!-- .metric -->
-                                        <a href="user-teams.html" class="metric metric-bordered align-items-center">
+                                        <a href="clients.php" class="metric metric-bordered align-items-center">
                                             <h2 class="metric-label"> Clients </h2>
                                             <p class="metric-value h3">
                                                 
@@ -66,7 +66,7 @@ $numberOfUnvalidatedEvents = $events->countUnvalidatedEvents();
                                     <!-- metric column -->
                                     <div class="col">
                                         <!-- .metric -->
-                                        <a href="user-projects.html" class="metric metric-bordered align-items-center">
+                                        <a href="rooms.php" class="metric metric-bordered align-items-center">
                                             <h2 class="metric-label"> Salles </h2>
                                             <p class="metric-value h3">
                                                 <sub><i class="oi oi-fork"></i></sub> <span class="value"><?= $numberOfRooms ?></span>
@@ -76,7 +76,7 @@ $numberOfUnvalidatedEvents = $events->countUnvalidatedEvents();
                                     <!-- metric column -->
                                     <div class="col">
                                         <!-- .metric -->
-                                        <a href="user-tasks.html" class="metric metric-bordered align-items-center">
+                                        <a href="unvalidated-events.php" class="metric metric-bordered align-items-center">
                                             <h2 class="metric-label"> Réservations en attente </h2>
                                             <p class="metric-value h3">
                                                 <sub><i class="fa fa-tasks"></i></sub> <span class="value"><?=$numberOfUnvalidatedEvents?></span>
@@ -85,6 +85,7 @@ $numberOfUnvalidatedEvents = $events->countUnvalidatedEvents();
                                     </div><!-- /metric column -->
                                 </div>
                             </div><!-- metric column -->
+                            
                             <div class="col-lg-3">
                                 <!-- .metric -->
                                 <a href="user-tasks.html" class="metric metric-bordered">
@@ -99,6 +100,7 @@ $numberOfUnvalidatedEvents = $events->countUnvalidatedEvents();
                             </div><!-- /metric column -->
                         </div><!-- /metric row -->
                     </div><!-- /.section-block -->
+                    <?php if ($showFull):?>
                     <!-- grid row -->
                     <div class="row">
                         <!-- grid column -->
@@ -586,6 +588,7 @@ $numberOfUnvalidatedEvents = $events->countUnvalidatedEvents();
                         </div><!-- /.card -->
                     </div><!-- /card-deck-xl -->
                 </div><!-- /.page-section -->
+                <?php endif; ?>
             </div><!-- /.page-inner -->
         </div><!-- /.page -->
     </div><!-- .app-footer -->

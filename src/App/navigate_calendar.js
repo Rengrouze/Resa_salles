@@ -159,7 +159,7 @@ function removeSelectedDay(dayToDelete) {
     return  dayToDelete = formattedDay;
   });
   
-
+  
   // remove the day from the days array
   days.splice(index, 1);
   numberOfDaysClicked--;
@@ -198,6 +198,9 @@ function bindDeleteButtons() {
 }
 
 function displaySelectedDays() {
+  console.log(days);
+  console.log(numberOfDaysClicked);
+
   const dateListTable = document.querySelector("#date-list");
   // if there are no days selected, display a message
   if (numberOfDaysClicked == 0 ) {
@@ -289,6 +292,7 @@ function bindNavButton() {
 // add a listener on the validate button id validate
 
 const validateBtn = document.querySelectorAll(".validate-btn");
+const validateBtnAdmin = document.querySelectorAll(".validate-btn-admin");
 
 
 
@@ -297,6 +301,13 @@ validateBtn.forEach((button) => {
   button.addEventListener("click", function (event) {
     event.preventDefault();
     validate(numberOfDaysClicked, days, room);
+  });
+});
+
+validateBtnAdmin.forEach((button) => {
+  button.addEventListener("click", function (event) {
+    event.preventDefault();
+    validateAdmin(numberOfDaysClicked, days, room);
   });
 });
 
@@ -332,6 +343,23 @@ function validate(numberOfDaysClicked, days, room) {
       numberOfDaysClicked = days.length; 
       // redirect to the validation page
       window.location.href = "validate-booking.php?days=" + days +"&room=" + room;
+    }
+  }
+}
+
+function validateAdmin(numberOfDaysClicked, days, room) {
+  // chech is number of days clicked is 0
+  if (numberOfDaysClicked === 0) {
+    alert("Veuillez sélectionner au moins un jour");
+  } else {
+    //check is number of days clicked is equal to days.length
+    if (numberOfDaysClicked == days.length) {
+      // if yes, send the array to the server
+      window.location.href = "lock-manual-booking.php?days=" + days+"&room=" + room;
+    } else {
+      numberOfDaysClicked = days.length; 
+      // redirect to the validation page
+      window.location.href = "lock-manual-booking.php?days=" + days +"&room=" + room;
     }
   }
 }

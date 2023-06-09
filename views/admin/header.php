@@ -44,6 +44,7 @@
     <link rel="stylesheet" href="assets/stylesheets/theme.min.css" data-skin="default">
     <link rel="stylesheet" href="assets/stylesheets/theme-dark.min.css" data-skin="dark">
     <link rel="stylesheet" href="assets/stylesheets/custom.css">
+    <link rel="stylesheet" href="../public/css/<?= $style ?? '' ?>">
     <script>
     var skin = localStorage.getItem('skin') || 'default';
     var isCompact = JSON.parse(localStorage.getItem('hasCompactMenu'));
