@@ -21,7 +21,7 @@ if (empty($allUnvalidatedEvents)) {
 render_admin('header', ['title' => 'Réservations non validées', 'script' => 'index.js']);
 render_admin('asidemenu');
 ?>
-<!-- .app-main --> 
+<!-- .app-main -->
 <main class="app-main">
     <!-- .wrapper -->
     <div class="wrapper">
@@ -49,7 +49,7 @@ render_admin('asidemenu');
 
                         <?php foreach ($allUnvalidatedEvents as $event): ?>
 
-<?php $initial = $event->getReason()[0];
+                        <?php $initial = $event->getReason()[0];
 
 
     // if it is the first loop AND there is no GET parameter, set the first client to active and launch the updateClientDetails function
@@ -145,7 +145,7 @@ render_admin('asidemenu');
                 ?>
 
 
-                
+
                 <div class="sidebar-section sidebar-section-fill" id="clientDetailsTabs">
                     <h1 class="page-title">
                         <i class="far fa-building text-muted mr-2"></i>
@@ -175,30 +175,31 @@ render_admin('asidemenu');
                     <div class="tab-content pt-4" id="clientDetailsTabs">
                         <!-- .tab-pane -->
                         <div class="tab-pane fade show active" id="client-billing-contact" role="tabpanel"
-                        aria-labelledby="client-billing-contact-tab">
-                        <!-- .card -->
-                        <div class="card">
-                            <!-- .card-body -->
-                            <div class="card-body">
-                                <h2 class="card-title">Informations</h2>
-                                <div>
-                                    <p><strong>Nom du Contact:</strong>
-                                        <a href="clients.php?id=<?= $client->getId() ?>"><?= $client->getName(); ?>
-                                            <?= $client->getFirstName() ?></a>
-                                    </p>
-                                    <p><strong>Salle réservée:</strong><a href="rooms.php?id=<?= $room->getId(); ?>">
-                                            <?= $room->getName(); ?></a>
+                            aria-labelledby="client-billing-contact-tab">
+                            <!-- .card -->
+                            <div class="card">
+                                <!-- .card-body -->
+                                <div class="card-body">
+                                    <h2 class="card-title">Informations</h2>
+                                    <div>
+                                        <p><strong>Nom du Contact:</strong>
+                                            <a href="clients.php?id=<?= $client->getId() ?>"><?= $client->getName(); ?>
+                                                <?= $client->getFirstName() ?></a>
+                                        </p>
+                                        <p><strong>Salle réservée:</strong><a
+                                                href="rooms.php?id=<?= $room->getId(); ?>">
+                                                <?= $room->getName(); ?></a>
 
-                                    </p>
-                                    <p><strong>Motif:</strong>
-                                        <?= $event->getReason(); ?>
-                                    </p>
-                                    <p><strong>Prix de la réservation:</strong>
-                                        <?= $event->getTotalPrice(); ?>
-                                        €
-                                    </p>
-                                    <p><strong>Statut de la réservation:</strong>
-                                        <?php
+                                        </p>
+                                        <p><strong>Motif:</strong>
+                                            <?= $event->getReason(); ?>
+                                        </p>
+                                        <p><strong>Prix de la réservation:</strong>
+                                            <?= $event->getTotalPrice(); ?>
+                                            €
+                                        </p>
+                                        <p><strong>Statut de la réservation:</strong>
+                                            <?php
                                         if ($event->getTemporary() == 1) {
                                             echo "Non validée, en attente de votre validation";
                                         } else {
@@ -206,20 +207,20 @@ render_admin('asidemenu');
                                         }
                                         ?>
 
-                                    </p>
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                        </div><!-- /.card -->
+                            </div><!-- /.card -->
 
-                        <?php
+                            <?php
                         $allBookedDays = $bookings->getBookingByEventId($event->getId());
                         ?>
-                        <!-- .card -->
-                        <div class="card mt-4">
-                            <div class="card-body">
-                                <h2 class="card-title">Liste des jours de réservation</h2>
-                                <ul class="list-group">
-                                    <?php foreach ($allBookedDays as $day): ?>
+                            <!-- .card -->
+                            <div class="card mt-4">
+                                <div class="card-body">
+                                    <h2 class="card-title">Liste des jours de réservation</h2>
+                                    <ul class="list-group">
+                                        <?php foreach ($allBookedDays as $day): ?>
                                         <?php $displayDay = $day->getDay()->format('d/m/Y'); ?>
                                         <li class="list-group-item">
                                             <?= $displayDay ?>
@@ -227,39 +228,41 @@ render_admin('asidemenu');
                                         <?php endforeach; ?>
                                     </ul>
                                     <button type="button" class="btn btn-alert mt-3" data-toggle="modal"
-                                    data-target="#clientBillingEditModal2">Refuser</button>
+                                        data-target="#clientBillingEditModal2">Refuser</button>
                                     <button type="button" class="btn btn-primary mt-3" data-toggle="modal"
-                                                data-target="#clientBillingEditModal">modifier</button>
-                                                <a class="btn btn-success mt-3" href="validate-booking.php?id=<?= $event->getId() ?>" onclick="return confirmValidation()">Valider</a>
+                                        data-target="#clientBillingEditModal">modifier</button>
+                                    <a class="btn btn-success mt-3"
+                                        href="validate-booking.php?id=<?= $event->getId() ?>"
+                                        onclick="return confirmValidation()">Valider</a>
 
-                                                <script>
-                                                    function confirmValidation() {
-                                                        if (confirm("Êtes-vous sûr de vouloir valider cette réservation ?")) {
-                                                            return true;  // Continue with the link
-                                                        } else {
-                                                            return false; // Cancel the link action
-                                                        }
-                                                    }
-                                                </script>
+                                    <script>
+                                    function confirmValidation() {
+                                        if (confirm("Êtes-vous sûr de vouloir valider cette réservation ?")) {
+                                            return true; // Continue with the link
+                                        } else {
+                                            return false; // Cancel the link action
+                                        } +
+                                    }
+                                    </script>
 
                                 </div>
-                        </div>
-                        <!-- /.card -->
+                            </div>
+                            <!-- /.card -->
 
-                    </div><!-- /.tab-pane -->
+                        </div><!-- /.tab-pane -->
 
-                    <!-- .tab-pane -->
+                        <!-- .tab-pane -->
 
-                    <!-- .tab-pane -->
-                    <div class="tab-pane fade" id="client-projects" role="tabpanel"
-                        aria-labelledby="client-projects-tab">
-                        <!-- .card -->
-                        <div class="card">
-                            <!-- .card-header -->
-                            <div class="card-header d-flex">
-                                <!-- .dropdown -->
-                                <div class="dropdown">
-                                    <!-- <button type="button" class="btn btn-secondary" data-toggle="dropdown"
+                        <!-- .tab-pane -->
+                        <div class="tab-pane fade" id="client-projects" role="tabpanel"
+                            aria-labelledby="client-projects-tab">
+                            <!-- .card -->
+                            <div class="card">
+                                <!-- .card-header -->
+                                <div class="card-header d-flex">
+                                    <!-- .dropdown -->
+                                    <div class="dropdown">
+                                        <!-- <button type="button" class="btn btn-secondary" data-toggle="dropdown"
                                             aria-haspopup="true" aria-expanded="false"><i
                                                 class="fas fa-filter mr-1"></i> All (3) <i
                                                 class="fa fa-caret-down"></i></button>  .dropdown-menu 
@@ -278,285 +281,286 @@ render_admin('asidemenu');
                                                     class="custom-control-input" name="clientProjectFilter" value="3">
                                                 <span class="custom-control-label">Archived (0)</span></label>
                                         </div> /.dropdown-menu -->
-                                </div><!-- /.dropdown -->
-                                
-                            </div><!-- /.card-header -->
-                            <!-- .table-responsive -->
+                                    </div><!-- /.dropdown -->
+
+                                </div><!-- /.card-header -->
+                                <!-- .table-responsive -->
 
 
-                            <div class="table-responsive">
-                                <!-- .table -->
+                                <div class="table-responsive">
+                                    <!-- .table -->
 
-                                <table class="table">
-                                    <!-- thead -->
-                                    <thead>
-                                        <tr>
-                                            <th style="min-width:260px"> Motif de la Réservation </th>
-                                            <th> Client ayant réservé </th>
-                                            <th> Jours de la réservation </th>
-                                            <th> Date de la reservation </th>
-                                            <th> Prix </th>
-                                            <th> Actions </th>
-                                        </tr>
-                                    </thead><!-- /thead -->
-                                    <!-- tbody -->
-                                    <tbody>
+                                    <table class="table">
+                                        <!-- thead -->
+                                        <thead>
+                                            <tr>
+                                                <th style="min-width:260px"> Motif de la Réservation </th>
+                                                <th> Client ayant réservé </th>
+                                                <th> Jours de la réservation </th>
+                                                <th> Date de la reservation </th>
+                                                <th> Prix </th>
+                                                <th> Actions </th>
+                                            </tr>
+                                        </thead><!-- /thead -->
+                                        <!-- tbody -->
+                                        <tbody>
 
-                                        <tr>
-                                            <td class="align-middle text-truncate">
-                                                <a href="#" class="tile bg-pink text-white mr-2">T</a>
-                                            </td>
-                                            <td class="align-middle">
-                                            </td>
-                                            <td class=" align-middle"> </td>
-                                            <td class="align-middle"></td>
+                                            <tr>
+                                                <td class="align-middle text-truncate">
+                                                    <a href="#" class="tile bg-pink text-white mr-2">T</a>
+                                                </td>
+                                                <td class="align-middle">
+                                                </td>
+                                                <td class=" align-middle"> </td>
+                                                <td class="align-middle"></td>
 
-                                            <td class="align-middle">
-                                                <span class="badge badge-warning"> €
-                                                    TTC</span>
-                                            </td>
-                                            <td class="align-middle text-right">
-                                                <div class="dropdown">
-                                                    <button type="button" class="btn btn-sm btn-icon btn-secondary"
-                                                        data-toggle="dropdown" aria-expanded="false"
-                                                        aria-haspopup="true"><i class="fa fa-ellipsis-h"></i>
-                                                        <span class="sr-only">Actions</span></button>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <div class="dropdown-arrow mr-n1"></div><button
-                                                            class="dropdown-item" type="button">Edit</button>
-                                                        <button class="dropdown-item" type="button">Delete</button>
+                                                <td class="align-middle">
+                                                    <span class="badge badge-warning"> €
+                                                        TTC</span>
+                                                </td>
+                                                <td class="align-middle text-right">
+                                                    <div class="dropdown">
+                                                        <button type="button" class="btn btn-sm btn-icon btn-secondary"
+                                                            data-toggle="dropdown" aria-expanded="false"
+                                                            aria-haspopup="true"><i class="fa fa-ellipsis-h"></i>
+                                                            <span class="sr-only">Actions</span></button>
+                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                            <div class="dropdown-arrow mr-n1"></div><button
+                                                                class="dropdown-item" type="button">Edit</button>
+                                                            <button class="dropdown-item" type="button">Delete</button>
 
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                        </tr><!-- /tr -->
+                                                </td>
+                                            </tr><!-- /tr -->
 
 
 
-                                    </tbody><!-- /tbody -->
-                                </table><!-- /.table -->
-                            </div><!-- /.table-responsive -->
-                        </div><!-- /.card -->
-                    </div><!-- /.tab-pane -->
-                    <!-- .tab-pane -->
-                    <div class="tab-pane fade" id="client-invoices" role="tabpanel"
-                        aria-labelledby="client-invoices-tab">
-                        <!-- .card -->
-                        <div class="card">
-                            <!-- .card-header -->
-                            <div class="card-header d-flex">
-                                <!-- .dropdown -->
+                                        </tbody><!-- /tbody -->
+                                    </table><!-- /.table -->
+                                </div><!-- /.table-responsive -->
+                            </div><!-- /.card -->
+                        </div><!-- /.tab-pane -->
+                        <!-- .tab-pane -->
+                        <div class="tab-pane fade" id="client-invoices" role="tabpanel"
+                            aria-labelledby="client-invoices-tab">
+                            <!-- .card -->
+                            <div class="card">
+                                <!-- .card-header -->
+                                <div class="card-header d-flex">
+                                    <!-- .dropdown -->
 
-                                <button type="button" class="btn btn-primary ml-auto">TODO : Export
-                                    excel</button>
-                            </div><!-- /.card-header -->
-                            <!-- .table-responsive -->
-                            <div class="table-responsive">
-                                <!-- .table -->
-                                <table class="table">
+                                    <button type="button" class="btn btn-primary ml-auto">TODO : Export
+                                        excel</button>
+                                </div><!-- /.card-header -->
+                                <!-- .table-responsive -->
+                                <div class="table-responsive">
+                                    <!-- .table -->
+                                    <table class="table">
 
-                                    <!-- thead -->
-                                    <thead>
-                                        <tr>
-                                            <th style="min-width:260px"> Motif de la Réservation </th>
-                                            <th> Salle réservée </th>
-                                            <th> Jours de la réservation </th>
-                                            <th> Date de la reservation </th>
-                                            <th> Prix </th>
-                                            <th> Actions </th>
-                                        </tr>
-                                    </thead><!-- /thead -->
+                                        <!-- thead -->
+                                        <thead>
+                                            <tr>
+                                                <th style="min-width:260px"> Motif de la Réservation </th>
+                                                <th> Salle réservée </th>
+                                                <th> Jours de la réservation </th>
+                                                <th> Date de la reservation </th>
+                                                <th> Prix </th>
+                                                <th> Actions </th>
+                                            </tr>
+                                        </thead><!-- /thead -->
 
-                                    <!-- tbody -->
-                                    <tbody>
-                                        <!-- tr -->
+                                        <!-- tbody -->
+                                        <tbody>
+                                            <!-- tr -->
 
-                                        <tr>
-                                            <td class="align-middle text-truncate">
-                                                <a href="#" class="tile bg-pink text-white mr-2"></a> <a href="#"></a>
-                                            </td>
-                                            <td class="align-middle">
-                                            </td>
-                                            <td class=" align-middle"> </td>
-                                            <td class="align-middle"></td>
+                                            <tr>
+                                                <td class="align-middle text-truncate">
+                                                    <a href="#" class="tile bg-pink text-white mr-2"></a> <a
+                                                        href="#"></a>
+                                                </td>
+                                                <td class="align-middle">
+                                                </td>
+                                                <td class=" align-middle"> </td>
+                                                <td class="align-middle"></td>
 
-                                            <td class="align-middle">
-                                                <span class="badge badge-success"> €
-                                                    TTC</span>
-                                            </td>
-                                            <td class="align-middle text-right">
-                                                <div class="dropdown">
-                                                    <button type="button" class="btn btn-sm btn-icon btn-secondary"
-                                                        data-toggle="dropdown" aria-expanded="false"
-                                                        aria-haspopup="true"><i class="fa fa-ellipsis-h"></i>
-                                                        <span class="sr-only">Actions</span></button>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <div class="dropdown-arrow mr-n1"></div><button
-                                                            class="dropdown-item" type="button">Edit</button>
-                                                        <button class="dropdown-item" type="button">Delete</button>
+                                                <td class="align-middle">
+                                                    <span class="badge badge-success"> €
+                                                        TTC</span>
+                                                </td>
+                                                <td class="align-middle text-right">
+                                                    <div class="dropdown">
+                                                        <button type="button" class="btn btn-sm btn-icon btn-secondary"
+                                                            data-toggle="dropdown" aria-expanded="false"
+                                                            aria-haspopup="true"><i class="fa fa-ellipsis-h"></i>
+                                                            <span class="sr-only">Actions</span></button>
+                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                            <div class="dropdown-arrow mr-n1"></div><button
+                                                                class="dropdown-item" type="button">Edit</button>
+                                                            <button class="dropdown-item" type="button">Delete</button>
 
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                        </tr><!-- /tr -->
+                                                </td>
+                                            </tr><!-- /tr -->
 
 
 
-                                    </tbody><!-- /tbody -->
-                                </table><!-- /.table -->
-                            </div><!-- /.table-responsive -->
-                        </div><!-- /.card -->
-                    </div><!-- /.tab-pane -->
-                    <!-- .tab-pane -->
-                    <div class="tab-pane fade" id="client-expenses" role="tabpanel"
-                        aria-labelledby="client-expenses-tab">
-                        <!-- .card -->
-                        <div class="card">
-                            <!-- .card-header -->
-                            <div class="card-header d-flex">
-                                <!-- .dropdown -->
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false"><span>This Year</span> <i
-                                            class="fa fa-fw fa-caret-down"></i></button> <!-- .dropdown-menu -->
-                                    <div class="dropdown-menu dropdown-menu-md stop-propagation">
-                                        <div class="dropdown-arrow"></div><!-- .custom-control -->
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input"
-                                                id="clientExpensesDateFilter0" name="clientExpensesDateFilter"
-                                                value="0"> <label class="custom-control-label"
-                                                for="clientExpensesDateFilter0">Last 7 days</label>
-                                        </div><!-- /.custom-control -->
-                                        <!-- .custom-control -->
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input"
-                                                id="clientExpensesDateFilter1" name="clientExpensesDateFilter"
-                                                value="1"> <label class="custom-control-label"
-                                                for="clientExpensesDateFilter1">Last 3 days</label>
-                                        </div><!-- /.custom-control -->
-                                        <!-- .custom-control -->
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input"
-                                                id="clientExpensesDateFilter2" name="clientExpensesDateFilter"
-                                                value="2"> <label class="custom-control-label"
-                                                for="clientExpensesDateFilter2">This month</label>
-                                        </div><!-- /.custom-control -->
-                                        <!-- .custom-control -->
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input"
-                                                id="clientExpensesDateFilter3" name="clientExpensesDateFilter"
-                                                value="3"> <label class="custom-control-label"
-                                                for="clientExpensesDateFilter3">Last month</label>
-                                        </div><!-- /.custom-control -->
-                                        <!-- .custom-control -->
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input"
-                                                id="clientExpensesDateFilter4" name="clientExpensesDateFilter" value="4"
-                                                checked> <label class="custom-control-label"
-                                                for="clientExpensesDateFilter4">This year</label>
-                                        </div><!-- /.custom-control -->
-                                    </div><!-- /.dropdown-menu -->
-                                </div><!-- /.dropdown -->
-                                <button id="client-expenses-tab" type="button" class="btn btn-primary ml-auto">Add
-                                    expense</button>
-                            </div><!-- /.card-header -->
-                            <!-- .table-responsive -->
-                            <div class="table-responsive">
-                                <!-- .table -->
-                                <table class="table">
-                                    <!-- thead -->
-                                    <thead>
-                                        <tr>
-                                            <th> Date </th>
-                                            <th> Amount </th>
-                                            <th style="min-width:200px"> Vendor </th>
-                                            <th></th>
-                                            <th> Category </th>
-                                            <th></th>
-                                        </tr>
-                                    </thead><!-- /thead -->
-                                    <!-- tbody -->
-                                    <tbody>
-                                        <!-- tr -->
-                                        <tr>
-                                            <td class="align-middle"> 04/11/2019 </td>
-                                            <td class="align-middle"> $360.00 </td>
-                                            <td class="align-middle"> Facebook, Inc. </td>
-                                            <td class="align-middle">
-                                                <i class="fa fa-paperclip text-muted"></i>
-                                            </td>
-                                            <td class="align-middle">
-                                                <span class="badge text-white bg-purple">Campaign</span>
-                                            </td>
-                                            <td class="align-middle text-right">
-                                                <div class="dropdown">
-                                                    <button type="button" class="btn btn-sm btn-icon btn-secondary"
-                                                        data-toggle="dropdown" aria-expanded="false"
-                                                        aria-haspopup="true"><i class="fa fa-ellipsis-h"></i>
-                                                        <span class="sr-only">Actions</span></button>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <div class="dropdown-arrow mr-n1"></div><button
-                                                            class="dropdown-item" type="button">Edit</button>
-                                                        <button class="dropdown-item" type="button">Delete</button>
+                                        </tbody><!-- /tbody -->
+                                    </table><!-- /.table -->
+                                </div><!-- /.table-responsive -->
+                            </div><!-- /.card -->
+                        </div><!-- /.tab-pane -->
+                        <!-- .tab-pane -->
+                        <div class="tab-pane fade" id="client-expenses" role="tabpanel"
+                            aria-labelledby="client-expenses-tab">
+                            <!-- .card -->
+                            <div class="card">
+                                <!-- .card-header -->
+                                <div class="card-header d-flex">
+                                    <!-- .dropdown -->
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false"><span>This Year</span> <i
+                                                class="fa fa-fw fa-caret-down"></i></button> <!-- .dropdown-menu -->
+                                        <div class="dropdown-menu dropdown-menu-md stop-propagation">
+                                            <div class="dropdown-arrow"></div><!-- .custom-control -->
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input"
+                                                    id="clientExpensesDateFilter0" name="clientExpensesDateFilter"
+                                                    value="0"> <label class="custom-control-label"
+                                                    for="clientExpensesDateFilter0">Last 7 days</label>
+                                            </div><!-- /.custom-control -->
+                                            <!-- .custom-control -->
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input"
+                                                    id="clientExpensesDateFilter1" name="clientExpensesDateFilter"
+                                                    value="1"> <label class="custom-control-label"
+                                                    for="clientExpensesDateFilter1">Last 3 days</label>
+                                            </div><!-- /.custom-control -->
+                                            <!-- .custom-control -->
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input"
+                                                    id="clientExpensesDateFilter2" name="clientExpensesDateFilter"
+                                                    value="2"> <label class="custom-control-label"
+                                                    for="clientExpensesDateFilter2">This month</label>
+                                            </div><!-- /.custom-control -->
+                                            <!-- .custom-control -->
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input"
+                                                    id="clientExpensesDateFilter3" name="clientExpensesDateFilter"
+                                                    value="3"> <label class="custom-control-label"
+                                                    for="clientExpensesDateFilter3">Last month</label>
+                                            </div><!-- /.custom-control -->
+                                            <!-- .custom-control -->
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input"
+                                                    id="clientExpensesDateFilter4" name="clientExpensesDateFilter"
+                                                    value="4" checked> <label class="custom-control-label"
+                                                    for="clientExpensesDateFilter4">This year</label>
+                                            </div><!-- /.custom-control -->
+                                        </div><!-- /.dropdown-menu -->
+                                    </div><!-- /.dropdown -->
+                                    <button id="client-expenses-tab" type="button" class="btn btn-primary ml-auto">Add
+                                        expense</button>
+                                </div><!-- /.card-header -->
+                                <!-- .table-responsive -->
+                                <div class="table-responsive">
+                                    <!-- .table -->
+                                    <table class="table">
+                                        <!-- thead -->
+                                        <thead>
+                                            <tr>
+                                                <th> Date </th>
+                                                <th> Amount </th>
+                                                <th style="min-width:200px"> Vendor </th>
+                                                <th></th>
+                                                <th> Category </th>
+                                                <th></th>
+                                            </tr>
+                                        </thead><!-- /thead -->
+                                        <!-- tbody -->
+                                        <tbody>
+                                            <!-- tr -->
+                                            <tr>
+                                                <td class="align-middle"> 04/11/2019 </td>
+                                                <td class="align-middle"> $360.00 </td>
+                                                <td class="align-middle"> Facebook, Inc. </td>
+                                                <td class="align-middle">
+                                                    <i class="fa fa-paperclip text-muted"></i>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <span class="badge text-white bg-purple">Campaign</span>
+                                                </td>
+                                                <td class="align-middle text-right">
+                                                    <div class="dropdown">
+                                                        <button type="button" class="btn btn-sm btn-icon btn-secondary"
+                                                            data-toggle="dropdown" aria-expanded="false"
+                                                            aria-haspopup="true"><i class="fa fa-ellipsis-h"></i>
+                                                            <span class="sr-only">Actions</span></button>
+                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                            <div class="dropdown-arrow mr-n1"></div><button
+                                                                class="dropdown-item" type="button">Edit</button>
+                                                            <button class="dropdown-item" type="button">Delete</button>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                        </tr><!-- /tr -->
-                                        <!-- tr -->
-                                        <tr>
-                                            <td class="align-middle"> 09/15/2019 </td>
-                                            <td class="align-middle"> $49.00 </td>
-                                            <td class="align-middle"> Adobe Systems </td>
-                                            <td class="align-middle">
-                                                <i class="fa fa-paperclip text-muted"></i>
-                                            </td>
-                                            <td class="align-middle">
-                                                <span class="badge text-white bg-orange">Other</span>
-                                            </td>
-                                            <td class="align-middle text-right">
-                                                <div class="dropdown">
-                                                    <button type="button" class="btn btn-sm btn-icon btn-secondary"
-                                                        data-toggle="dropdown" aria-expanded="false"
-                                                        aria-haspopup="true"><i class="fa fa-ellipsis-h"></i>
-                                                        <span class="sr-only">Actions</span></button>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <div class="dropdown-arrow mr-n1"></div><button
-                                                            class="dropdown-item" type="button">Edit</button>
-                                                        <button class="dropdown-item" type="button">Delete</button>
+                                                </td>
+                                            </tr><!-- /tr -->
+                                            <!-- tr -->
+                                            <tr>
+                                                <td class="align-middle"> 09/15/2019 </td>
+                                                <td class="align-middle"> $49.00 </td>
+                                                <td class="align-middle"> Adobe Systems </td>
+                                                <td class="align-middle">
+                                                    <i class="fa fa-paperclip text-muted"></i>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <span class="badge text-white bg-orange">Other</span>
+                                                </td>
+                                                <td class="align-middle text-right">
+                                                    <div class="dropdown">
+                                                        <button type="button" class="btn btn-sm btn-icon btn-secondary"
+                                                            data-toggle="dropdown" aria-expanded="false"
+                                                            aria-haspopup="true"><i class="fa fa-ellipsis-h"></i>
+                                                            <span class="sr-only">Actions</span></button>
+                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                            <div class="dropdown-arrow mr-n1"></div><button
+                                                                class="dropdown-item" type="button">Edit</button>
+                                                            <button class="dropdown-item" type="button">Delete</button>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                        </tr><!-- /tr -->
-                                        <!-- tr -->
-                                        <tr>
-                                            <td class="align-middle"> 10/11/2019 </td>
-                                            <td class="align-middle"> $610.00 </td>
-                                            <td class="align-middle"> InVisionApp, Inc. </td>
-                                            <td class="align-middle">
-                                                <i class="fa fa-paperclip text-muted"></i>
-                                            </td>
-                                            <td class="align-middle">
-                                                <span class="badge text-white bg-pink">Design</span>
-                                            </td>
-                                            <td class="align-middle text-right">
-                                                <div class="dropdown">
-                                                    <button type="button" class="btn btn-sm btn-icon btn-secondary"
-                                                        data-toggle="dropdown" aria-expanded="false"
-                                                        aria-haspopup="true"><i class="fa fa-ellipsis-h"></i>
-                                                        <span class="sr-only">Actions</span></button>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <div class="dropdown-arrow mr-n1"></div><button
-                                                            class="dropdown-item" type="button">Edit</button>
-                                                        <button class="dropdown-item" type="button">Delete</button>
+                                                </td>
+                                            </tr><!-- /tr -->
+                                            <!-- tr -->
+                                            <tr>
+                                                <td class="align-middle"> 10/11/2019 </td>
+                                                <td class="align-middle"> $610.00 </td>
+                                                <td class="align-middle"> InVisionApp, Inc. </td>
+                                                <td class="align-middle">
+                                                    <i class="fa fa-paperclip text-muted"></i>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <span class="badge text-white bg-pink">Design</span>
+                                                </td>
+                                                <td class="align-middle text-right">
+                                                    <div class="dropdown">
+                                                        <button type="button" class="btn btn-sm btn-icon btn-secondary"
+                                                            data-toggle="dropdown" aria-expanded="false"
+                                                            aria-haspopup="true"><i class="fa fa-ellipsis-h"></i>
+                                                            <span class="sr-only">Actions</span></button>
+                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                            <div class="dropdown-arrow mr-n1"></div><button
+                                                                class="dropdown-item" type="button">Edit</button>
+                                                            <button class="dropdown-item" type="button">Delete</button>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                        </tr><!-- /tr -->
-                                    </tbody><!-- /tbody -->
-                                </table><!-- /.table -->
-                            </div><!-- /.table-responsive -->
-                        </div><!-- /.card -->
-                    </div><!-- /.tab-pane -->
+                                                </td>
+                                            </tr><!-- /tr -->
+                                        </tbody><!-- /tbody -->
+                                    </table><!-- /.table -->
+                                </div><!-- /.table-responsive -->
+                            </div><!-- /.card -->
+                        </div><!-- /.tab-pane -->
                     </div><!-- /.tab-content -->
                 </div><!-- /.sidebar-section -->
             </div><!-- /.page-sidebar -->
