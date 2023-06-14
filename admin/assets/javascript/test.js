@@ -40,7 +40,7 @@ function updateRoomDetails(roomId) {
       $("#newMinModal").html(photoAddMinForm);
       $("#addPhotoModal").html(photoAddform);
     },
-    error: function () {
+    error: function () { 
       console.log("Error occurred while fetching client details");
     },
   });
