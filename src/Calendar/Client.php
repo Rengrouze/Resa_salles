@@ -70,9 +70,9 @@ class Client
     }
 
     public function getAddressComplement(): ?string
-{
-    return $this->address_complement;
-}
+    {
+        return $this->address_complement;
+    }
 
 
     public function getPostalCode(): string
