@@ -24,9 +24,9 @@ array_walk($daysForDisplay, function (&$day) {
 
 //ask the db if theses days are already booked
 $bookings = new \Calendar\Bookings(get_pdo());
-$rooms= new \Calendar\Rooms(get_pdo());
+$rooms = new \Calendar\Rooms(get_pdo());
 $room = $rooms->getRoom($id_room);
-$bookedDays = $bookings->getBookedDaysByRoom($days,$id_room);
+$bookedDays = $bookings->getBookedDaysByRoom($days, $id_room);
 
 // if there are booked days
 if (!empty($bookedDays)) {
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $bookings = new \Calendar\Bookings(get_pdo());
     $bookedDays = $bookings->getBookedDaysByRoom($days, $id_room);
     //also ask if an event with the same days exists
-    
+
     // if there are booked days
     if (!empty($bookedDays)) {
         // convert the booked days to a string
@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     $data = $_POST;
-    
+
 
 
     $validator = new Calendar\EventValidator();
@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         //change the order of the data, day first, then temporary, then idBookings
         $data = array_merge(['day' => $data['day']], ['temporary' => $data['temporary']], ['idBookings' => $data['idBookings']], ['idRoom' => $id_room], ['adminLocked' => $data['adminLocked']]);
-      
+
 
 
         // loop through the days
@@ -114,12 +114,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $destinataire = $client->getEmail();
         $objet = "Confirmation de votre réservation";
         $contenu = "Bonjour " . $clientName . ",<br> Nous avons bien reçu votre demande de réservation pour la salle " . $room->getName() . " pour les jours suivants : " . implode(", ", $daysForDisplay) . ".<br> Le montant total de la réservation s'élève à " . $data['totalPrice'] . "€ TTC.<br> Votre demande est en cours de validation par notre équipe. Vous recevrez prochainement un e-mail pour confirmer ou annuler votre réservation.<br> Nous vous remercions de votre confiance et nous avons hâte de vous accueillir.<br> À très bientôt,<br> L'équipe de ResaSite";
-        
-        sendmail( $objet, $contenu,$destinataire);
+
+        sendmail($objet, $contenu, $destinataire);
+        sendmail("resa-Salles", $contenu, "a.oumghar@cdo-formation.fr");
 
 
-     
-     
+
+
         header('Location: ../public/profile.php?success=1');
         exit();
 
@@ -132,4 +133,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // validate the data
 
 }
-
