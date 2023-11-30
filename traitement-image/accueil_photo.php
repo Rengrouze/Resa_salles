@@ -1,87 +1,127 @@
 <!DOCTYPE html>
-<html lang="fr">
-
+<html>
 <head>
-    <title>Traitement image</title>
-    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
-    <link rel="stylesheet" href="https://unpkg.com/jcrop/dist/jcrop.css">
-    <script src="https://unpkg.com/jcrop"></script>
+    <title>PHP recadrer l'image avant telechargement</title>
 
-    <link href="css/sb-admin-2.css" rel="stylesheet">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha256-WqU1JavFxSAMcLP2WIOI+GB2zWmShMI82mTpLDcqFUg=" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.css" integrity="sha256-jKV9n9bkk/CTP8zbtEtnKaKf+ehRovOYeKoyfthwbC8=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.js" integrity="sha256-CgvH7sz3tHhkiVKh05kSUgG97YtzYNnWt6OXcmYzqHY=" crossorigin="anonymous"></script>
 </head>
+<style type="text/css">
+    img {
+        display: block;
+        max-width: 100%;
+    }
+
+    .preview {
+        overflow: hidden;
+        width: 160px;
+        height: 160px;
+        margin: 10px;
+        border: 1px solid red;
+    }
+
+    .modal-lg {
+        max-width: 1000px !important;
+    }
+</style>
 
 <body>
     <div class="container">
-        <div class="row">
-            <div class="span12">
-                <div class="jc-demo-box">
-                    <div class="page-header">
-                        <ul class="breadcrumb first">
-                            <li>
-                                <h3>Téléchargez la photo à recadrer</h3>
-                                c v <span class="divider">/</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <?php
-                            // Récupérer les informations de l'image de base depuis la base de données
-                            $roomId = $_GET['roomId'];
-                            $filename = $_GET['filename']; // À adapter selon la structure de ta base de données
-                            
-                            // Assure-toi que $roomId et $filename sont correctement définis
-                            // Récupère les autres informations nécessaires depuis la base de données si nécessaire
-                            
-                            // Afficher l'image à recadrer
-                            echo '<img src="../public/images/room_images/' . $roomId . '/min/temp/' . $filename . '" id="target">';
+        <h1>PHP recadrer l'image avant telechargement - Letecode</h1>
+        <form method="post">
+            <div class="form-group">
+                <input type="file" class="form-control image" name="image" >
+            </div>
+        </form>
+    </div>
 
-                            // Forme le formulaire de recadrage
-                            echo '<form method="post" onsubmit="return checkCoords();">';
-                            echo '<input type="hidden" id="image" name="image" />';
-                            echo '<input type="hidden" id="x" name="x" />';
-                            echo '<input type="hidden" id="y" name="y" />';
-                            echo '<input type="hidden" id="w" name="w" />';
-                            echo '<input type="hidden" id="h" name="h" />';
-                            // ... (autres champs cachés nécessaires) ...
-                            echo '<input type="submit" value="Recadrer" class="btn btn-large btn-inverse" />';
-                            echo '<input type="button" value="Annuler" onclick="location=\'../formations.php\'" class="btn btn-large btn-inverse" />';
-                            echo '</form>';
-                            ?>
-                            </form>';
-                            ?>
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel">Recadrer l'image</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="img-container">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <img id="image" src="https://avatars0.githubusercontent.com/u/3456749">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="preview"></div>
+                            </div>
                         </div>
                     </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" id="crop">Recadrer</button>
                 </div>
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-        var jcrop;
 
-        function updateCoords(c) {
-            $('#x').val(c.x);
-            $('#y').val(c.y);
-            $('#w').val(c.w);
-            $('#h').val(c.h);
+    </div>
+    </div>
+    <script>
+    var $modal = $('#modal');
+    var image = document.getElementById('image');
+    var cropper;
+    <?PHP
+    //get the room id and the filename from the URL
+    $roomId = $_GET['roomId'];
+    $filename = $_GET['filename'];
+    $imagePath = '../public/images/room_images/' . $roomId . '/min/temp/' . $filename;
+?>
+    $(document).ready(function() {
+        // Récupérer l'URL de l'image depuis l'URL du site
+        var imageUrl = <?= $imagePath ?>;
+        
+        // Afficher l'image dans le modal
+        if (imageUrl) {
+            done(imageUrl);
+            $modal.modal('show');
         }
 
-        function checkCoords() {
-            // Vérifier si les coordonnées sont valides
-            if (parseInt($('#w').val())) {
-                // Soumettre le formulaire si les coordonnées sont valides
-                return true;
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+    });
+
+    $("body").on("change", ".image", function(e) {
+        var files = e.target.files;
+        var done = function(url) {
+            image.src = url;
+            $modal.modal('show');
+        };
+        var reader;
+        var file;
+        var url;
+
+        if (files && files.length > 0) {
+            file = files[0];
+
+            if (URL) {
+                done(URL.createObjectURL(file));
+            } else if (FileReader) {
+                reader = new FileReader();
+                reader.onload = function(e) {
+                    done(reader.result);
+                };
+                reader.readAsDataURL(file);
             }
-            alert('Merci de sélectionner la zone et appuyer sur recadrer.');
-            return false;
         }
+    });
+</script>
 
-        // Attacher Jcrop à l'image cible
-        jcrop = Jcrop.attach('target', {
-            onSelect: updateCoords
-        });
-    </script>
 </body>
-
 </html>

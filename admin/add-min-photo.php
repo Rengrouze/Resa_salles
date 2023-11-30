@@ -33,7 +33,7 @@ try {
     }
 
     // Redirection vers la page de traitement d'image
-    header('Location: http://resasite/traitement-image/accueil_photo.php?roomId=' . $roomId . '&filename=' . $newFileName);
+    header('Location: http://resa/traitement-image/accueil_photo.php?roomId=' . $roomId . '&filename=' . $newFileName);
 } catch (Exception $e) {
     echo $e->getMessage();
 }
