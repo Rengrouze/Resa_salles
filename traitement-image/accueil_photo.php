@@ -1,3 +1,7 @@
+<?php
+//https://www.letecode.com/php-comment-recadrer-une-image-avant-de-la-telecharger-a-laide-de-cropper-js
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
