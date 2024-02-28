@@ -65,7 +65,7 @@ $photo = $photos->getIdMinPhotoByRoomId($room->getId());
 if ($photo === false) {
     $photoLink = 'https://via.placeholder.com/150x150';
 } else {
-    $photoLink = '../public/images/room_images/' . $room->getId() . '/min/' . $photo->getId() . '.jpg';
+    $photoLink = '../public/images/room_images/' . $room->getId() . '/min/' . $photo->getId() . '.png';
 }
 ?>
                  
